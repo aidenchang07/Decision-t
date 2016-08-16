@@ -28,6 +28,17 @@ dependencies {
      * 引入Firebase必加
      */
     compile 'com.google.firebase:firebase-core:9.4.0'
+
+    /**
+     * Google登入必用
+     */
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+
+    /**
+     * 實感設計的材料
+     */
+    compile 'com.android.support:design:24.1.1'
+
 }
 /**
  * 引入Firebase必加
