@@ -6,38 +6,100 @@ android {
 
     defaultConfig {
         applicationId "com.decision_t"
+
+        /**
+         * minSdkVersion：最小的支援版本
+         * 原數值為API 19(Android 4.4 KitKat)，改為API 21(Android 5.0-5.0.2 Lollipop)可讓建構速度提高，
+         * 但實際要發佈正式版APK時，要把數值改回原本的API 19(好讓Android 4.4 KitKat的用戶可以在Google Play下載我們的App)。
+         */
         minSdkVersion 19
-        targetSdkVersion 24
+
+        /**
+         * targetSdkVersion：這個版本是可以正確執行的
+         */
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        /**
+         * Enabling multidex support.(突破64K限制，也就是dex突破65535個Function的限制)
+         */
+        multiDexEnabled false
     }
+
+    productFlavors {
+        dev {
+            applicationId "com.decision_t"
+
+            minSdkVersion 21
+            versionCode 2
+        }
+        prod {
+            applicationId "com.decision_t"
+
+            minSdkVersion 19
+            multiDexEnabled false
+        }
+    }
+
+
     buildTypes {
-        release {
+        debug {
+            /**
+             * 設置為false(關閉混淆)，因為是內部測試，所以可關閉
+             */
             minifyEnabled false
+
+            /**
+             * 設置為false，關閉去除無效的資源(resource)文件
+             * 注意：此功能依賴於minifyEnabled，要使用時，minifyEnabled必須設置為true
+             */
+            shrinkResources false
+        }
+        release {
+            /**
+             * 設置為true(開啟混淆)，因此為公佈版本，要用來防止程式碼被反編譯
+             */
+            minifyEnabled true
+
+            /**
+             * 設置為true，開啟去除無效的資源(resource)文件
+             * 注意：此功能依賴於minifyEnabled，要使用時，minifyEnabled必須設置為true
+             */
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
+/**
+ * ext準確的說是Gradle領域對象的一個屬性，我們可以將自定義的屬性添加到ext對像上，讓Build.gradle中的其它代碼片段可以使用。
+ */
+ext {
+    supportLibVersion = '24.2.0'
+    servicesLibVersion = '9.4.0'
+    firebaseLibVersion = '9.4.0'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-
-    /**
-     * 引入Firebase必加
-     */
-    compile 'com.google.firebase:firebase-core:9.4.0'
-
-    /**
-     * Google登入必用
-     */
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
 
     /**
      * 實感設計的材料
      */
-    compile 'com.android.support:design:24.1.1'
+    compile "com.android.support:design:${supportLibVersion}"
+
+    /**
+     * 引入Firebase必加
+     */
+    compile "com.google.firebase:firebase-core:${firebaseLibVersion}"
+
+    /**
+     * Google登入必用
+     */
+    compile "com.google.android.gms:play-services-auth:${servicesLibVersion}"
 
 }
 /**
