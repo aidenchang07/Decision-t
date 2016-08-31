@@ -55,7 +55,8 @@
             android:text="登入"
             android:id="@+id/login_button"
             android:layout_gravity="center_horizontal"
-            android:theme="@style/AppTheme.Button"/>
+            android:theme="@style/AppTheme.Button"
+            android:textSize="18dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +69,8 @@
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:onClick="onClick" />
 
     </LinearLayout>
 </RelativeLayout>

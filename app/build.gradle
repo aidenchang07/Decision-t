@@ -95,6 +95,7 @@ dependencies {
      * 引入Firebase必加
      */
     compile "com.google.firebase:firebase-core:${firebaseLibVersion}"
+    compile "com.google.firebase:firebase-auth:${firebaseLibVersion}"
 
     /**
      * Google登入必用
