@@ -6,5 +6,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_logout">登出</string>
     <string name="loading">讀取中...</string>
 </resources>
