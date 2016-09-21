@@ -2,9 +2,10 @@ package com.decision_t;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.drm.DrmStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,22 +41,34 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
+
     private Button loginButton;
+    private Button registerButton;
+
     private GoogleApiClient mGoogleApiClient;
+
     private ProgressDialog mProgressDialog;
+
     private SignInButton signInButton;
 
-    //defining firebaseauth object
+    //Defining Firebaseauth Object
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private DatabaseReference mDatabaseUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //------ Database ------
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseUsers.keepSynced(true);
+
         //------ Initializing Firebase Auth Object ------
         mAuth = FirebaseAuth.getInstance();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -63,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     Toast.makeText(LoginActivity.this, "歡迎 " + displayName + " 登入！\n" +
-                            "電子信箱 " + displayEmail, Toast.LENGTH_LONG).show();
+                            "電子信箱 " + displayEmail, Toast.LENGTH_SHORT).show();
                 } else {
                     // No user is signed in
                 }
@@ -75,15 +93,24 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
+        registerButton = (Button) findViewById(R.id.registerButton);
         signInButton = (SignInButton) findViewById(R.id.signInButton);
 
         mProgressDialog = new ProgressDialog(this);
 
         setGooglePlusButtonText(signInButton, "使用 Google 登入");
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkLogin();
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startRegister();
             }
         });
 
@@ -92,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
@@ -101,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,18 +140,19 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -135,8 +165,10 @@ public class LoginActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
             mProgressDialog.setMessage("Starting Sign in...");
             mProgressDialog.show();
+
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
@@ -153,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -168,31 +201,23 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             mProgressDialog.show();
+
+                            checkUserExist();
                         }
                     }
                 });
     }
 
-    /*// [START handleSignInResult]
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(LoginActivity.this, "登入成功！歡迎 " + acct.getDisplayName(), Toast.LENGTH_LONG).show();
-        } else {
-        }
-    }
-    // [END handleSignInResult]*/
-
     // [START signIn]
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     // [END signIn]
 
     protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-    // Find the TextView that is inside of the SignInButton and set its text
+        // Find the TextView that is inside of the SignInButton and set its text
         for (int i = 0; i < signInButton.getChildCount(); i++) {
             View v = signInButton.getChildAt(i);
 
@@ -214,19 +239,53 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "電子信箱或密碼，請勿空白！", Toast.LENGTH_LONG).show();
 
         } else {
+            mProgressDialog.setMessage("Checking Login...");
+            mProgressDialog.show();
+
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(LoginActivity.this, "登入成功！", Toast.LENGTH_LONG).show();
+                        mProgressDialog.dismiss();
+
+                        checkUserExist();
                     } else {
-                        Toast.makeText(LoginActivity.this, "登入失敗！", Toast.LENGTH_LONG).show();
+                        mProgressDialog.dismiss();
+
+                        Toast.makeText(LoginActivity.this, "登入失敗！", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
-
     }
 
+    private void startRegister() {
+        Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
 
+        registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(registerIntent);
+    }
+
+    private void checkUserExist() {
+        if(mAuth.getCurrentUser() != null){
+            final String user_id = mAuth.getCurrentUser().getUid();
+
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChild(user_id)){
+                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(mainIntent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this, "DatabaseError.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
 }

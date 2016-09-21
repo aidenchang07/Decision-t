@@ -97,6 +97,9 @@ dependencies {
     compile "com.google.firebase:firebase-core:${firebaseLibVersion}"
     compile "com.google.firebase:firebase-auth:${firebaseLibVersion}"
 
+    //Firebase的即時資料庫
+    compile "com.google.firebase:firebase-database:${firebaseLibVersion}"
+
     /**
      * Google登入必用
      */

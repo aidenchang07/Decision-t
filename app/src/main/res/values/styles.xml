@@ -7,12 +7,20 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!-- Base application theme. -->
 
-    <!--設置按鈕風格-->
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+    <!-- 按鈕風格 -->
+    <style name="AppTheme.BlueButton" parent="Widget.AppCompat.Button.Colored">
+        <!-- 底藍配白 -->
         <item name="colorButtonNormal">@color/colorBlue</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+    <style name="AppTheme.PinkButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPink</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+    <!-- 按鈕風格 -->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
