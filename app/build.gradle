@@ -76,9 +76,9 @@ android {
  * ext準確的說是Gradle領域對象的一個屬性，我們可以將自定義的屬性添加到ext對像上，讓Build.gradle中的其它代碼片段可以使用。
  */
 ext {
-    supportLibVersion = '24.2.0'
-    servicesLibVersion = '9.4.0'
-    firebaseLibVersion = '9.4.0'
+    supportLibVersion = '24.2.1'
+    servicesLibVersion = '9.6.0'
+    firebaseLibVersion = '9.6.0'
 }
 
 dependencies {
