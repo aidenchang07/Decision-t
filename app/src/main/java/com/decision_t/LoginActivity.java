@@ -2,7 +2,6 @@ package com.decision_t;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.drm.DrmStore;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -294,7 +293,6 @@ public class LoginActivity extends AppCompatActivity {
                     //資料有變化則執行以下動作
                     if(dataSnapshot.hasChild(user_id)){
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(mainIntent);
                     }
                 }

@@ -18,9 +18,7 @@
 
     <include
         layout="@layout/app_bar"
-        android:id="@+id/app_bar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/app_bar" />
 
     <Button
         android:text="登出"
