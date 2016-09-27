@@ -12,4 +12,12 @@
     tools:context="com.decision_t.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <!-- 主頁面在這裡，呈現給使用者的畫面 -->
+    <ListView
+        android:id="@+id/table_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        tools:ignore="InvalidId" />
+
 </RelativeLayout>

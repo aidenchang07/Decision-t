@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -109,10 +110,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // 使用者登出
     private void logout() {
         mAuth.signOut();
     }
 
+    // 顯示左側邊欄的項目
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -137,4 +140,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    // 顯示左側邊欄的項目END
 }

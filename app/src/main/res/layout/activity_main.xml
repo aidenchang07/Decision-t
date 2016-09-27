@@ -8,6 +8,11 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <!-- 用來顯示 coordinatorLayout,
+                 tabLayout,
+                 floatingActionButton,
+                 viewPager etc. -->
+
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
