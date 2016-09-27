@@ -72,17 +72,23 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+
+                        //這裡取得了使用者的UID，請服用
                         String user_id = mAuth.getCurrentUser().getUid();
 
                         DatabaseReference current_user_db = mDatabase.child(user_id);
 
+                        //這個 name 會存在 Firebase 的資料庫裡，請服用，存在你的資料庫裡
                         current_user_db.child("name").setValue(name);
+
+                        //這個 email 會存在 Firebase 的資料庫裡，請服用，存在你的資料庫裡
                         current_user_db.child("email").setValue(email);
 
                         mProgressDialog.dismiss();
 
                         Toast.makeText(RegisterActivity.this, "註冊成功！您的 UID 為 " + user_id, Toast.LENGTH_LONG).show();
 
+                        //註冊成功後，跳轉到主畫面
                         Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(mainIntent);

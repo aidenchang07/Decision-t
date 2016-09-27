@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //------ Google Sigh In ------
+        //------ Google Sigh In 初始化 ------
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
+        //新增 FirebaseAuth 的監聽事件
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -154,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStop();
 
         if (mAuthListener != null) {
+            //移除 FirebaseAuth 的監聽事件
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
@@ -166,16 +168,16 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
+            //跑出轉圈圈的畫面
             mProgressDialog.setMessage("Starting Sign in...");
             mProgressDialog.show();
 
             if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
+                //Google Sign In 登入成功，則取得使用者的資料
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                // Google Sign In failed, update UI appropriately
-                // ...
+                //登入失敗，則關閉轉圈圈的畫面
                 mProgressDialog.dismiss();
             }
         }
@@ -230,26 +232,39 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //按下"登入按鈕"後，會進行驗證帳號
     private void checkLogin(){
+
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
 
+            //若信箱或密碼任一個是空白
             Toast.makeText(LoginActivity.this, "電子信箱或密碼，請勿空白！", Toast.LENGTH_LONG).show();
 
         } else {
+
+            //若信箱和密碼都有填寫
+            //跑出轉圈圈的畫面
             mProgressDialog.setMessage("Checking Login...");
             mProgressDialog.show();
 
+            //進行信箱和密碼的驗證
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+
+                        //若成功
+                        //則關閉轉圈圈的畫面
                         mProgressDialog.dismiss();
 
                         checkUserExist();
                     } else {
+
+                        //若失敗
+                        //則關閉轉圈圈的畫面
                         mProgressDialog.dismiss();
 
                         Toast.makeText(LoginActivity.this, "登入失敗！", Toast.LENGTH_SHORT).show();
@@ -271,9 +286,12 @@ public class LoginActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() != null){
             final String user_id = mAuth.getCurrentUser().getUid();
 
+            //新增資料監聽器
             mDatabaseUsers.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    //資料有變化則執行以下動作
                     if(dataSnapshot.hasChild(user_id)){
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -283,6 +301,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    //資料有錯誤則執行以下動作
                     Toast.makeText(LoginActivity.this, "DatabaseError.", Toast.LENGTH_LONG).show();
                 }
             });
