@@ -13,7 +13,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
-
         </activity>
 
         <!--主頁面-->
