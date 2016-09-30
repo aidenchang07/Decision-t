@@ -1,9 +1,10 @@
 package com.decision_t;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +33,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,15 +77,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                 if(user != null){
                     // User is signed in
+                    /*Intent太多了！正常登入會出現超過三個Intent！留按鈕的就好    by俊憲
                     String displayName = user.getDisplayName();
                     String displayEmail = user.getEmail();
 
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     Toast.makeText(LoginActivity.this, "歡迎 " + displayName + " 登入！\n" +
                             "電子信箱 " + displayEmail, Toast.LENGTH_SHORT).show();
+                    finish();*/
                 } else {
                     // No user is signed in
                 }
@@ -284,16 +290,17 @@ public class LoginActivity extends AppCompatActivity {
     private void checkUserExist() {
         if(mAuth.getCurrentUser() != null){
             final String user_id = mAuth.getCurrentUser().getUid();
-
+            final String user_email = mAuth.getCurrentUser().getEmail();
             //新增資料監聽器
             mDatabaseUsers.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
                     //資料有變化則執行以下動作
                     if(dataSnapshot.hasChild(user_id)){
                         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(mainIntent);
+                        saveuid(user_id, user_email);
+                        finish();
                     }
                 }
 
@@ -305,4 +312,22 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
+
+    //將使用者資料存起來
+    public void saveuid(String uid, String email)
+    {
+        try {
+            FileOutputStream outStream=this.openFileOutput("uu.txt", Context.MODE_PRIVATE);
+            outStream.write(email.getBytes());
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            return;
+        }
+        catch (IOException e){
+            return ;
+        }
+    }
+
+
+
 }

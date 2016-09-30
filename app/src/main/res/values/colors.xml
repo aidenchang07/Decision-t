@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--系統預設-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!-- 藍色 500 -->
+    <!--藍色 500-->
     <color name="colorBlue">#2196f3</color>
 
-    <!-- 白色 -->
+    <!--白色-->
     <color name="colorWhite">#FFFFFF</color>
 
-    <!-- 粉紅色 500 -->
+    <!--粉紅色 500-->
     <color name="colorPink">#E91E63</color>
 
 </resources>
