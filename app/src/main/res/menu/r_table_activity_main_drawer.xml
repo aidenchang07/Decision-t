@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:title="決策桌名稱"
+            android:id="@+id/nav_r_table_name" />
+
+        <item
+            android:icon="@drawable/ic_action_key"
+            android:title="ID："
+            android:id="@+id/nav_r_table_id" />
+
+        <item
+            android:icon="@drawable/ic_face"
+            android:title="主持人："
+            android:id="@+id/nav_r_table_creator" />
+    </group>
+
+</menu>

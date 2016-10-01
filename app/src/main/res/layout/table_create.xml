@@ -24,7 +24,7 @@
             android:id="@+id/emailEditText"
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
-            android:hint="請輸入桌ID or 桌名"/>
+            android:hint="請輸入桌ID or 桌名" />
 
     </android.support.design.widget.TextInputLayout>
 
