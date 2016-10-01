@@ -89,6 +89,11 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                //跳轉到新增決策桌的畫面
+                Intent tablecreateIntent = new Intent(MainActivity.this, TableCreateActivity.class);
+                tablecreateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(tablecreateIntent);
             }
         });
         //左側滑欄初始化
@@ -172,42 +177,20 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //右上角選單初始化
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.table_activity_main_option, menu);
-        return true;
-    }
-
-    //右上角選單動作
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }else if(id == R.id.action_logout){
-            mAuth.signOut();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_setting) {
-            // Handle the camera action
-
+        if (id == R.id.nav_archive) {
+            // 執行已封存的動作
+        }else if (id == R.id.nav_setting) {
+            // 執行設定的動作
+        }else if (id == R.id.nav_logout) {
+            // 執行登出的動作
+            mAuth.signOut();
         }
-        //案完之後關起來
+        //按完之後關起來
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

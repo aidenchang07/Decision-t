@@ -281,9 +281,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startRegister() {
         Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-
         registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         startActivity(registerIntent);
     }
 

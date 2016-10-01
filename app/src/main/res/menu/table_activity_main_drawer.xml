@@ -3,9 +3,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_archive"
+            android:title="已封存"
+            android:id="@+id/nav_archive" />
+
+        <item
+            android:icon="@drawable/ic_settings"
             android:title="設定"
             android:id="@+id/nav_setting" />
+
+        <item
+            android:icon="@drawable/ic_power_settings_new"
+            android:title="登出"
+            android:id="@+id/nav_logout" />
     </group>
 
 </menu>

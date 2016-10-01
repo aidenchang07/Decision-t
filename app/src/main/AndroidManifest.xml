@@ -9,28 +9,41 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--登入頁面-->
+        <!-- 登入頁面 -->
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
+            android:label="@string/title_activity_login" />
 
-        <!--主頁面-->
+        <!-- 主頁面 -->
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--註冊頁面-->
+        <!-- 註冊頁面 -->
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register">
-        </activity>
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme" />
+
+        <!-- 創建決策桌
+        android:parentActivityName=".MainActivity" 這表示點選動作列的返回鍵會切回到 MainActivity
+        -->
+        <activity
+            android:name=".TableCreateActivity"
+            android:label="新增決策桌"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".R_Table_Activity"
+            android:label="隨機桌名稱"
+            android:parentActivityName=".MainActivity" />
 
     </application>
 

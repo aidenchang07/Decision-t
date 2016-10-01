@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/table_create"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.decision_t.TableCreateActivity"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/emailEditText"
+            android:layout_gravity="center_horizontal"
+            android:maxLines="1"
+            android:hint="請輸入桌ID or 桌名"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="加入此ID決策桌"
+        android:id="@+id/registerButton"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/AppTheme.BlueButton"
+        android:textSize="18dp" />
+
+    <TextView
+        android:text="創建決策桌"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tablecreateButton"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginTop="50dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="T字"
+        android:id="@+id/tButton"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/AppTheme.PinkButton"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="投票"
+        android:id="@+id/voteButton"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/AppTheme.PinkButton"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="隨機"
+        android:id="@+id/randomButton"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/AppTheme.PinkButton"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>
