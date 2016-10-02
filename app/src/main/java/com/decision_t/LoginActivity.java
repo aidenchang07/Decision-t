@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     String displayName = user.getDisplayName();
                     String displayEmail = user.getEmail();
 
-                    //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    //startActivity(new Intent(LoginActivity.this, TableActivity.class));
                     Toast.makeText(LoginActivity.this, "歡迎 " + displayName + " 登入！\n" +
                             "電子信箱 " + displayEmail, Toast.LENGTH_SHORT).show();
                     finish();*/
@@ -295,7 +295,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //資料有變化則執行以下動作
                     if(dataSnapshot.hasChild(user_id)){
-                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent mainIntent = new Intent(LoginActivity.this, TableActivity.class);
                         startActivity(mainIntent);
                         saveuid(user_id, user_email);
                         finish();

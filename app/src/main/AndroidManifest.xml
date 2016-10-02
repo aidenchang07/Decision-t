@@ -16,8 +16,8 @@
 
         <!-- 主頁面 -->
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".TableActivity"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,18 +32,18 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
 
-        <!-- 創建決策桌
-        android:parentActivityName=".MainActivity" 這表示點選動作列的返回鍵會切回到 MainActivity
+        <!--
+        創建決策桌
+        android:parentActivityName=".TableActivity" 這表示點選動作列的返回鍵會切回到 TableActivity
         -->
         <activity
             android:name=".TableCreateActivity"
             android:label="新增決策桌"
-            android:parentActivityName=".MainActivity" />
-
+            android:parentActivityName=".TableActivity" />
         <activity
             android:name=".R_Table_Activity"
             android:label="隨機桌名稱"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".TableActivity" />
 
     </application>
 
