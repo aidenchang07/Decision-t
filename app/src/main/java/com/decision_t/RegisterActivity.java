@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         //初始化Toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("註冊帳號");
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
