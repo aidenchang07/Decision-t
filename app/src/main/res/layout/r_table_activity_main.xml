@@ -22,7 +22,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/r_table_nav_header_main"
         app:menu="@menu/r_table_activity_main_drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
