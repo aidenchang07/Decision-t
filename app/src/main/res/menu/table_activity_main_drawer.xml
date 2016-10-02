@@ -9,6 +9,11 @@
 
         <item
             android:icon="@drawable/ic_power_settings_new"
+            android:title="測試用"
+            android:id="@+id/nav_test" />
+
+        <item
+            android:icon="@drawable/ic_power_settings_new"
             android:title="登出"
             android:id="@+id/nav_logout" />
     </group>
