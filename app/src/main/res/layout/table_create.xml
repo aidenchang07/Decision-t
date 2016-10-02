@@ -19,12 +19,12 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/emailEditText"
+            android:id="@+id/table_id_or_name"
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
-            android:hint="請輸入桌ID or 桌名" />
+            android:hint="請輸入桌ID or 桌名"
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 

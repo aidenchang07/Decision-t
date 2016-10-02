@@ -1,7 +1,7 @@
 <resources>
     <!--Activity Title-->
     <string name="app_name">Decision T</string>
-    <string name="title_activity_main">首頁</string>
+    <string name="title_activity_main">決策桌列表</string>
     <string name="title_activity_login">登入</string>
     <string name="title_activity_register">註冊</string>
 

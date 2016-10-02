@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "註冊成功！您的 UID 為 " + user_id, Toast.LENGTH_LONG).show();
 
                         //註冊成功後，跳轉到主畫面
-                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                        Intent mainIntent = new Intent(RegisterActivity.this, TableActivity.class);
                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(mainIntent);
                     }

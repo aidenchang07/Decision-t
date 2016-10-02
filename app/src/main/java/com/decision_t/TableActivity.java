@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,20 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,18 +38,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity
+public class TableActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private DatabaseReference mDatabaseUsers;
-    private Button logoutButton;
     Toast tos;
     MyAdapter myAdapter;
     ArrayList<String[]> data;
     ListView table_list;
+    String[] user_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +63,7 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 //若無使用者資料則跳回登入畫面
                 if(firebaseAuth.getCurrentUser() == null){
-                    Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    Intent loginIntent = new Intent(TableActivity.this, LoginActivity.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                     finish();
@@ -81,19 +74,19 @@ public class MainActivity extends AppCompatActivity
         //Toolbar 初始化
         Toolbar toolbar = (Toolbar) findViewById(R.id.table_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.title_activity_main);
 
         //  + 按鈕觸發點
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //跳轉到新增決策桌的畫面
-                Intent tablecreateIntent = new Intent(MainActivity.this, TableCreateActivity.class);
+                Intent tablecreateIntent = new Intent(TableActivity.this, TableCreateActivity.class);
                 tablecreateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(tablecreateIntent);
+                tablecreateIntent.putExtra("user_info", user_info);
+                startActivityForResult(tablecreateIntent, 0);
             }
         });
         //左側滑欄初始化
@@ -103,41 +96,30 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.table_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //JSON取得資料前置動作
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
-        //JSON取得資料前置動作END
+
+        //取得使用者資料
+        user_info = load_user_info();
+        NavigationView nav= (NavigationView) findViewById(R.id.table_nav_view);
+        View nav_view = nav.getHeaderView(0);
+        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
+        table_nav_name.setText(user_info[0]);
+        TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
+        table_nav_email.setText(user_info[1]);
+        tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        //取得使用者資料完畢
 
         //決策桌列表宣告
-        data = new ArrayList<String[]>();
         table_list = (ListView) findViewById(R.id.table_list);
         table_list.setOnItemClickListener(click_table_list);
+        table_list.setOnItemLongClickListener(long_click_table_list);
+
         //決策桌列表宣告END
-
-
-        TextView table_nav_name = (TextView)findViewById(R.id.table_nav_name);
-        //table_nav_name.setText("");
-        TextView table_nav_email = (TextView)findViewById(R.id.table_nav_email);
-        //table_nav_email.setText("");
-        tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-
-        String user_email = load_user_email();
-        tos.setText(user_email);
-        tos.show();
-        getTableList(user_email);
-
+        //顯示正在進行中的決策表
+        getTableList(user_info[0]);
+        //顯示正在進行中的決策表完畢
     }
 
     @Override
@@ -183,9 +165,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_archive) {
-            // 執行已封存的動作
-        }else if (id == R.id.nav_setting) {
-            // 執行設定的動作
+            // 顯示已封存的桌列表
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
@@ -195,10 +175,11 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    //取得使用者EMAIL
-    public String load_user_email()
+    //取得使用者資料
+    public String[] load_user_info()
     {
         try {
+            //先取得預存的資料
             FileInputStream inStream=this.openFileInput("uu.txt");
             ByteArrayOutputStream stream=new ByteArrayOutputStream();
             byte[] buffer=new byte[1024];
@@ -208,22 +189,44 @@ public class MainActivity extends AppCompatActivity
             }
             stream.close();
             inStream.close();
-            return stream.toString();
+            String user_email = stream.toString();//取得Email
+            String user_name = "";
+            String result = DBConnector.executeQuery("SELECT *\n" +
+                    "  FROM `Account` \n" +
+                    " WHERE `ID` = \"" + user_email + "\"\n");
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonData = jsonArray.getJSONObject(i);
+                user_name = jsonData.getString("Name");
+            }
+            return new String[] {user_email, user_name};
         } catch (FileNotFoundException e) {
+            //找不到檔案就重新登入
+            mAuth.signOut();
             e.printStackTrace();
         } catch (IOException e){
             return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return null;
+        return new String[] {"", ""};
     }
     //取得決策桌列表
-    public void getTableList(String user_email){
+    public void getTableList(String user_id){
+        //先清空資料
+        data = new ArrayList<String[]>();
         try {
-            String result = DBConnector.executeQuery("SELECT a.*\n" +
-                    "  FROM `Decision_tables` `a` left join `Decision_tables_member` `b`\n" +
-                    "    ON `a`.`ID` = `b`.`Decision_tables_ID`\n" +
-                    " WHERE `a`.`Account_ID` = \"" + user_email + "\"\n" +
-                    "    OR `b`.`Account_ID` = \"" + user_email + "\"");
+            //不顯示封存的決策桌
+            String sql = "SELECT a.*" +
+                    "  FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
+                    "    ON `a`.`ID` = `b`.`Decision_tables_ID`" +
+                    " WHERE (`a`.`Account_ID` = '" + user_id + "'" +
+                    "                    OR `b`.`Account_ID` = '" + user_id + "')"+
+                    "        AND NOT EXISTS (SELECT *" +
+                    "                                                 FROM `Decision_tables_archive`" +
+                    "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
+                    "                                                    AND `Account_ID`='"+user_id+"'); ";
+            String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
@@ -274,39 +277,82 @@ public class MainActivity extends AppCompatActivity
             convertView = myInflater.inflate(R.layout.table_list_view, null);
 
             //設定元件內容
-            ImageView logo = (ImageView) convertView.findViewById(R.id.imglogo);
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            TextView list = (TextView) convertView.findViewById(R.id.txtengname);
+            TextView name = (TextView) convertView.findViewById(R.id.table_name);
+            TextView id = (TextView) convertView.findViewById(R.id.table_id);
             ImageView table_status = (ImageView) convertView.findViewById(R.id.img_table_status);
 
 
             //塞資料
             String[] dd = data.get(position);
-            if(dd[5].equals("Y")){//已完成未完成圖片
-                logo.setImageResource(R.drawable.table_list_ok);
-            }else{
-                logo.setImageResource(R.drawable.table_list_ing);
-            }
-            //避免過長
-            if(dd[1].length()>11)dd[1] = dd[1].substring(0,10) + "...";
             name.setText(dd[1]);//決策桌名
-            if(dd[3].length()>14)dd[3] = dd[3].substring(0,14) + "...";
-            list.setText(dd[3]);//Info
-            //若是成員而不是主持人則顯示圖片6v
-            if(!dd[6].equals("sdjsddsd@gmail.com")){
+            id.setText("ID:" + dd[0]);
+            //若是成員而不是主持人則顯示圖片6
+            if(!dd[6].equals(user_info[0])){
                 table_status.setImageResource(R.drawable.table_list_shared);
             }
             return convertView;
         }
     }
+
     //決策桌表按下事件
     private AdapterView.OnItemClickListener click_table_list
             = new AdapterView.OnItemClickListener(){
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            TextView tt = (TextView) view.findViewById(R.id.name);
-            tos.setText(tt.getText());
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            tos.setText(data.get(position)[1]);
             tos.show();
         }
     };
+    //決策桌表長按下事件
+    private AdapterView.OnItemLongClickListener long_click_table_list = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            String[] function = {"封存", "刪除"};
+            AlertDialog.Builder dialog = new AlertDialog.Builder(TableActivity.this);
+            dialog.setTitle("操作");
+            dialog.setItems(function, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case 0:
+                            TableFunction.archive(data.get(position)[0], user_info[0]);
+                            Toast.makeText(TableActivity.this, "封存", Toast.LENGTH_SHORT).show();
+                            getTableList(user_info[0]);
+                            break;
+                        case 1:
+                            AlertDialog.Builder check = new AlertDialog.Builder(TableActivity.this);
+                            check.setTitle("確定刪除?");
+                            check.setMessage("決策桌資料刪除後將不可挽回");
+                            check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(TableFunction.delete(data.get(position)[0], user_info[0])){
+                                        Toast.makeText(TableActivity.this, "刪除成功", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(TableActivity.this, "您不是主持人", Toast.LENGTH_SHORT).show();
+                                    }
+                                    getTableList(user_info[0]);
+                                }
+                            });
+                            check.show();
+                            break;
+                    }
+                }
+            });
+            dialog.show();
+            return true;
+        }
+    };
+    @Override // 覆寫 onActivityResult，按下+後傳值回來時會執行此方法。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //不管如何先更新列表再說
+        getTableList(user_info[0]);
+        /*
+        if (resultCode == 1) {
+            //將包裹從 Intent 中取出。
+            Bundle argument = data.getExtras();
+            //將回傳值用指定的 key 取出，並從整數轉為字串。
+            String value = String.valueOf(argument.getInt("returnValueName"));
+        }*/
+    }
 }

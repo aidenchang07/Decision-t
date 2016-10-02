@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/r_table_drawer_layout"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -12,17 +12,17 @@
     <!--如果不希望內容被 Action Bar 壓住，上面的 fitsSystemWindows 需設為 "ture"-->
 
     <include
-        layout="@layout/r_table_app_bar"
+        layout="@layout/table_app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view_right"
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/r_table_nav_header_main"
-        app:menu="@menu/r_table_activity_main_drawer"/>
+        app:headerLayout="@layout/table_nav_header_main"
+        app:menu="@menu/table_activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

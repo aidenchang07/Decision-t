@@ -1,5 +1,6 @@
 package com.decision_t;
 
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -11,6 +12,19 @@ import java.net.URL;
 
 public class DBConnector {
     public static String executeQuery(String query_string) {
+        //JSON取得資料前置動作
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
+        //JSON取得資料前置動作END
         String result = "";
         HttpURLConnection urlConnection=null;
         InputStream is =null;
