@@ -31,6 +31,7 @@ public class R_Table_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r_table_activity_main);
+        
 
         navigationView = (NavigationView) findViewById(R.id.r_table_nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
