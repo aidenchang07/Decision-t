@@ -44,7 +44,12 @@
             android:name=".R_Table_Activity"
             android:label="隨機桌名稱"
             android:parentActivityName=".TableActivity" />
-
+        <activity
+            android:name=".MemberActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
     </application>
 
 </manifest>

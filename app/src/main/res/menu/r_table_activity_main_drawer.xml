@@ -23,7 +23,7 @@
 
         <item
             android:title="成員：20"
-            android:id="@+id/nav_r_table_members" />
+            android:id="@+id/nav_r_table_member" />
 
     </group>
 

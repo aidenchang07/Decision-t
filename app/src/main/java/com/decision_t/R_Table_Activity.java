@@ -1,5 +1,6 @@
 package com.decision_t;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -41,9 +42,14 @@ public class R_Table_Activity extends AppCompatActivity {
                 if (id == R.id.nav_r_table_name) {
                     Toast.makeText(getApplicationContext(), "你想修改隨機桌名稱？", Toast.LENGTH_SHORT).show();
                 } else if(id == R.id.nav_r_table_description) {
-                    Toast.makeText(getApplicationContext(), "我想看描述！", Toast.LENGTH_SHORT).show();
-                } else if(id == R.id.nav_r_table_members) {
-                    Toast.makeText(getApplicationContext(), "覺得孤單，想看成員！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "想看描述！", Toast.LENGTH_SHORT).show();
+                } else if(id == R.id.nav_r_table_member) {
+                    Toast.makeText(getApplicationContext(), "想看成員！", Toast.LENGTH_SHORT).show();
+
+                    //跳轉到 MemberActivity 看成員或查詢成員
+                    Intent memberIntent = new Intent(R_Table_Activity.this, MemberActivity.class);
+                    memberIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(memberIntent);
                 }
 
                 //按完之後關起來
