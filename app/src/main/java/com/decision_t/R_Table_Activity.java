@@ -13,6 +13,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import static android.R.attr.id;
@@ -46,16 +49,18 @@ public class R_Table_Activity extends AppCompatActivity {
         });
 
         toolbar = (Toolbar) findViewById(R.id.r_table_toolbar);
+        //toolbar.setLogo(R.drawable.ic_action_arrow_left);//沒有LOGO要的是返回的"按鈕"   20161003 14:09
         setSupportActionBar(toolbar);
-        toolbar.setLogo(R.drawable.ic_action_arrow_left);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        //getSupportActionBar().setDisplayUseLogoEnabled(true);      //同不要LOGO            20161003 14:09
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         drawer = (DrawerLayout) findViewById(R.id.r_table_drawer_layout);
+        /*這邊拿掉  這頁不要搞漢堡而且還ERROR         20161003 14:09
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
         //初始化 FloatingActionButton
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -66,7 +71,10 @@ public class R_Table_Activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "你想新增隨機桌的項目？", Toast.LENGTH_SHORT).show();
             }
         });
-
+        //以下可刪，測試位置是否正確 20161003 14:09
+        ListView ll = (ListView) findViewById(R.id.r_table_list);
+        ArrayAdapter<String> ad = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, new String[]{"sad","sad","sad","sad"});
+        ll.setAdapter(ad);
     }
 
     //創建右上角的 info
