@@ -45,7 +45,9 @@
             android:label="隨機桌名稱"
             android:parentActivityName=".TableActivity" />
         <activity
-            android:name=".MemberActivity">
+            android:name=".MemberActivity"
+            android:label="成員"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
