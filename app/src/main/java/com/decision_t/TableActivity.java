@@ -231,7 +231,8 @@ public class TableActivity extends AppCompatActivity
                     "        AND NOT EXISTS (SELECT *" +
                     "                                                 FROM `Decision_tables_archive`" +
                     "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
-                    "                                                    AND `Account_ID`='"+user_id+"'); ";
+                    "                                                    AND `Account_ID`='"+user_id+"')" +
+                    "  ORDER BY `ID` DESC; ";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
@@ -305,6 +306,18 @@ public class TableActivity extends AppCompatActivity
             = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (data.get(position)[2]){
+                case "R":
+                    Intent rTable = new Intent(TableActivity.this, R_Table_Activity.class);
+                    rTable.putExtra("user_info", user_info);
+                    rTable.putExtra("table_data", data.get(position));
+                    startActivityForResult(rTable, 1);
+                    break;
+                case "V":
+                    break;
+                case "T":
+                    break;
+            }
             tos.setText(data.get(position)[1]);
             tos.show();
         }
@@ -353,6 +366,12 @@ public class TableActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //不管如何先更新列表再說
         getTableList(user_info[0]);
+        switch (requestCode){
+            case 0://按下+按鈕後畫面返回的動作
+                break;
+            case 1://進入R類型決策桌後返回的動作
+                break;
+        }
         /*
         if (resultCode == 1) {
             //將包裹從 Intent 中取出。

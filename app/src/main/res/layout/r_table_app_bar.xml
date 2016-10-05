@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -19,6 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <include layout="@layout/r_table_content_main" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/r_table_fab_right"
         android:layout_width="wrap_content"
@@ -27,6 +30,19 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="#8aa9ff"
         app:srcCompat="@drawable/ic_add_black_24dp" />
+<!--
+    20161005 12:00
+    加了狀態文字方塊
+    當初有討論到蛋沒有畫上去設計圖
+-->
+    <TextView
+        android:text="目前狀態"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/r_table_status"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="16dp"
+        android:textSize="30sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/r_table_fab_left"
@@ -36,7 +52,5 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="#8aa9ff"
         app:srcCompat="@drawable/ic_add_black_24dp" />
-
-    <include layout="@layout/r_table_content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

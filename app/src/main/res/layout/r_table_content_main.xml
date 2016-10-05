@@ -7,10 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/r_table_app_bar">
+    tools:showIn="@layout/r_table_app_bar"
+    android:paddingBottom="55dp">
     <!--2016-10-03  14:09
     這邊我加了app:layout_behavior
     以及tools:showIn  這樣ListView第一欄才不會被toolbar蓋掉
+
+    2016-10-05  12:00
+    加了android:paddingBottom="55dp"
+    這樣就不會被按鈕
     -->
     <ListView
         android:layout_width="match_parent"
