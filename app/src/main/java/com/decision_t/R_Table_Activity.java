@@ -2,46 +2,37 @@ package com.decision_t;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.dialogLayout;
-import static android.R.attr.id;
 
 public class R_Table_Activity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private FloatingActionButton fab_right;
-    private FloatingActionButton fab_left;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private String[] user_info, table_data;
@@ -116,14 +107,14 @@ public class R_Table_Activity extends AppCompatActivity {
         });
 
         //初始化左邊的 FloatingActionButton
-        fab_left = (FloatingActionButton) findViewById(R.id.r_table_fab_left);
-        fab_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //點擊會有反應
-                Toast.makeText(getApplicationContext(), "你想開始／結束決策？", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        FloatingActionMenu fab_left_menu = (FloatingActionMenu) findViewById(R.id.r_table_fab_menu_left);
+        FloatingActionButton fab_left_start = (FloatingActionButton) findViewById(R.id.r_table_fab_menu_item_start);
+//        fab_left_start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         //初始化listview
         r_table_list = (ListView) findViewById(R.id.r_table_list);
         r_table_list.setOnItemLongClickListener(long_click_item_list);

@@ -105,6 +105,9 @@ dependencies {
      */
     compile "com.google.android.gms:play-services-auth:${servicesLibVersion}"
 
+    //FloatingActionButton
+    compile 'com.github.clans:fab:1.6.2'
+
 }
 /**
  * 引入Firebase必加
