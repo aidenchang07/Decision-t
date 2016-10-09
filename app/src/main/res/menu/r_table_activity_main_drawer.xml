@@ -9,21 +9,11 @@
 
         <item
             android:title="ID："
-            android:icon="@drawable/ic_action_key"
             android:id="@+id/nav_r_table_id" />
 
         <item
             android:title="主持人："
-            android:icon="@drawable/ic_face"
             android:id="@+id/nav_r_table_creator" />
-
-        <item
-            android:title="描述"
-            android:id="@+id/nav_r_table_description" />
-
-        <item
-            android:title="成員：20"
-            android:id="@+id/nav_r_table_member" />
 
     </group>
 
