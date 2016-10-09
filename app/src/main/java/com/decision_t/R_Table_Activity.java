@@ -2,7 +2,6 @@ package com.decision_t;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 public class R_Table_Activity extends AppCompatActivity {
 
     private DrawerLayout drawer;
+    private FloatingActionButton fab_left_start;
     private FloatingActionButton fab_right;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -107,14 +107,15 @@ public class R_Table_Activity extends AppCompatActivity {
         });
 
         //初始化左邊的 FloatingActionButton
-//        FloatingActionMenu fab_left_menu = (FloatingActionMenu) findViewById(R.id.r_table_fab_menu_left);
-        FloatingActionButton fab_left_start = (FloatingActionButton) findViewById(R.id.r_table_fab_menu_item_start);
-//        fab_left_start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        fab_left_start = (FloatingActionButton) findViewById(R.id.r_table_fab_menu_item_start);
+        fab_left_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //開始隨機
+                // Todo this Action 20161009 15:34
+                Toast.makeText(getApplication(), "開始隨機！", Toast.LENGTH_SHORT).show();
+            }
+        });
         //初始化listview
         r_table_list = (ListView) findViewById(R.id.r_table_list);
         r_table_list.setOnItemLongClickListener(long_click_item_list);
