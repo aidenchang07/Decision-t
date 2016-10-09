@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/r_table_status"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:textSize="30sp" />
 
     <com.github.clans.fab.FloatingActionMenu
