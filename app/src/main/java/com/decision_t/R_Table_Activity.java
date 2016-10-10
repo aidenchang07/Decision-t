@@ -64,9 +64,9 @@ public class R_Table_Activity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if (id == R.id.nav_r_table_name) {
+                if (id == R.id.nav_name) {
                     Toast.makeText(getApplicationContext(), "你想修改隨機桌名稱？", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.nav_r_table_id) {
+                } else if (id == R.id.nav_id) {
                     Toast.makeText(getApplicationContext(), "你想複製ID？", Toast.LENGTH_SHORT).show();
                 }
 
@@ -264,9 +264,5 @@ public class R_Table_Activity extends AppCompatActivity {
             return true;
         }
     };
-
-    public void onClick(){
-        Log.v("VALUE", "hi~~~");
-    }
 
 }
