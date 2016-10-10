@@ -317,10 +317,12 @@ public class TableActivity extends AppCompatActivity
                     break;
                 case "V":
                     /** 作者: 明仁
-                     *  時間: 2016-10-10 16:36
-                     *  描述: 測試用，跳轉到投票桌，無參數傳遞，不用可刪除
-                     **/
+                                        *    時間: 2016-10-10 16:36
+                                        *    描述: 測試用，跳轉到投票桌，無參數傳遞，不用可刪除
+                                        **/
                     Intent vTable = new Intent(TableActivity.this, V_Table_Activity.class);
+                    vTable.putExtra("user_info", user_info);
+                    vTable.putExtra("table_data", data.get(position));
                     startActivityForResult(vTable, 1);
                     break;
                 case "T":
@@ -378,12 +380,5 @@ public class TableActivity extends AppCompatActivity
             case 1://進入R類型決策桌後返回的動作
                 break;
         }
-        /*
-        if (resultCode == 1) {
-            //將包裹從 Intent 中取出。
-            Bundle argument = data.getExtras();
-            //將回傳值用指定的 key 取出，並從整數轉為字串。
-            String value = String.valueOf(argument.getInt("returnValueName"));
-        }*/
     }
 }
