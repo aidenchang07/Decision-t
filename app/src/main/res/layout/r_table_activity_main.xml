@@ -32,8 +32,8 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/r_table_nav_right"
-            android:id="@+id/r_table_nav_include" />
+            layout="@layout/nav_right"
+            android:id="@+id/r_table_nav_right" />
 
     </android.support.design.widget.NavigationView>
 
