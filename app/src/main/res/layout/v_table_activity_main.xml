@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/r_table_drawer_layout"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
-
-    <!--如果不希望內容被 Action Bar 壓住，上面的 fitsSystemWindows 需設為 "ture"-->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/v_table_drawer_layout">
 
     <include
-        layout="@layout/r_table_app_bar"
+        layout="@layout/v_table_app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/r_table_nav_view"
+        android:id="@+id/v_table_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
@@ -25,7 +19,7 @@
         app:menu="@menu/drawer_right">
 
         <include
-            android:id="@+id/r_table_nav_right"
+            android:id="@+id/v_table_nav_right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/nav_right" />

@@ -2,6 +2,7 @@ package com.decision_t;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,12 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,12 +43,18 @@ public class R_Table_Activity extends AppCompatActivity {
     private FloatingActionButton fab_right;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private TextView host;
     private String[] user_info, table_data;
     private ListView r_table_list;
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
     private FloatingActionMenu r_table_fab_menu_left;
     private TextView r_table_status;
+
+    //以下是測試ListView用，不用可刪除
+    private ListView testListView;
+    private String[] list = {"Aiden", "Luke", "Alice",  "Belgium", "France", "France", "Italy", "Germany", "Spain"};
+    private ArrayAdapter<String> testListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,25 @@ public class R_Table_Activity extends AppCompatActivity {
         //先取得傳進來的資料
         user_info = getIntent().getStringArrayExtra("user_info");
         table_data = getIntent().getStringArrayExtra("table_data");
+
+//暫時用不到  layout用menu不符合設計圖規範
+        navigationView = (NavigationView) findViewById(R.id.r_table_nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_name) {
+                    Toast.makeText(getApplicationContext(), "你想修改隨機桌名稱？", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_id) {
+                    Toast.makeText(getApplicationContext(), "你想複製ID？", Toast.LENGTH_SHORT).show();
+                }
+
+                //按完之後關起來
+                drawer = (DrawerLayout) findViewById(R.id.r_table_drawer_layout);
+                drawer.closeDrawer(GravityCompat.END);
+                return true;
+            }
+        });
 
         toolbar = (Toolbar) findViewById(R.id.r_table_toolbar);
         setSupportActionBar(toolbar);
@@ -144,12 +173,35 @@ public class R_Table_Activity extends AppCompatActivity {
         tableStatus();
         //顯示項目列
         getItemList(table_data[0]);
+
+        //以下是測試側欄的ListView的效果如何，不用可刪除
+        // TODO This 20161010 00:55
+        View v = findViewById(R.id.r_table_nav_right);
+        testListView = (ListView) v.findViewById(R.id.listview_member);
+        testListAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
+        testListView.setAdapter(testListAdapter);
+        testListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "你選擇的是" + list[position], Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /**
+         * 使用這個會有自動填入的效果，不用可刪除
+         * 可以參考這網站:
+         * http://stackoverflow.com/questions/15805397/android-searchview-with-auto-complete-feature-inside-action-bar
+         */
+        // TODO This 20161010 00:55
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autocompletetv_searchmember);
+        textView.setAdapter(testListAdapter);
+
     }
 
     //創建右上角的 info
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.r_table_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
 

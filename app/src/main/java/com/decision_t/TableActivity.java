@@ -171,9 +171,9 @@ public class TableActivity extends AppCompatActivity
             mAuth.signOut();
         }/*else if (id == R.id.nav_test) {
             //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- Start
-            Intent r_tableIntent = new Intent(TableActivity.this, R_Table_Activity.class);
-            r_tableIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(r_tableIntent);
+            Intent v_tableIntent = new Intent(TableActivity.this, V_Table_Activity.class);
+            v_tableIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(v_tableIntent);
             //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- End
         }*/
         //按完之後關起來
@@ -316,6 +316,12 @@ public class TableActivity extends AppCompatActivity
                     startActivityForResult(rTable, 1);
                     break;
                 case "V":
+                    /** 作者: 明仁
+                     *  時間: 2016-10-10 16:36
+                     *  描述: 測試用，跳轉到投票桌，無參數傳遞，不用可刪除
+                     **/
+                    Intent vTable = new Intent(TableActivity.this, V_Table_Activity.class);
+                    startActivityForResult(vTable, 1);
                     break;
                 case "T":
                     break;
