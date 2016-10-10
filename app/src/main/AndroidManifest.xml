@@ -40,18 +40,27 @@
             android:name=".TableCreateActivity"
             android:label="新增決策桌"
             android:parentActivityName=".TableActivity" />
+
+        <!-- 隨機桌頁面 -->
         <activity
             android:name=".R_Table_Activity"
             android:label="隨機桌名稱"
             android:parentActivityName=".TableActivity" />
+
         <activity
             android:name=".MemberActivity"
             android:label="成員"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
         </activity>
+
+        <!-- 投票桌頁面 -->
+        <activity
+            android:name=".V_Table_Activity"
+            android:label="投票桌名稱"/>
+
     </application>
 
 </manifest>
