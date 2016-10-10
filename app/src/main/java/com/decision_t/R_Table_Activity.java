@@ -127,7 +127,8 @@ public class R_Table_Activity extends AppCompatActivity {
 
         //以下是測試側欄的ListView的效果如何，不用可刪除
         // TODO This 20161010 00:55
-        testListView = (ListView)findViewById(R.id.memberListView);
+        View v = findViewById(R.id.r_table_nav_right);
+        testListView = (ListView) v.findViewById(R.id.listview_member);
         testListAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
         testListView.setAdapter(testListAdapter);
         testListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,7 +144,7 @@ public class R_Table_Activity extends AppCompatActivity {
          * http://stackoverflow.com/questions/15805397/android-searchview-with-auto-complete-feature-inside-action-bar
          */
         // TODO This 20161010 00:55
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.auto_memberEditText);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autocompletetv_searchmember);
         textView.setAdapter(testListAdapter);
 
     }
@@ -151,7 +152,7 @@ public class R_Table_Activity extends AppCompatActivity {
     //創建右上角的 info
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.r_table_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
 

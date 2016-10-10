@@ -22,18 +22,13 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
-        app:menu="@menu/r_table_activity_main_drawer">
-     <!--20161005 11:22
-            這邊可以用這種方式達成右方側邊攔
-            用table_create暫時代替，示意用
-             by俊憲
-            -->
+        app:menu="@menu/drawer_right">
 
         <include
+            android:id="@+id/r_table_nav_right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/nav_right"
-            android:id="@+id/r_table_nav_right" />
+            layout="@layout/nav_right" />
 
     </android.support.design.widget.NavigationView>
 
