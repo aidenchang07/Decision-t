@@ -169,13 +169,13 @@ public class TableActivity extends AppCompatActivity
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
-        }else if (id == R.id.nav_test) {
+        }/*else if (id == R.id.nav_test) {
             //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- Start
             Intent r_tableIntent = new Intent(TableActivity.this, R_Table_Activity.class);
             r_tableIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(r_tableIntent);
             //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- End
-        }
+        }*/
         //按完之後關起來
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -197,9 +197,9 @@ public class TableActivity extends AppCompatActivity
             inStream.close();
             String user_email = stream.toString();//取得Email
             String user_name = "";
-            String result = DBConnector.executeQuery("SELECT *\n" +
-                    "  FROM `Account` \n" +
-                    " WHERE `ID` = \"" + user_email + "\"\n");
+            String result = DBConnector.executeQuery("SELECT *" +
+                    "                                                                    FROM `Account` " +
+                    "                                                                 WHERE `ID` = '" + user_email + "'");
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
@@ -244,6 +244,8 @@ public class TableActivity extends AppCompatActivity
                         jsonData.getString("Info"),
                         jsonData.getString("Private"),
                         jsonData.getString("Complete"),
+                        jsonData.getString("Lock"),
+                        jsonData.getString("Final_decision"),
                         jsonData.getString("Account_ID")});
             }
 
@@ -294,7 +296,7 @@ public class TableActivity extends AppCompatActivity
             name.setText(dd[1]);//決策桌名
             id.setText("ID:" + dd[0]);
             //若是成員而不是主持人則顯示圖片6
-            if(!dd[6].equals(user_info[0])){
+            if(!dd[8].equals(user_info[0])){
                 table_status.setImageResource(R.drawable.table_list_shared);
             }
             return convertView;
@@ -318,8 +320,6 @@ public class TableActivity extends AppCompatActivity
                 case "T":
                     break;
             }
-            tos.setText(data.get(position)[1]);
-            tos.show();
         }
     };
     //決策桌表長按下事件

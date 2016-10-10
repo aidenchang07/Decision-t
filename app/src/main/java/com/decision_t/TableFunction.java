@@ -4,8 +4,37 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class TableFunction {
+    public static String[] table_data(String table_id){
+        String[] data = null;
+        try {
+            //不顯示封存的決策桌
+            String sql = "SELECT *" +
+                    "  FROM `Decision_tables`"+
+                    " WHERE `ID` = "+table_id+";";
+            String result = DBConnector.executeQuery(sql);
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            data = new String[] {
+                    jsonData.getString("ID"),
+                    jsonData.getString("Name"),
+                    jsonData.getString("Type"),
+                    jsonData.getString("Info"),
+                    jsonData.getString("Private"),
+                    jsonData.getString("Complete"),
+                    jsonData.getString("Lock"),
+                    jsonData.getString("Final_decision"),
+                    jsonData.getString("Account_ID")};
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
     public static void archive(String table_id, String user_id){
         try {
             //先檢查是否已經是封存狀態
