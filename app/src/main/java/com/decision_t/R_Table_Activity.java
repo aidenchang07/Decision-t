@@ -144,6 +144,8 @@ public class R_Table_Activity extends AppCompatActivity {
                                             "                   SET `Lock` = 'Y'" +
                                             "            WHERE `ID` ="+table_data[0]+";";
                                     DBConnector.executeQuery(sql);
+                                    //開始隨機
+                                    randomStart();
                                 }
                             });
                             lockcheck.setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -153,9 +155,10 @@ public class R_Table_Activity extends AppCompatActivity {
                                 }
                             });
                             lockcheck.show();
+                        }else{
+                            //開始隨機
+                            randomStart();
                         }
-                        //開始隨機
-                        randomStart();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(), "您不是主持人!", Toast.LENGTH_SHORT).show();
@@ -173,29 +176,6 @@ public class R_Table_Activity extends AppCompatActivity {
         tableStatus();
         //顯示項目列
         getItemList(table_data[0]);
-
-        //以下是測試側欄的ListView的效果如何，不用可刪除
-        // TODO This 20161010 00:55
-        View v = findViewById(R.id.r_table_nav_right);
-        testListView = (ListView) v.findViewById(R.id.listview_member);
-        testListAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
-        testListView.setAdapter(testListAdapter);
-        testListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "你選擇的是" + list[position], Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /**
-         * 使用這個會有自動填入的效果，不用可刪除
-         * 可以參考這網站:
-         * http://stackoverflow.com/questions/15805397/android-searchview-with-auto-complete-feature-inside-action-bar
-         */
-        // TODO This 20161010 00:55
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.autocompletetv_searchmember);
-        textView.setAdapter(testListAdapter);
-
     }
 
     //創建右上角的 info
@@ -223,9 +203,11 @@ public class R_Table_Activity extends AppCompatActivity {
         data = new ArrayList<String[]>();
         try {
             //顯示決策桌的項目
-            String sql = "SELECT *" +
-                    "              FROM `Tables_item`" +
-                    "          WHERE `Decision_tables_ID` = '"+ table_id +"'";
+            String sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
+                    "              FROM `Tables_item` `a`, `Account` `b`" +
+                    "          WHERE `a`.`Account_ID` = `b`.`ID`" +
+                    "                 AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
+                    "           ORDER BY `Order` ASC, `ID` ASC";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
@@ -236,7 +218,9 @@ public class R_Table_Activity extends AppCompatActivity {
                         jsonData.getString("Info"),
                         jsonData.getString("Score"),
                         jsonData.getString("Decision_tables_ID"),
-                        jsonData.getString("Account_ID")});
+                        jsonData.getString("Account_ID"),
+                        jsonData.getString("Order"),
+                        jsonData.getString("Account_Name")});
             }
             myAdapter = new MyAdapter(R_Table_Activity.this);
             r_table_list.setAdapter(myAdapter);
@@ -247,14 +231,8 @@ public class R_Table_Activity extends AppCompatActivity {
 
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater myInflater;
-        private int p;
         public MyAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
-            p = -1;
-        }
-        public MyAdapter(Context c, int p) {
-            myInflater = LayoutInflater.from(c);
-            this.p = p;
         }
         @Override
         public int getCount() {
@@ -274,14 +252,17 @@ public class R_Table_Activity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             //產生一個table_list_view的view，使用系統原生自帶的就行
-            convertView = myInflater.inflate(android.R.layout.simple_list_item_1, null);
+            convertView = myInflater.inflate(R.layout.item_list_view, null);
             //指定給他亮
-            if(position == p || table_data[7].equals(data.get(position)[0])){
+            tableStatus();
+            if(table_data[7].equals(data.get(position)[0])){
                 convertView.setBackgroundColor(0xC0FFFF00);
             }
             //設定元件內容
-            TextView itemtitle = (TextView) convertView.findViewById(android.R.id.text1);
+            TextView itemtitle = (TextView) convertView.findViewById(R.id.item_name);
             itemtitle.setText(data.get(position)[1]);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.item_origin);
+            itemaccount.setText("建立者:" + data.get(position)[7]+"("+data.get(position)[5]+")");
             return convertView;
         }
     }
@@ -309,10 +290,21 @@ public class R_Table_Activity extends AppCompatActivity {
                                 return;
                             }
                         }
-                        sql = "DELETE FROM `Tables_item`" +
-                                "WHERE `ID` = '"+data.get(position)[0]+"';";
-                        DBConnector.executeQuery(sql);
-                        getItemList(table_data[0]);
+                        //再檢查目前狀態
+                        tableStatus();
+                        if(table_data[5].equals("Y")){
+                            Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else if(table_data[6].equals("Y")){
+                            Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else{
+                            sql = "DELETE FROM `Tables_item`" +
+                                    "WHERE `ID` = '"+data.get(position)[0]+"';";
+                            DBConnector.executeQuery(sql);
+                            getItemList(table_data[0]);
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         return;
@@ -342,6 +334,7 @@ public class R_Table_Activity extends AppCompatActivity {
         String sql = "INSERT INTO `Tables_item` ( `Name`, `Decision_tables_ID`, `Account_ID`)" +
                 "               VALUES('"+text+"', "+table_id+", '"+user_id+"');";
         DBConnector.executeQuery(sql);
+        DBConnector.executeQuery(sql);
         //新增完更新畫面
         getItemList(table_data[0]);
     }
@@ -357,7 +350,20 @@ public class R_Table_Activity extends AppCompatActivity {
             randomList.add( data.remove( randomIndex ) );
         }while( data.size( ) > 0 );
         data =  randomList;
-        myAdapter = new MyAdapter(R_Table_Activity.this, 0);
+
+        //回存入資料庫 先將結果存入Decision_tables的Final_decision
+        String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ data.get(0)[0] +
+                "           WHERE `ID` = "+ table_data[0]+";";
+        DBConnector.executeQuery(sql);
+        //然後存排序順序  這邊是為了不要與資料庫存取太多次因此濃縮成一段sql query解決
+        sql = "UPDATE `Tables_item` SET `Order`=( CASE `ID`";
+        for(int i = 0; i < data.size(); i++){
+            sql +="WHEN "+data.get(i)[0]+" THEN "+ i +" ";
+        }
+        sql +="        END)" +
+                "WHERE `Decision_tables_ID`= " + table_data[0] + ";";
+        DBConnector.executeQuery(sql);
+        myAdapter = new MyAdapter(R_Table_Activity.this);
         r_table_list.setAdapter(myAdapter);
         Toast.makeText(getApplicationContext(), "隨機結果：" + data.get(0)[1], Toast.LENGTH_SHORT).show();
     }

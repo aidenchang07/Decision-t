@@ -286,7 +286,7 @@ public class TableActivity extends AppCompatActivity
             convertView = myInflater.inflate(R.layout.table_list_view, null);
 
             //設定元件內容
-            TextView name = (TextView) convertView.findViewById(R.id.table_name);
+            TextView name = (TextView) convertView.findViewById(R.id.item_name);
             TextView id = (TextView) convertView.findViewById(R.id.table_id);
             ImageView table_status = (ImageView) convertView.findViewById(R.id.img_table_status);
 

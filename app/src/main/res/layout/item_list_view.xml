@@ -17,20 +17,12 @@
         android:layout_alignWithParentIfMissing="false"
         android:singleLine="true" />
 
-    <ImageView
-        android:id="@+id/img_table_status"
-        android:layout_width="30dp"
-        android:layout_weight="1"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/item_name"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#848484"
-        android:id="@+id/table_id"
+        android:id="@+id/item_origin"
         android:layout_below="@+id/item_name"
         android:layout_alignStart="@+id/item_name"
         android:singleLine="true" />
