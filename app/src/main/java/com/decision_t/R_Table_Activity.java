@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,12 @@ import java.util.Random;
 import static com.decision_t.R.id.table_id;
 
 public class R_Table_Activity extends AppCompatActivity {
+
+    private Button tablename_edit;
+    private Button description_edit;
+    private Button member_edit;
+
+    private TextView description;
 
     private DrawerLayout drawer;
     private FloatingActionButton fab_left_start;
@@ -61,18 +68,19 @@ public class R_Table_Activity extends AppCompatActivity {
         user_info = getIntent().getStringArrayExtra("user_info");
         table_data = getIntent().getStringArrayExtra("table_data");
 
-//暫時用不到  layout用menu不符合設計圖規範
+        /**初始化按鈕*/
+        tablename_edit = (Button) findViewById(R.id.button_tablename_edit);
+        description_edit = (Button) findViewById(R.id.button_description_edit);
+        member_edit = (Button) findViewById(R.id.button_member_edit);
+
+        description = (TextView) findViewById(R.id.textView_description);
+        /** 測試，不用可刪除 */
+        description.setText("qqq\nqq\nqqq\nqq\nq\nq\nq\nq\nq\nq\nqqqqqqqqqqqqqqq");
+
         navigationView = (NavigationView) findViewById(R.id.r_table_nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.nav_name) {
-                    Toast.makeText(getApplicationContext(), "你想修改隨機桌名稱？", Toast.LENGTH_SHORT).show();
-            } else if (id == R.id.nav_id) {
-                Toast.makeText(getApplicationContext(), "你想複製ID？", Toast.LENGTH_SHORT).show();
-            }
-
                 //按完之後關起來
                 drawer = (DrawerLayout) findViewById(R.id.r_table_drawer_layout);
                 drawer.closeDrawer(GravityCompat.END);
