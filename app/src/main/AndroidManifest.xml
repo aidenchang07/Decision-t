@@ -52,7 +52,13 @@
             android:name=".V_Table_Activity"
             android:label="投票桌名稱"
             android:parentActivityName=".TableActivity" />
-        <activity android:name=".ArchiveActivity"></activity>
+
+        <!-- 封存頁面 -->
+        <activity
+            android:name=".ArchiveActivity"
+            android:label="已封存"
+            android:parentActivityName=".TableActivity" />
+
     </application>
 
 </manifest>

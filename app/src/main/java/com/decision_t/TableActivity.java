@@ -166,6 +166,9 @@ public class TableActivity extends AppCompatActivity
 
         if (id == R.id.nav_archive) {
             // 顯示已封存的桌列表
+            Intent archiveIntent = new Intent(TableActivity.this, ArchiveActivity.class);
+            archiveIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(archiveIntent);
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
