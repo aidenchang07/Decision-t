@@ -51,8 +51,8 @@
         <activity
             android:name=".V_Table_Activity"
             android:label="投票桌名稱"
-            android:parentActivityName=".TableActivity"/>
-
+            android:parentActivityName=".TableActivity" />
+        <activity android:name=".ArchiveActivity"></activity>
     </application>
 
 </manifest>
