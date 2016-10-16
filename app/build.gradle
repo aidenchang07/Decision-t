@@ -109,7 +109,7 @@ dependencies {
      * FloatingActionButton
      * 因為有需要用到會展開FloatingButton的功能，所以使用此lib
      */
-    compile 'com.github.clans:fab:1.6.2'
+    compile 'com.github.clans:fab:1.6.4'
 
 }
 /**
