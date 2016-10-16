@@ -71,4 +71,25 @@ public class TableFunction {
         }
         return true;
     }
+    public static ArrayList<String[]> getMember(String table_id){
+        ArrayList<String[]> member = new ArrayList<String[]>();
+        String[] data;
+        try {
+            String sql = "SELECT `c`.*" +
+                    "  FROM `Decision_tables` `a`, `Decision_tables_member` `b`, `Account` `c`"+
+                    " WHERE `a`.`ID` = `b`.`Decision_tables_ID`" +
+                    "       AND `b`.`Account_ID` = `c`.`ID`" +
+                    "       AND `a`.`ID` = "+table_id+";";
+            String result = DBConnector.executeQuery(sql);
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            data = new String[] {
+                    jsonData.getString("ID"),
+                    jsonData.getString("Name")};
+            member.add(data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return member;
+    }
 }

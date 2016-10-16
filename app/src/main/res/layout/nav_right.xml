@@ -19,14 +19,14 @@
             android:textColor="#000000"
             android:textSize="16dp"
             android:id="@+id/textView"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:singleLine="true" />
 
         <Button
             android:text="編輯"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_tablename_edit"
-            android:layout_weight="4" />
+            android:layout_width="52dp" />
 
     </LinearLayout>
 
@@ -38,13 +38,22 @@
         android:paddingBottom="8dp">
 
         <TextView
-            android:text="ID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:text="ID："
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="16dp"
             android:textColor="#000000"
             android:textSize="16dp"
-            android:id="@+id/textView_id" />
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:text="ID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:id="@+id/textView_id"
+            android:singleLine="true" />
 
     </LinearLayout>
 
@@ -57,12 +66,21 @@
 
         <TextView
             android:text="主持人："
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:textColor="#000000"
             android:textSize="16dp"
-            android:id="@+id/textView_host" />
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:text="主持人"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:id="@+id/textView_host"
+            android:singleLine="true" />
 
     </LinearLayout>
 
@@ -92,10 +110,9 @@
 
                 <Button
                     android:text="編輯"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:id="@+id/button_description_edit" />
+                    android:id="@+id/button_description_edit"
+                    android:layout_width="52dp" />
 
             </LinearLayout>
 
@@ -136,10 +153,9 @@
 
                 <Button
                     android:text="編輯"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:id="@+id/button_member_edit" />
+                    android:id="@+id/button_member_edit"
+                    android:layout_width="52dp" />
 
             </LinearLayout>
 

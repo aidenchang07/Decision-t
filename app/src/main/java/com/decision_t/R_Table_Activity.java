@@ -2,25 +2,19 @@ package com.decision_t;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -33,27 +27,21 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-
-import static com.decision_t.R.id.table_id;
 
 public class R_Table_Activity extends AppCompatActivity {
 
-    private Button tablename_edit;
-    private Button description_edit;
-    private Button member_edit;
-
-    private TextView description;
-
+    private Button nav_tablename_edit;
+    private Button nav_description_edit;
+    private Button nav_member_edit;
+    private TextView nav_table_name, nav_table_id, nav_table_host, nav_table_description;
+    private ListView nav_table_member;
     private DrawerLayout drawer;
     private FloatingActionMenu r_table_fab_menu_left;
     private FloatingActionButton fab_left_start;
     private FloatingActionButton fab_right;
-    private NavigationView navigationView;
     private Toolbar toolbar;
     private String[] user_info, table_data;
     private ListView r_table_list;
@@ -69,26 +57,39 @@ public class R_Table_Activity extends AppCompatActivity {
         user_info = getIntent().getStringArrayExtra("user_info");
         table_data = getIntent().getStringArrayExtra("table_data");
 
-        /**初始化按鈕*/
-        tablename_edit = (Button) findViewById(R.id.button_tablename_edit);
-        description_edit = (Button) findViewById(R.id.button_description_edit);
-        member_edit = (Button) findViewById(R.id.button_member_edit);
-
-        description = (TextView) findViewById(R.id.textView_description);
-        /** 測試，不用可刪除 */
-        description.setText("qqq\nqq\nqqq\nqq\nq\nq\nq\nq\nq\nq\nqqqqqqqqqqqqqqq");
-
-        navigationView = (NavigationView) findViewById(R.id.r_table_nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        /**右側選單初始化按鈕*/
+        nav_tablename_edit = (Button) findViewById(R.id.button_tablename_edit);
+        nav_description_edit = (Button) findViewById(R.id.button_description_edit);
+        nav_member_edit = (Button) findViewById(R.id.button_member_edit);
+        nav_table_name = (TextView) findViewById(R.id.textView);
+        nav_table_id = (TextView) findViewById(R.id.textView_id);
+        nav_table_host = (TextView) findViewById(R.id.textView_host);
+        nav_table_description = (TextView) findViewById(R.id.textView_description);
+        nav_table_member = (ListView) findViewById(R.id.listView_member);
+        //若非主持人則隱藏按鈕
+        if(!table_data[8].equals(user_info[0])){
+            nav_tablename_edit.setVisibility(View.INVISIBLE);
+            nav_description_edit.setVisibility(View.INVISIBLE);
+            nav_member_edit.setVisibility(View.INVISIBLE);
+        }
+        nav_table_name.setText(table_data[1]);
+        nav_table_id.setText(table_data[0]);
+        nav_table_host.setText(table_data[8]);
+        nav_table_description.setText(table_data[3]);
+        nav_tablename_edit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //按完之後關起來
-                drawer = (DrawerLayout) findViewById(R.id.r_table_drawer_layout);
-                drawer.closeDrawer(GravityCompat.END);
-                return true;
+            public void onClick(View v) {
+                updateTableName(table_data[0]);
+            }
+        });
+        nav_description_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTableInfo(table_data[0]);
             }
         });
 
+        //toolbar設定
         toolbar = (Toolbar) findViewById(R.id.r_table_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,7 +163,15 @@ public class R_Table_Activity extends AppCompatActivity {
         //初始化桌狀態
         r_table_status = (TextView) findViewById(R.id.r_table_status);
         //刷新桌狀態
-        tableStatus();
+        if(table_data[5].equals("Y")){
+            r_table_status.setText("已完結");
+        }else{
+            if(table_data[6].equals("Y")){
+                r_table_status.setText("待決策");
+            }else{
+                r_table_status.setText("進行中");
+            }
+        }
         //顯示項目列
         getItemList(table_data[0]);
     }
@@ -380,7 +389,7 @@ public class R_Table_Activity extends AppCompatActivity {
             }
         }
     };
-
+    //最終決策
     public void finalDecision(final int position){
         AlertDialog.Builder ad = new AlertDialog.Builder(R_Table_Activity.this);
         ad.setTitle("最終決策");
@@ -399,5 +408,49 @@ public class R_Table_Activity extends AppCompatActivity {
         });
         ad.setNegativeButton("不要,再等等", null);
         ad.show();
+    }
+
+    //右側選單修改決策桌名稱
+    public void updateTableName(final String table_id){
+        final View dialog_text = LayoutInflater.from(R_Table_Activity.this).inflate(R.layout.dialog_text, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(table_data[1]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(R_Table_Activity.this);
+        dialog.setTitle("修改決策桌名稱");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String sql = "UPDATE `Decision_tables` SET `Name` = '"+ text.getText()+"'"+
+                        "           WHERE `ID` = "+ table_id +";";
+                DBConnector.executeQuery(sql);
+                table_data[1] = String.valueOf(text.getText());
+                getSupportActionBar().setTitle(text.getText());
+                nav_table_name.setText(text.getText());
+            }
+        });
+        dialog.show();
+    }
+
+    //右側選單修改決策桌INFO
+    public void updateTableInfo(final String table_id){
+        final View dialog_text = LayoutInflater.from(R_Table_Activity.this).inflate(R.layout.dialog_text_multi_line, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(table_data[3]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(R_Table_Activity.this);
+        dialog.setTitle("修改決策桌描述");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Decision_tables` SET `Info` = '"+ text.getText()+"'"+
+                        "           WHERE `ID` = "+ table_id +";";
+                DBConnector.executeQuery(sql);
+                table_data[3]=String.valueOf(text.getText());
+                nav_table_description.setText(text.getText());
+            }
+        });
+        dialog.show();
     }
 }
