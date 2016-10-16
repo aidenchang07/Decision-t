@@ -15,13 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 public class V_Table_Activity extends AppCompatActivity {
 
@@ -32,13 +32,14 @@ public class V_Table_Activity extends AppCompatActivity {
     private TextView description;
 
     private DrawerLayout drawer;
+    private FloatingActionMenu fab_left;
     private FloatingActionButton fab_left_start;
     private FloatingActionButton fab_left_end;
     private FloatingActionButton fab_right;
     private NavigationView navigationView;
     private Toolbar toolbar;
 
-    //以下是測試ListView用，不用可刪除
+    /** 以下是測試ListView用，不用可刪除 */
     private ListView testListView;
     private String[] list = {"Aiden", "Luke", "Alice",  "Belgium", "France", "France", "Italy", "Germany", "Spain"};
     private ArrayAdapter<String> testListAdapter;
@@ -53,7 +54,7 @@ public class V_Table_Activity extends AppCompatActivity {
         description_edit = (Button) findViewById(R.id.button_description_edit);
         member_edit = (Button) findViewById(R.id.button_member_edit);
 
-        /** 初始化文字框*/
+        /** 初始化文字框 */
         description = (TextView) findViewById(R.id.textView_description);
         /** 測試，不用可刪除 */
         description.setText("qqq\nqq\nqqq\nqq\nq\nq\nq\nq\nq\nq\nqqqqqqqqqqqqqqq");
@@ -95,17 +96,19 @@ public class V_Table_Activity extends AppCompatActivity {
                     }
                 });
                 newitem.show();
-
             }
         });
 
         //初始化左邊 FloatingActionButton 的開始投票
+        fab_left = (FloatingActionMenu) findViewById(R.id.v_table_fab_menu_left) ;
+        /** 點旁邊可收合FloatingButton */
+        fab_left.setClosedOnTouchOutside(true);
         fab_left_start = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
         fab_left_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //開始投票
-                // Todo this Action 2016-10-10 16:49
+                /* Todo this Action 2016-10-10 16:49 */
                 Toast.makeText(getApplication(), "開始投票！", Toast.LENGTH_SHORT).show();
             }
         });

@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class R_Table_Activity extends AppCompatActivity {
     private TextView description;
 
     private DrawerLayout drawer;
+    private FloatingActionMenu r_table_fab_menu_left;
     private FloatingActionButton fab_left_start;
     private FloatingActionButton fab_right;
     private NavigationView navigationView;
@@ -57,7 +59,6 @@ public class R_Table_Activity extends AppCompatActivity {
     private ListView r_table_list;
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
-    private FloatingActionMenu r_table_fab_menu_left;
     private TextView r_table_status;
 
     @Override
@@ -107,6 +108,9 @@ public class R_Table_Activity extends AppCompatActivity {
 
         //初始化左邊的FloatingActionMenu
         r_table_fab_menu_left = (FloatingActionMenu) findViewById(R.id.r_table_fab_menu_left);
+        /** 點旁邊可收合FloatingButton */
+        r_table_fab_menu_left.setClosedOnTouchOutside(true);
+
         //初始化左邊的 FloatingActionButton
         fab_left_start = (FloatingActionButton) findViewById(R.id.r_table_fab_menu_item_start);
         fab_left_start.setOnClickListener(new View.OnClickListener() {
