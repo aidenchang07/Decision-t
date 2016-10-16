@@ -99,10 +99,14 @@ public class V_Table_Activity extends AppCompatActivity {
             }
         });
 
-        //初始化左邊 FloatingActionButton 的開始投票
+        /**
+         * 初始化左邊 FloatingActionMenu
+         */
         fab_left = (FloatingActionMenu) findViewById(R.id.v_table_fab_menu_left) ;
         /** 點旁邊可收合FloatingButton */
         fab_left.setClosedOnTouchOutside(true);
+
+        //初始化左邊 FloatingActionButton 的開始投票
         fab_left_start = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
         fab_left_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,12 +118,11 @@ public class V_Table_Activity extends AppCompatActivity {
         });
 
         //初始化左邊 FloatingActionButton 的結束投票
-        fab_left_end = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
         fab_left_end = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_end);
         fab_left_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //開始投票
+                //結束投票
                 // Todo this Action 2016-10-10 16:49
                 Toast.makeText(getApplication(), "結束投票！", Toast.LENGTH_SHORT).show();
             }
