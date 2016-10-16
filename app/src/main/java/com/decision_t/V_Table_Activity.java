@@ -56,6 +56,13 @@ public class V_Table_Activity extends AppCompatActivity {
 
         /** 初始化文字框 */
         description = (TextView) findViewById(R.id.textView_description);
+
+        /** 初始化 FloatingActionButton */
+        fab_left = (FloatingActionMenu) findViewById(R.id.v_table_fab_menu_left);
+        fab_left_start = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
+        fab_left_end = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_end);
+        fab_right = (FloatingActionButton) findViewById(R.id.v_table_fab_right);
+
         /** 測試，不用可刪除 */
         description.setText("qqq\nqq\nqqq\nqq\nq\nq\nq\nq\nq\nq\nqqqqqqqqqqqqqqq");
 
@@ -79,8 +86,13 @@ public class V_Table_Activity extends AppCompatActivity {
 
         drawer = (DrawerLayout) findViewById(R.id.v_table_drawer_layout);
 
-        //初始化右邊的 FloatingActionButton
-        fab_right = (FloatingActionButton) findViewById(R.id.v_table_fab_right);
+        /** 點旁邊可收合FloatingButton */
+        fab_left.setClosedOnTouchOutside(true);
+
+        /** 結束投票按鈕變灰色，無法使用 */
+        fab_left_end.setEnabled(false);
+
+        /** 配置右邊FloatingButton的監聽器 */
         fab_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,32 +111,27 @@ public class V_Table_Activity extends AppCompatActivity {
             }
         });
 
-        /**
-         * 初始化左邊 FloatingActionMenu
-         */
-        fab_left = (FloatingActionMenu) findViewById(R.id.v_table_fab_menu_left) ;
-        /** 點旁邊可收合FloatingButton */
-        fab_left.setClosedOnTouchOutside(true);
-
-        //初始化左邊 FloatingActionButton 的開始投票
-        fab_left_start = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
+        /** 配置開始投票的監聽器 */
         fab_left_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //開始投票
                 /* Todo this Action 2016-10-10 16:49 */
                 Toast.makeText(getApplication(), "開始投票！", Toast.LENGTH_SHORT).show();
+                /** 開始投票按鈕關起來，無法使用 */
+                fab_left_start.setEnabled(false);
+                /** 結束投票按鈕亮起來，已可使用 */
+                fab_left_end.setEnabled(true);
             }
         });
 
-        //初始化左邊 FloatingActionButton 的結束投票
-        fab_left_end = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_end);
+        /** 配置結束投票的監聽器 */
         fab_left_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //結束投票
                 // Todo this Action 2016-10-10 16:49
                 Toast.makeText(getApplication(), "結束投票！", Toast.LENGTH_SHORT).show();
+                /** 結束投票按鈕變灰色，無法使用 */
+                fab_left_end.setEnabled(false);
             }
         });
 
