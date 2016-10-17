@@ -35,6 +35,7 @@ public class TableFunction {
         }
         return data;
     }
+    //封存
     public static void archive(String table_id, String user_id){
         try {
             //先檢查是否已經是封存狀態
@@ -51,6 +52,14 @@ public class TableFunction {
             e.printStackTrace();
             return;
         }
+        return;
+    }
+    //取消封存
+    public static void unarchive(String table_id, String user_id){
+        String sql = "DELETE FROM `Decision_tables_archive`" +
+                "           WHERE `Decision_tables_ID` = "+table_id+"" +
+                "                  AND `Account_ID` = '"+user_id+"';";
+        DBConnector.executeQuery(sql);
         return;
     }
     public static Boolean delete(String table_id, String user_id) {

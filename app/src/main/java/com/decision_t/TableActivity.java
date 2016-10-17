@@ -168,6 +168,7 @@ public class TableActivity extends AppCompatActivity
             // 顯示已封存的桌列表
             Intent archiveIntent = new Intent(TableActivity.this, ArchiveActivity.class);
             archiveIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            archiveIntent.putExtra("user_info", user_info);
             startActivity(archiveIntent);
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
@@ -319,10 +320,6 @@ public class TableActivity extends AppCompatActivity
                     startActivityForResult(rTable, 1);
                     break;
                 case "V":
-                    /** 作者: 明仁
-                                        *    時間: 2016-10-10 16:36
-                                        *    描述: 測試用，跳轉到投票桌，無參數傳遞，不用可刪除
-                                        **/
                     Intent vTable = new Intent(TableActivity.this, V_Table_Activity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
