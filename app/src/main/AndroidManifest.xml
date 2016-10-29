@@ -58,7 +58,10 @@
             android:name=".ArchiveActivity"
             android:label="已封存"
             android:parentActivityName=".TableActivity" />
-
+        <activity
+            android:name=".MemberActivity"
+            android:label="成員"
+            android:parentActivityName=".TableActivity" />
     </application>
 
 </manifest>
