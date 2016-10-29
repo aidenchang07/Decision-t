@@ -2,6 +2,7 @@ package com.decision_t;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -86,6 +87,15 @@ public class R_Table_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateTableInfo(table_data[0]);
+            }
+        });
+
+        nav_member_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent memberIntent = new Intent(R_Table_Activity.this, MemberActivity.class);
+                memberIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(memberIntent);
             }
         });
 
