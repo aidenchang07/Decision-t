@@ -62,6 +62,7 @@
             android:name=".MemberActivity"
             android:label="成員"
             android:parentActivityName=".TableActivity" />
+        <activity android:name=".T_Table_Activity"></activity>
     </application>
 
 </manifest>
