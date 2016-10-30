@@ -149,7 +149,10 @@ public class R_Table_Activity extends AppCompatActivity {
                                                 "                   SET `Lock` = 'Y'" +
                                                 "            WHERE `ID` ="+table_data[0]+";";
                                         DBConnector.executeQuery(sql);
-                                        tableStatus();//更新決策桌資訊
+                                        //更新決策桌資訊，因為主持人只有一個所以不用連資料庫取得資料直接改就行
+                                        table_data[6] = "Y";
+                                        r_table_status.setText("投票中");
+
                                         //開始隨機
                                         randomStart();
                                     }
@@ -357,8 +360,8 @@ public class R_Table_Activity extends AppCompatActivity {
                 return;
             }else{
                 //點擊新增項目
-                final View dialog_text = LayoutInflater.from(R_Table_Activity.this).inflate(R.layout.dialog_text, null);
-                AlertDialog.Builder newitem = new AlertDialog.Builder(R_Table_Activity.this);
+                final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
+                AlertDialog.Builder newitem = new AlertDialog.Builder(this);
                 newitem.setTitle("請輸入新項目");
                 newitem.setView(dialog_text);
                 newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
@@ -425,10 +428,10 @@ public class R_Table_Activity extends AppCompatActivity {
 
     //右側選單修改決策桌名稱
     public void updateTableName(final String table_id){
-        final View dialog_text = LayoutInflater.from(R_Table_Activity.this).inflate(R.layout.dialog_text, null);
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
         final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
         text.setText(table_data[1]);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(R_Table_Activity.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("修改決策桌名稱");
         dialog.setView(dialog_text);
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -448,10 +451,10 @@ public class R_Table_Activity extends AppCompatActivity {
 
     //右側選單修改決策桌INFO
     public void updateTableInfo(final String table_id){
-        final View dialog_text = LayoutInflater.from(R_Table_Activity.this).inflate(R.layout.dialog_text_multi_line, null);
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text_multi_line, null);
         final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
         text.setText(table_data[3]);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(R_Table_Activity.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("修改決策桌描述");
         dialog.setView(dialog_text);
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -495,22 +498,13 @@ public class R_Table_Activity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            /*
             //產生一個table_list_view的view
-            convertView = myInflater.inflate(android.R.layout.simple_list_item_2, null);
-            //設定元件內容
-            TextView itemname = (TextView) convertView.findViewById(android.R.id.text1);
-            itemname.setText(member_data.get(position)[1]);
-            TextView itemaccount = (TextView) convertView.findViewById(android.R.id.text2);
-            itemaccount.setText("(" + member_data.get(position)[0] + ")");
-*/
-            //產生一個table_list_view的view
-            convertView = myInflater.inflate(R.layout.table_list_view, null);
+            convertView = myInflater.inflate(R.layout.item_list_view, null);
             //設定元件內容
             TextView itemname = (TextView) convertView.findViewById(R.id.item_name);
             itemname.setTextSize(16);
             itemname.setText(member_data.get(position)[1]);
-            TextView itemaccount = (TextView) convertView.findViewById(R.id.table_id);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.item_origin);
             itemaccount.setText("(" + member_data.get(position)[0] + ")");
             return convertView;
         }
