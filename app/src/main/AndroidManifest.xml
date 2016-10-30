@@ -57,7 +57,7 @@
         <activity
             android:name=".T_Table_Activity"
             android:label="決策桌名稱"
-            android:parentActivityName=".TableActivity"/>
+            android:parentActivityName=".TableActivity" />
 
         <!-- 封存頁面 -->
         <activity
@@ -70,7 +70,7 @@
             android:name=".MemberActivity"
             android:label="成員"
             android:parentActivityName=".TableActivity" />
-
+        <activity android:name=".T_Table_Tab_Activity"></activity>
     </application>
 
 </manifest>
