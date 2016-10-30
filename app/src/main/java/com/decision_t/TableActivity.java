@@ -173,13 +173,8 @@ public class TableActivity extends AppCompatActivity
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
-        }/*else if (id == R.id.nav_test) {
-            //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- Start
-            Intent v_tableIntent = new Intent(TableActivity.this, V_Table_Activity.class);
-            v_tableIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(v_tableIntent);
-            //以下是我測試隨機桌的Layout擺得好不好，你用不到可註解，但請別刪 -- End
-        }*/
+        }
+
         //按完之後關起來
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
