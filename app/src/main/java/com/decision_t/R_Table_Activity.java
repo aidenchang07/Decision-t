@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -49,6 +48,7 @@ public class R_Table_Activity extends AppCompatActivity {
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
     private TextView r_table_status;
+    private ArrayList<String[]> member_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,14 +90,17 @@ public class R_Table_Activity extends AppCompatActivity {
             }
         });
 
+        //member設定按鈕動作
         nav_member_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent memberIntent = new Intent(R_Table_Activity.this, MemberActivity.class);
-                memberIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(memberIntent);
             }
         });
+
+        //取得成員資訊
+        showMemberList(table_data[0]);
 
         //toolbar設定
         toolbar = (Toolbar) findViewById(R.id.r_table_toolbar);
@@ -462,5 +465,54 @@ public class R_Table_Activity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    public void showMemberList(String table_id){
+        member_data = TableFunction.getMember(table_id);
+        MemberAdapter memberAdapter = new MemberAdapter(this);
+        nav_table_member.setAdapter(memberAdapter);
+    }
+
+    public class MemberAdapter extends BaseAdapter {
+        private LayoutInflater myInflater;
+        public MemberAdapter(Context c) {
+            myInflater = LayoutInflater.from(c);
+        }
+        @Override
+        public int getCount() {
+            return member_data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return member_data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            /*
+            //產生一個table_list_view的view
+            convertView = myInflater.inflate(android.R.layout.simple_list_item_2, null);
+            //設定元件內容
+            TextView itemname = (TextView) convertView.findViewById(android.R.id.text1);
+            itemname.setText(member_data.get(position)[1]);
+            TextView itemaccount = (TextView) convertView.findViewById(android.R.id.text2);
+            itemaccount.setText("(" + member_data.get(position)[0] + ")");
+*/
+            //產生一個table_list_view的view
+            convertView = myInflater.inflate(R.layout.table_list_view, null);
+            //設定元件內容
+            TextView itemname = (TextView) convertView.findViewById(R.id.item_name);
+            itemname.setTextSize(16);
+            itemname.setText(member_data.get(position)[1]);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.table_id);
+            itemaccount.setText("(" + member_data.get(position)[0] + ")");
+            return convertView;
+        }
     }
 }
