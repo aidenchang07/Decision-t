@@ -51,6 +51,7 @@ public class V_Table_Activity extends AppCompatActivity {
     private MyAdapter myAdapter;
     private TextView v_table_status;
     private ArrayList<String[]> member_data;
+    private boolean can_vote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +222,8 @@ public class V_Table_Activity extends AppCompatActivity {
         }
         //顯示項目列
         getItemList(table_data[0]);
+        //取得目前是否可以投票的權限，投過就不能投了
+        can_vote = V_Table_Function.canVote(table_data[0], user_info[0]);
     }
 
     //創建右上角的 info
@@ -246,12 +249,33 @@ public class V_Table_Activity extends AppCompatActivity {
         //先清空資料
         data = new ArrayList<String[]>();
         try {
-            //顯示決策桌的項目
-            String sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
-                    "              FROM `Tables_item` `a`, `Account` `b`" +
-                    "          WHERE `a`.`Account_ID` = `b`.`ID`" +
-                    "                 AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
-                    "           ORDER BY `ID` ASC";
+            /*
+                            顯示決策桌的項目
+                             依照目前狀態選用不同的sql
+                             投票中看V_item_score的分數
+                             完結了直接看Tables_item的分數
+                        */
+            String sql;
+            if(table_data[5].equals("Y")){
+                sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
+                        "FROM `Tables_item` `a`, `Account` `b`" +
+                        "WHERE `a`.`Account_ID` = `b`.`ID`" +
+                        "   AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
+                        "ORDER BY `ID` ASC";
+            }else{
+                sql = "SELECT `a`.`ID` , " +
+                        "             `a`.`Name` ," +
+                        "             `a`.`Info` ," +
+                        "              SUM( `b`.`Score` ) `Score` ," +
+                        "             `a`.`Decision_tables_ID` , " +
+                        "             `a`.`Account_ID`," +
+                        "             `c`.`Name` `Account_Name`" +
+                        "FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
+                        "WHERE `a`.`Account_ID` = `c`.`ID`" +
+                        "      AND `a`.`Decision_tables_ID` ='"+ table_id +"'" +
+                        "GROUP BY `a`.`ID` ";
+            }
+
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
@@ -305,11 +329,10 @@ public class V_Table_Activity extends AppCompatActivity {
             TextView itemaccount = (TextView) convertView.findViewById(R.id.v_item_account);
             itemaccount.setText("建立者:" + data.get(position)[6]+"("+data.get(position)[5]+")");
             TextView itemscore = (TextView) convertView.findViewById(R.id.v_item_score);
-            String score = data.get(position)[3];
-            if(score.equals("null")){
-                score = "0";
+            if(data.get(position)[3].equals("null")){
+                data.get(position)[3] = "0";
             }
-            itemscore.setText(score);
+            itemscore.setText(data.get(position)[3]);
             //如果為進行中(決策桌剛建立)將score隱藏
             if(table_data[5].equals("N") && table_data[6].equals("N")){
                 itemscore.setVisibility(View.INVISIBLE);
@@ -461,24 +484,37 @@ public class V_Table_Activity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             //如果是投票中狀態且尚未投過票，則可以投票
+            if(table_data[5].equals("N")){
+                if(table_data[6].equals("Y")){
+                    if(can_vote){
+                        vote(position);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "已經投過票囉！", Toast.LENGTH_SHORT).show();
+                    }
+                }//未鎖定之前點擊沒反應
+            }else{
+                Toast.makeText(getApplicationContext(), "決策桌已完結！", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
-    //最終決策
-    public void finalDecision(final int position){
+    //投票
+    public void vote(final int position){
         AlertDialog.Builder ad = new AlertDialog.Builder(V_Table_Activity.this);
-        ad.setTitle("最終決策");
-        ad.setMessage("確定選擇：\n" + data.get(position)[1] + "\n作為最終選擇嗎？");
+        ad.setTitle("投票");
+        ad.setMessage("確定將票投給：\n" + data.get(position)[1] + "\n嗎？");
         ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ data.get(position)[0] +","+
-                        "                                                                       `Complete`= 'Y'" +
-                        "WHERE `ID` = "+ table_data[0]+";";
+                String sql = "INSERT INTO `V_item_score`" +
+                        "                   VALUES ('" + data.get(position)[0] + "'," +
+                        "                                      '" + user_info[0] + "', " +
+                        "                                     '1');";
                 DBConnector.executeQuery(sql);
-                tableStatus();
+                data.get(position)[3] = String.valueOf(Integer.parseInt(data.get(position)[3]) + 1);
                 myAdapter = new MyAdapter(V_Table_Activity.this);
                 v_table_list.setAdapter(myAdapter);
+                can_vote = false;
             }
         });
         ad.setNegativeButton("不要,再等等", null);
