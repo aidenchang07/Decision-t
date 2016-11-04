@@ -24,6 +24,7 @@ public class MemberActivity extends AppCompatActivity {
             "Democratic Republic of the Congo", "Thailand", "France", "United Kingdom", "Italy",
             "South Africa", "Myanmar", "South Korea", "Colombia", "Spain", "Ukraine", "Tanzania",
             "Kenya", "Argentina", "Poland", "Algeria", "Canada" };
+
     /** 以上的資料是測試用，可刪除。2016/10/31 */
 
     @Override
@@ -44,6 +45,21 @@ public class MemberActivity extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
         /** 以上的資料是測試用，可刪除。2016/10/31 */
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+                /** 對用戶按home icon的處理，本例只需關閉activity，就可返回上一activity，即主activity。 */
+                finish();
+                return true;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
