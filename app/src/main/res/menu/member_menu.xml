@@ -4,9 +4,8 @@
 
     <item
         android:id="@+id/member_search"
-        android:title="搜尋成員"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
 </menu>
