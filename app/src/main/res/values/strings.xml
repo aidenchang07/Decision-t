@@ -13,6 +13,4 @@
     <string name="loading">讀取中...</string>
 
     <!-- RegisterActivity Layout -->
-    <string name="activity_register_confirm">確認</string>
-
-</resources>
+    <string name="activity_register_confirm">確認</string></resources>

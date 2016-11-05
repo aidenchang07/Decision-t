@@ -59,9 +59,9 @@ public class TableCreateActivity extends AppCompatActivity {
                 case R.id.tButton:
                     //創建T桌
                     createTable(table_id_or_name.getText().toString(), "T", user_info[0]);
-                    Intent t_tableIntent = new Intent(TableCreateActivity.this, T_Table_Activity.class);
-                    t_tableIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(t_tableIntent);
+                    Intent t_table_tabIntent = new Intent(TableCreateActivity.this, T_Table_Tab_Activity.class);
+                    t_table_tabIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(t_table_tabIntent);
                     break;
                 case R.id.voteButton:
                     //創建投票桌

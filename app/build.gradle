@@ -83,7 +83,6 @@ ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
 
     /**
@@ -110,7 +109,8 @@ dependencies {
      * 因為有需要用到會展開FloatingButton的功能，所以使用此lib
      */
     compile 'com.github.clans:fab:1.6.4'
-
+    compile 'com.android.support:support-v4:24.2.1'
+    testCompile 'junit:junit:4.12'
 }
 /**
  * 引入Firebase必加
