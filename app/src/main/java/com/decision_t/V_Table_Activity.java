@@ -99,7 +99,8 @@ public class V_Table_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent memberIntent = new Intent(V_Table_Activity.this, MemberActivity.class);
-                startActivity(memberIntent);
+                memberIntent.putExtra("table_data", table_data);
+                startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
         });
 
@@ -679,5 +680,11 @@ public class V_Table_Activity extends AppCompatActivity {
         });
         ad.setNegativeButton("不要,再等等", null);
         ad.show();
+    }
+
+    @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //不管如何先更新member列表再說
+        showMemberList(table_data[0]);
     }
 }

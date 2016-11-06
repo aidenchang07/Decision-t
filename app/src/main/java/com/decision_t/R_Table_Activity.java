@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -95,7 +96,8 @@ public class R_Table_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent memberIntent = new Intent(R_Table_Activity.this, MemberActivity.class);
-                startActivity(memberIntent);
+                memberIntent.putExtra("table_data", table_data);
+                startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
         });
 
@@ -124,6 +126,10 @@ public class R_Table_Activity extends AppCompatActivity {
         r_table_fab_menu_left = (FloatingActionMenu) findViewById(R.id.r_table_fab_menu_left);
         /** 點旁邊可收合FloatingButton */
         r_table_fab_menu_left.setClosedOnTouchOutside(true);
+        //如果不是主持人則隱藏左側下方功能鍵
+        if(!table_data[8].equals(user_info[0])) {
+            r_table_fab_menu_left.setVisibility(View.INVISIBLE);
+        }
 
         //初始化左邊的 FloatingActionButton
         fab_left_start = (FloatingActionButton) findViewById(R.id.r_table_fab_menu_item_start);
@@ -508,5 +514,11 @@ public class R_Table_Activity extends AppCompatActivity {
             itemaccount.setText("(" + member_data.get(position)[0] + ")");
             return convertView;
         }
+    }
+
+    @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //不管如何先更新member列表再說
+        showMemberList(table_data[0]);
     }
 }

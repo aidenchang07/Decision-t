@@ -231,6 +231,7 @@ public class TableActivity extends AppCompatActivity
                     "                                                 FROM `Decision_tables_archive`" +
                     "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
                     "                                                    AND `Account_ID`='"+user_id+"')" +
+                    "  GROUP BY `a`.`ID`" +
                     "  ORDER BY `ID` DESC; ";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);

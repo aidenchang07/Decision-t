@@ -1,31 +1,33 @@
 package com.decision_t;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MemberActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private SearchView searchView;
     private ListView listView;
-
-    /** 以下的資料是測試用，可刪除。2016/10/31 */
-    private ArrayAdapter<String> arrayAdapter;
-    private String[] items = new String[] { "China", "India", "United States", "Indonesia", "Brazil",
-            "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan", "Mexico", "Philippines",
-            "Vietnam", "Ethiopia", "Egypt", "Germany", "Iran", "Turkey",
-            "Democratic Republic of the Congo", "Thailand", "France", "United Kingdom", "Italy",
-            "South Africa", "Myanmar", "South Korea", "Colombia", "Spain", "Ukraine", "Tanzania",
-            "Kenya", "Argentina", "Poland", "Algeria", "Canada" };
-
-    /** 以上的資料是測試用，可刪除。2016/10/31 */
+    private ArrayList<String[]>member_data;
+    private String[] table_data;
+    private MemberAdapter memberAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +42,12 @@ public class MemberActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /** 以下的資料是測試用，可刪除。2016/10/31 */
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(arrayAdapter);
-        /** 以上的資料是測試用，可刪除。2016/10/31 */
-
+        //取得傳進來的資料
+        table_data = getIntent().getStringArrayExtra("table_data");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()){
             case android.R.id.home:
                 /** 對用戶按home icon的處理，本例只需關閉activity，就可返回上一activity，即主activity。 */
@@ -58,13 +56,11 @@ public class MemberActivity extends AppCompatActivity {
             default:
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         /** 以下是初始化SearchView */
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.member_menu, menu);
@@ -74,16 +70,16 @@ public class MemberActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 /** 按下確認，才會搜索 */
+                showMemberList(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                /** 文字有變更，會即時搜索 */
-
-                /** 過濾文字 */
-                arrayAdapter.getFilter().filter(newText);
-
+                /** 文字有變更，會即時搜索
+                                // 過濾文字
+                                arrayAdapter.getFilter().filter(newText);
+                                */
                 return false;
             }
         });
@@ -97,4 +93,72 @@ public class MemberActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //顯示member資料
+    public void showMemberList(String filter){
+        //取得member資料
+        member_data = TableFunction.getNotYetMember(table_data[0], filter);
+        //顯示member資料
+        memberAdapter = new MemberAdapter(this);
+        listView.setAdapter(memberAdapter);
+        //設置監聽器
+        listView.setOnItemClickListener(click_item_list);
+    }
+
+    public class MemberAdapter extends BaseAdapter {
+        private LayoutInflater myInflater;
+        public MemberAdapter(Context c) {
+            myInflater = LayoutInflater.from(c);
+        }
+        @Override
+        public int getCount() {
+            return member_data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return member_data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //產生一個table_list_view的view
+            convertView = myInflater.inflate(R.layout.item_list_view, null);
+            //設定元件內容
+            TextView itemname = (TextView) convertView.findViewById(R.id.item_name);
+            itemname.setTextSize(16);
+            itemname.setText(member_data.get(position)[1]);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.item_origin);
+            itemaccount.setText("(" + member_data.get(position)[0] + ")");
+            return convertView;
+        }
+    }
+    //決策桌表按下事件
+    private AdapterView.OnItemClickListener click_item_list
+            = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            AlertDialog.Builder newitem = new AlertDialog.Builder(MemberActivity.this);
+            newitem.setTitle("添加決策桌成員");
+            newitem.setMessage("確定將\n" + member_data.get(position)[1] + "("+member_data.get(position)[0]+")\n加入此決策桌?");
+            newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String sql = "INSERT INTO `Decision_tables_member` (`Decision_tables_ID` , `Account_ID` )\n" +
+                            "                   VALUES ('"+table_data[0]+"', '"+member_data.get(position)[0]+"');";
+                    DBConnector.executeQuery(sql);
+                    //新增完更新畫面  直接重刷頁面不用再連一次資料庫
+                    member_data.remove(position);
+                    memberAdapter = new MemberAdapter(MemberActivity.this);
+                    listView.setAdapter(memberAdapter);
+                }
+            });
+            newitem.setNegativeButton("否", null);
+            newitem.show();
+        }
+    };
 }

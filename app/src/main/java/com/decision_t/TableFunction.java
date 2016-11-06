@@ -79,6 +79,7 @@ public class TableFunction {
         }
         return true;
     }
+    //取得已加入的member列表
     public static ArrayList<String[]> getMember(String table_id){
         ArrayList<String[]> member = new ArrayList<String[]>();
         String[] data;
@@ -90,11 +91,48 @@ public class TableFunction {
                     "       AND `a`.`ID` = "+table_id+";";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
-            JSONObject jsonData = jsonArray.getJSONObject(0);
-            data = new String[] {
-                    jsonData.getString("ID"),
-                    jsonData.getString("Name")};
-            member.add(data);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonData = jsonArray.getJSONObject(i);
+                data = new String[] {
+                        jsonData.getString("ID"),
+                        jsonData.getString("Name")};
+                member.add(data);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return member;
+    }
+    //取得未加入的member列表
+    public static ArrayList<String[]> getNotYetMember(String table_id, String filter){
+        ArrayList<String[]> member = new ArrayList<String[]>();
+        String[] data;
+        //把條件拆開並塞入%符號
+        String[] ff = filter.split("");
+        filter = "%";
+        for (String s:ff) {
+            filter += s + "%";
+        }
+
+        try {
+            String sql = "SELECT *" +
+                    "              FROM `Account`" +
+                    "          WHERE `ID` NOT IN (SELECT `Account_ID`" +
+                    "                                                        FROM `Decision_tables_member`" +
+                    "                                                     WHERE `Decision_tables_ID` = " + table_id + ")" +
+                    "                 AND `ID` NOT IN (SELECT `Account_ID`" +
+                    "                                                         FROM `Decision_tables`" +
+                    "                                                      WHERE `ID` = " + table_id + ")" +
+                    "                 AND (`ID` LIKE '" + filter + "' OR `Name` LIKE '" + filter + "')";
+            String result = DBConnector.executeQuery(sql);
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonData = jsonArray.getJSONObject(i);
+                data = new String[] {
+                        jsonData.getString("ID"),
+                        jsonData.getString("Name")};
+                member.add(data);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
