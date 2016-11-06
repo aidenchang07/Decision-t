@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.t_table_tab;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

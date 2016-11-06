@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.decision_t.NotSupportFragment">
+    tools:context="com.decision_t.t_table_tab.NotSupportFragment">
 
     <TextView
         android:layout_width="match_parent"

@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.decision_t.t_table_tab.NotSupportFragment;
+import com.decision_t.t_table_tab.SupportFragment;
+import com.decision_t.t_table_tab.ViewPagerAdapter;
+
 public class T_Table_Tab_Activity extends AppCompatActivity {
 
     private Toolbar toolbar;
