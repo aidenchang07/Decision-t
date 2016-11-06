@@ -319,9 +319,13 @@ public class TableActivity extends AppCompatActivity
                     Intent vTable = new Intent(TableActivity.this, V_Table_Activity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
-                    startActivityForResult(vTable, 1);
+                    startActivityForResult(vTable, 2);
                     break;
                 case "T":
+                    Intent tTable = new Intent(TableActivity.this, T_Table_Activity.class);
+                    tTable.putExtra("user_info", user_info);
+                    tTable.putExtra("table_data", data.get(position));
+                    startActivityForResult(tTable, 3);
                     break;
             }
         }
@@ -374,6 +378,10 @@ public class TableActivity extends AppCompatActivity
             case 0://按下+按鈕後畫面返回的動作
                 break;
             case 1://進入R類型決策桌後返回的動作
+                break;
+            case 2://進入V類型決策桌後返回的動作
+                break;
+            case 3://進入T類型決策桌後返回的動作
                 break;
         }
     }
