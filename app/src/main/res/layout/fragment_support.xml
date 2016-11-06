@@ -5,12 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.decision_t.t_table_tab.SupportFragment">
 
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="支持頁面"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:textStyle="bold"/>
+        android:id="@+id/t_table_tab_support_list" />
 
 </FrameLayout>
