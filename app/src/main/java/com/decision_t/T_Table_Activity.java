@@ -49,6 +49,9 @@ public class T_Table_Activity extends AppCompatActivity {
         /** 初始化文字框 */
         description = (TextView) findViewById(R.id.textView_description);
 
+        /** 初始化滑欄 */
+        drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
+
         /** 初始化 FloatingActionButton */
         fab_left = (FloatingActionMenu) findViewById(R.id.t_table_fab_menu_left);
         fab_left_start = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_start);
@@ -61,7 +64,6 @@ public class T_Table_Activity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //按完之後關起來
-                drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
                 drawer.closeDrawer(GravityCompat.END);
                 return true;
             }
@@ -72,8 +74,6 @@ public class T_Table_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("決策桌名稱");
-
-        drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
 
         /** 點旁邊可收合FloatingButton */
         fab_left.setClosedOnTouchOutside(true);
