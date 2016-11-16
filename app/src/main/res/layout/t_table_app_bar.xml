@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_black_24dp"
             fab:fab_size="mini"
-            fab:fab_label="開始決策" />
+            fab:fab_label="開始評分" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/t_table_fab_menu_item_end"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_black_24dp"
             fab:fab_size="mini"
-            fab:fab_label="結束決策" />
+            fab:fab_label="結束評分" />
 
     </com.github.clans.fab.FloatingActionMenu>
 
