@@ -70,7 +70,11 @@
             android:name=".MemberActivity"
             android:label="成員"
             android:parentActivityName=".TableActivity" />
-        <activity android:name=".T_Table_Tab_Activity"></activity>
+
+        <!-- 論點頁面 -->
+        <activity
+            android:name=".T_Table_Tab_Activity"
+            android:label="論點頁面" />
     </application>
 
 </manifest>

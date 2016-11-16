@@ -19,6 +19,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +56,7 @@ public class T_Table_Activity extends AppCompatActivity {
     private ListView t_table_list;
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
-
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,9 +116,9 @@ public class T_Table_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(table_data[1]);
-        drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
 
-        /** 初始化 FloatingActionButton */
+        drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
+        listView = (ListView) findViewById(R.id.t_table_list) ;
         fab_left = (FloatingActionMenu) findViewById(R.id.t_table_fab_menu_left);
         fab_left_start = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_start);
         fab_left_end = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_end);
