@@ -1,6 +1,7 @@
 package com.decision_t;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +14,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,28 +40,38 @@ public class T_Table_Activity extends AppCompatActivity {
     private FloatingActionButton fab_right;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.t_table_activity_main);
 
-        /** 初始化按鈕 */
+        /** 初始化各項元件 */
         tablename_edit = (Button) findViewById(R.id.button_tablename_edit);
         description_edit = (Button) findViewById(R.id.button_description_edit);
         member_edit = (Button) findViewById(R.id.button_member_edit);
-
-        /** 初始化文字框 */
         description = (TextView) findViewById(R.id.textView_description);
-
-        /** 初始化滑欄 */
         drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
-
-        /** 初始化 FloatingActionButton */
+        listView = (ListView) findViewById(R.id.t_table_list) ;
         fab_left = (FloatingActionMenu) findViewById(R.id.t_table_fab_menu_left);
         fab_left_start = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_start);
         fab_left_end = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_end);
         fab_right = (FloatingActionButton) findViewById(R.id.t_table_fab_right);
+
+        /** 以下是測試用資料，可刪除 2016/11/16 */
+        String[] lists = {"Create",  "different",  "classes",  "extending",  "fragments"};
+        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lists);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intentTab = new Intent(T_Table_Activity.this,T_Table_Tab_Activity.class);
+                /** 頁面跳轉到 -> 支持/不支持頁面 */
+                startActivity(intentTab);
+            }
+        });
+        /** 以上是測試用資料，可刪除 2016/11/16 */
 
         //右側欄menu初始化
         navigationView = (NavigationView) findViewById(R.id.t_table_nav_view);
