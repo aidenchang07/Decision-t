@@ -8,17 +8,17 @@
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_toStartOf="@+id/v_item_score">
+        android:layout_toStartOf="@+id/x_item_score">
 
         <TextView
-            android:id="@+id/v_item_name"
+            android:id="@+id/x_item_name"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="第一行文字"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_alignWithParentIfMissing="false"
             android:singleLine="true" />
 
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="#848484"
-            android:id="@+id/v_item_account"
-            android:layout_below="@+id/v_item_name"
-            android:layout_alignStart="@+id/v_item_name"
+            android:id="@+id/x_item_account"
+            android:layout_below="@+id/x_item_name"
+            android:layout_alignStart="@+id/x_item_name"
             android:singleLine="true" />
 
     </LinearLayout>
@@ -43,6 +43,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:textColor="@android:color/black"
-        android:id="@+id/v_item_score" />
+        android:id="@+id/x_item_score" />
 
 </RelativeLayout>

@@ -286,16 +286,16 @@ public class V_Table_Activity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             //產生一個table_list_view的view
-            convertView = myInflater.inflate(R.layout.v_table_item_list_view, null);
+            convertView = myInflater.inflate(R.layout.x_table_item_list_view, null);
             if(table_data[7].equals(data.get(position)[0])){
                 convertView.setBackgroundColor(0xC0FFFF00);
             }
             //設定元件內容
-            TextView itemtitle = (TextView) convertView.findViewById(R.id.v_item_name);
+            TextView itemtitle = (TextView) convertView.findViewById(R.id.x_item_name);
             itemtitle.setText(data.get(position)[1]);
-            TextView itemaccount = (TextView) convertView.findViewById(R.id.v_item_account);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.x_item_account);
             itemaccount.setText("建立者:" + data.get(position)[6]+"("+data.get(position)[5]+")");
-            TextView itemscore = (TextView) convertView.findViewById(R.id.v_item_score);
+            TextView itemscore = (TextView) convertView.findViewById(R.id.x_item_score);
             if(data.get(position)[3].equals("null")){
                 data.get(position)[3] = "0";
             }

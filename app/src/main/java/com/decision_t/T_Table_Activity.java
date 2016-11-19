@@ -3,13 +3,12 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,10 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -286,16 +281,16 @@ public class T_Table_Activity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             //產生一個table_list_view的view
-            convertView = myInflater.inflate(R.layout.v_table_item_list_view, null);
+            convertView = myInflater.inflate(R.layout.x_table_item_list_view, null);
             if(table_data[7].equals(data.get(position)[0])){
                 convertView.setBackgroundColor(0xC0FFFF00);
             }
             //設定元件內容
-            TextView itemtitle = (TextView) convertView.findViewById(R.id.v_item_name);
+            TextView itemtitle = (TextView) convertView.findViewById(R.id.x_item_name);
             itemtitle.setText(data.get(position)[1]);
-            TextView itemaccount = (TextView) convertView.findViewById(R.id.v_item_account);
+            TextView itemaccount = (TextView) convertView.findViewById(R.id.x_item_account);
             itemaccount.setText("建立者:" + data.get(position)[6]+"("+data.get(position)[5]+")");
-            TextView itemscore = (TextView) convertView.findViewById(R.id.v_item_score);
+            TextView itemscore = (TextView) convertView.findViewById(R.id.x_item_score);
             if(data.get(position)[3].equals("null")){
                 data.get(position)[3] = "0";
             }
@@ -458,7 +453,8 @@ public class T_Table_Activity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
             argument.putExtra("user_info", user_info);
-            argument.putExtra("table_data", data.get(position));
+            argument.putExtra("table_data", table_data);
+            argument.putExtra("item_data", data.get(position));
             startActivityForResult(argument, 0);
         }
     };

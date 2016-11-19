@@ -1,15 +1,13 @@
 package com.decision_t;
 
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +19,12 @@ import com.decision_t.t_table_tab.SupportFragment;
 import com.decision_t.t_table_tab.ViewPagerAdapter;
 import com.github.clans.fab.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class T_Table_Tab_Activity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -28,13 +32,21 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private DrawerLayout drawer;
-    private NavigationView navigationView;
     private FloatingActionButton fab_right;
+    private String[] user_info, table_data, item_data;
+    private ArrayList<String[]> support_data, notSupport_data;
+    private SupportFragment supportFragment;
+    private NotSupportFragment notSupportFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.t_table_tab);
+
+        //取得相關資料
+        user_info = getIntent().getStringArrayExtra("user_info");
+        table_data = getIntent().getStringArrayExtra("table_data");
+        item_data = getIntent().getStringArrayExtra("item_data");
 
         /** 初始化各元件 */
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -42,9 +54,15 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         drawer = (DrawerLayout) findViewById(R.id.t_table_tab_drawer_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        //取得論點資料
+        getArgument(item_data[0]);
+        //將資料塞入頁面
         /** 這裡的"支持"與"不支持"字串，是Tab上的String */
-        viewPagerAdapter.addFragments(new SupportFragment(), "支持");
-        viewPagerAdapter.addFragments(new NotSupportFragment(), "不支持");
+        supportFragment = new SupportFragment(this, user_info, table_data, item_data, support_data);
+        notSupportFragment = new NotSupportFragment();
+        viewPagerAdapter.addFragments(supportFragment, "支持");
+        viewPagerAdapter.addFragments(notSupportFragment, "不支持");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         fab_right = (FloatingActionButton) findViewById(R.id.t_table_tab_fab_right);
@@ -68,22 +86,10 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
             }
         });
 
-        //右側欄menu初始化
-        navigationView = (NavigationView) findViewById(R.id.t_table_tab_nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //按完之後關起來
-                drawer.closeDrawer(GravityCompat.END);
-                return true;
-            }
-        });
-
         /** 取代舊版ActionBar */
         setSupportActionBar(toolbar);
         /** 左上角出現返回鍵 */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     //創建右上角的 info
@@ -110,4 +116,68 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //取得論點資料
+    public void getArgument(String item_id){
+        support_data = new ArrayList<>();
+        notSupport_data = new ArrayList<>();
+        try {
+            /*
+                            顯示決策桌的項目
+                             依照目前狀態選用不同的sql
+                             評分中看T_argument_score的分數
+                             完結了直接看Item_argument的分數
+                        */
+            String sql;
+            if(table_data[5].equals("Y")){
+                sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
+                        "FROM `Item_argument` `a`, `Account` `b`" +
+                        "WHERE `a`.`Account_ID` = `b`.`ID`" +
+                        "   AND `a`.`Tables_item_ID` = '"+ item_id +"'" +
+                        "ORDER BY `ID` ASC";
+            }else{
+                sql = "SELECT `a`.`ID` , " +
+                        "             `a`.`Name` ," +
+                        "             `a`.`Type` ," +
+                        "             `a`.`Info` ," +
+                        "              SUM( `b`.`Score` ) `Score` ," +
+                        "             `a`.`Tables_item_ID` , " +
+                        "             `a`.`Account_ID`," +
+                        "             `c`.`Name` `Account_Name`" +
+                        "FROM `Item_argument` `a`LEFT JOIN `T_argument_score` `b` ON `a`.`ID` = `b`.`Argument_ID` , `Account` `c` " +
+                        "WHERE `a`.`Account_ID` = `c`.`ID`" +
+                        "      AND `a`.`Tables_item_ID` ='"+ item_id +"'" +
+                        "GROUP BY `a`.`ID` ";
+            }
+
+            String result = DBConnector.executeQuery(sql);
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonData = jsonArray.getJSONObject(i);
+                switch (jsonData.getString("Type")){
+                    case "支持":
+                        support_data.add(new String[] {
+                                jsonData.getString("ID"),
+                                jsonData.getString("Name"),
+                                jsonData.getString("Type"),
+                                jsonData.getString("Info"),
+                                jsonData.getString("Score"),
+                                jsonData.getString("Tables_item_ID"),
+                                jsonData.getString("Account_ID")});
+                        break;
+                    case "不支持":
+                        notSupport_data.add(new String[] {
+                                jsonData.getString("ID"),
+                                jsonData.getString("Name"),
+                                jsonData.getString("Type"),
+                                jsonData.getString("Info"),
+                                jsonData.getString("Score"),
+                                jsonData.getString("Tables_item_ID"),
+                                jsonData.getString("Account_ID")});
+                        break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
