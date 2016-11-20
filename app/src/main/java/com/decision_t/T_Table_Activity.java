@@ -295,8 +295,8 @@ public class T_Table_Activity extends AppCompatActivity {
                 data.get(position)[3] = "0";
             }
             itemscore.setText(data.get(position)[3]);
-            //如果為進行中(決策桌剛建立)將score隱藏
-            if(table_data[5].equals("N") && table_data[6].equals("N")){
+            //如果為未完結且  未鎖定或是未有建議決策選項時  隱藏分數
+            if(table_data[5].equals("N") && (table_data[6].equals("N") || table_data[7].equals("null"))){
                 itemscore.setVisibility(View.INVISIBLE);
             }
 
@@ -513,6 +513,7 @@ public class T_Table_Activity extends AppCompatActivity {
 
     @Override // 覆寫 onActivityResult，按下項目進入論點後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        //不管如何先更新member列表再說
+        showMemberList(table_data[0]);
     }
 }

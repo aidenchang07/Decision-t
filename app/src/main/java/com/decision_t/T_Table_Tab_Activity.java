@@ -56,11 +56,11 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         //取得論點資料
-        getArgument(item_data[0]);
+        getArgument(item_data[0], user_info[0]);
         //將資料塞入頁面
         /** 這裡的"支持"與"不支持"字串，是Tab上的String */
         supportFragment = new SupportFragment(this, user_info, table_data, item_data, support_data);
-        notSupportFragment = new NotSupportFragment();
+        notSupportFragment = new NotSupportFragment(this, user_info, table_data, item_data, notSupport_data);
         viewPagerAdapter.addFragments(supportFragment, "支持");
         viewPagerAdapter.addFragments(notSupportFragment, "不支持");
         viewPager.setAdapter(viewPagerAdapter);
@@ -117,14 +117,14 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
     }
 
     //取得論點資料
-    public void getArgument(String item_id){
+    public void getArgument(String item_id, String user_id){
         support_data = new ArrayList<>();
         notSupport_data = new ArrayList<>();
         try {
             /*
                             顯示決策桌的項目
                              依照目前狀態選用不同的sql
-                             評分中看T_argument_score的分數
+                             評分中看T_argument_score中自己的分數
                              完結了直接看Item_argument的分數
                         */
             String sql;
@@ -139,40 +139,38 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
                         "             `a`.`Name` ," +
                         "             `a`.`Type` ," +
                         "             `a`.`Info` ," +
-                        "              SUM( `b`.`Score` ) `Score` ," +
+                        "              `b`.`Score`," +
                         "             `a`.`Tables_item_ID` , " +
                         "             `a`.`Account_ID`," +
                         "             `c`.`Name` `Account_Name`" +
-                        "FROM `Item_argument` `a`LEFT JOIN `T_argument_score` `b` ON `a`.`ID` = `b`.`Argument_ID` , `Account` `c` " +
+                        "FROM `Item_argument` `a`LEFT JOIN (SELECT *" +
+                        "                                                                              FROM `T_argument_score`" +
+                        "                                                                          WHERE `Account_ID` = 'sdjsddsd@gmail.com') `b`" +
+                        "                                                         ON `a`.`ID` = `b`.`Argument_ID` , `Account` `c` " +
                         "WHERE `a`.`Account_ID` = `c`.`ID`" +
-                        "      AND `a`.`Tables_item_ID` ='"+ item_id +"'" +
-                        "GROUP BY `a`.`ID` ";
+                        "      AND `a`.`Tables_item_ID` ='"+ item_id +"'";
             }
 
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
+                String[] data = new String[] {
+                        jsonData.getString("ID"),
+                        jsonData.getString("Name"),
+                        jsonData.getString("Type"),
+                        jsonData.getString("Info"),
+                        jsonData.getString("Score"),
+                        jsonData.getString("Tables_item_ID"),
+                        jsonData.getString("Account_ID"),
+                        jsonData.getString("Account_Name")};
+
                 switch (jsonData.getString("Type")){
                     case "支持":
-                        support_data.add(new String[] {
-                                jsonData.getString("ID"),
-                                jsonData.getString("Name"),
-                                jsonData.getString("Type"),
-                                jsonData.getString("Info"),
-                                jsonData.getString("Score"),
-                                jsonData.getString("Tables_item_ID"),
-                                jsonData.getString("Account_ID")});
+                        support_data.add(data);
                         break;
                     case "不支持":
-                        notSupport_data.add(new String[] {
-                                jsonData.getString("ID"),
-                                jsonData.getString("Name"),
-                                jsonData.getString("Type"),
-                                jsonData.getString("Info"),
-                                jsonData.getString("Score"),
-                                jsonData.getString("Tables_item_ID"),
-                                jsonData.getString("Account_ID")});
+                        notSupport_data.add(data);
                         break;
                 }
             }
