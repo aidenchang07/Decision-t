@@ -152,7 +152,7 @@ public class T_Table_Activity extends AppCompatActivity {
         fab_left_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scoreStart();
             }
         });
 
@@ -160,7 +160,7 @@ public class T_Table_Activity extends AppCompatActivity {
         fab_left_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scoreEnd();
             }
         });
         //初始化listview
@@ -213,30 +213,14 @@ public class T_Table_Activity extends AppCompatActivity {
         try {
             /*
                             顯示決策桌的項目
-                             依照目前狀態選用不同的sql
-                             評分中看V_item_score的分數
-                             完結了直接看Tables_item的分數
+                             因為沒有即時觀看的功能
+                             直接看Tables_item的分數即可
                         */
-            String sql;
-            if(table_data[5].equals("Y")){
-                sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
-                        "FROM `Tables_item` `a`, `Account` `b`" +
-                        "WHERE `a`.`Account_ID` = `b`.`ID`" +
-                        "   AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
-                        "ORDER BY `ID` ASC";
-            }else{
-                sql = "SELECT `a`.`ID` , " +
-                        "             `a`.`Name` ," +
-                        "             `a`.`Info` ," +
-                        "              SUM( `b`.`Score` ) `Score` ," +
-                        "             `a`.`Decision_tables_ID` , " +
-                        "             `a`.`Account_ID`," +
-                        "             `c`.`Name` `Account_Name`" +
-                        "FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                        "WHERE `a`.`Account_ID` = `c`.`ID`" +
-                        "      AND `a`.`Decision_tables_ID` ='"+ table_id +"'" +
-                        "GROUP BY `a`.`ID` ";
-            }
+            String sql = "SELECT `a`.*, `b`.`Name` as `Account_Name`" +
+                        "      FROM `Tables_item` `a`, `Account` `b`" +
+                        "  WHERE `a`.`Account_ID` = `b`.`ID`" +
+                        "         AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
+                        "   ORDER BY `ID` ASC";
 
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
@@ -451,11 +435,16 @@ public class T_Table_Activity extends AppCompatActivity {
             = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
-            argument.putExtra("user_info", user_info);
-            argument.putExtra("table_data", table_data);
-            argument.putExtra("item_data", data.get(position));
-            startActivityForResult(argument, 0);
+            //如果目前狀態為待決策且使用者又是主持人時需要可以選擇是要決策還是進入觀看
+            if(table_data[5].equals("N") && table_data[6].equals("Y") && !table_data[7].equals("null")){
+                finalDecision(position);
+            }else{
+                Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
+                argument.putExtra("user_info", user_info);
+                argument.putExtra("table_data", table_data);
+                argument.putExtra("item_data", data.get(position));
+                startActivityForResult(argument, 0);
+            }
         }
     };
 
@@ -510,6 +499,152 @@ public class T_Table_Activity extends AppCompatActivity {
             return true;
         }
     };
+
+    //評分開始
+    public void scoreStart(){
+        //確定是否是主持人
+        if(table_data[8].equals(user_info[0])){
+            if(table_data[5].equals("Y")){
+                Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+            }else{
+                if(table_data[6].equals("N")){
+                    if(data.size() == 0){
+                        Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(T_Table_Activity.this);
+                        lockcheck.setTitle("進入下一階段？");
+                        lockcheck.setMessage("進入下一階段  <評分中>？\n注意：此步驟不可逆");
+                        lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String sql = "UPDATE `Decision_tables` " +
+                                        "                   SET `Lock` = 'Y'" +
+                                        "            WHERE `ID` ="+table_data[0]+";";
+                                DBConnector.executeQuery(sql);
+                                //更新決策桌資訊，因為主持人只有一個所以不用連資料庫取得資料直接改就行
+                                table_data[6] = "Y";
+                                t_table_status.setText("評分中");
+                                //打開按鈕
+                                fab_left_start.setEnabled(false);
+                                fab_left_end.setEnabled(true);
+                                //更新列表佈局
+                                getItemList(table_data[0]);
+                                Toast.makeText(getApplication(), "開始評分！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        lockcheck.setNegativeButton("否", null);
+                        lockcheck.show();
+                    }
+                }
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "您不是主持人!", Toast.LENGTH_SHORT).show();
+        }
+        fab_left.close(true);
+    }
+
+    public void scoreEnd(){
+        //確定是否是主持人
+        if(table_data[8].equals(user_info[0])){
+            if(table_data[5].equals("Y")){
+                Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+            }else{
+                if(table_data[6].equals("Y")){//已鎖定
+                    if(data.size() == 0){
+                        Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(T_Table_Activity.this);
+                        lockcheck.setTitle("進入下一階段？");
+                        lockcheck.setMessage("確定要結束評分結算票數？\n注意：此步驟不可逆");
+                        lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String sql;
+                                //先把論點分數算好
+                                sql = "UPDATE `Item_argument` `ia` inner join" +
+                                        "        (SELECT `ia`.`ID`," +
+                                        "                IFNULL(SUM(`tas`.`Score`), 0) `Score`" +
+                                        "           FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                   ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                 LEFT JOIN `T_argument_score` `tas`" +
+                                        "                                   ON `ia`.`ID` = `tas`.`Argument_ID`" +
+                                        "          WHERE `ti`.`Decision_tables_ID` = " + table_data[0] +
+                                        "          GROUP BY `ia`.`ID`) `sc`" +
+                                        "        ON `ia`.`ID` = `sc`.`ID`" +
+                                        "   SET `ia`.`Score` = `sc`.`Score`;";
+                                DBConnector.executeQuery(sql);
+
+                                //算出各項目分數
+                                sql = "UPDATE `Tables_item` `ti` inner join" +
+                                        "              (SELECT `a`.`ID`," +
+                                        "                                 IFNULL(`a`.`Score`, 0) - IFNULL(`b`.`Score`, 0) `Score`" +
+                                        "                   FROM (SELECT `ti`.`ID`," +
+                                        "                                                    IFNULL(SUM(`ia`.`Score`), 0) `Score`" +
+                                        "                                      FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                                                                      ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                                   WHERE `ti`.`Decision_tables_ID` =" + table_data[0] +
+                                        "                                         AND `ia`.`Type` = '支持'" +
+                                        "                                    GROUP BY `ti`.`ID`)`a`," +
+                                        "                                 (SELECT `ti`.`ID`," +
+                                        "                                                    IFNULL(SUM(`ia`.`Score`), 0) `Score`" +
+                                        "                                       FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                                                                      ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                                   WHERE `ti`.`Decision_tables_ID` = " + table_data[0] +
+                                        "                                          AND `ia`.`Type` = '不支持'" +
+                                        "                                    GROUP BY `ti`.`ID`)`b`" +
+                                        "                 WHERE `a`.`ID` = `b`.`ID`) `sc`" +
+                                        "                ON `ti`.`ID` = `sc`.`ID`" +
+                                        "      SET `ti`.`Score` = `sc`.`Score`;";
+                                DBConnector.executeQuery(sql);
+                                //再來是更新決策桌暫時的建議方案
+                                sql  = "UPDATE `Decision_tables`" +
+                                        "   SET `Final_decision` = (SELECT `ID`" +
+                                        "                             FROM `Tables_item`" +
+                                        "                            WHERE `Decision_tables_ID` = " + table_data[0] +
+                                        "                            ORDER BY `Score` DESC" +
+                                        "                            LIMIT 1)" +
+                                        "  WHERE `ID` = " + table_data[0] +";";
+                                DBConnector.executeQuery(sql);
+                                //更新決策桌資訊
+                                tableStatus();
+                                //關閉按鈕
+                                fab_left_end.setEnabled(false);
+                                //更新列表佈局
+                                getItemList(table_data[0]);
+                                Toast.makeText(getApplication(), "評分結束！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        lockcheck.setNegativeButton("否", null);
+                        lockcheck.show();
+                    }
+                }
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "您不是主持人!", Toast.LENGTH_SHORT).show();
+        }
+        fab_left.close(true);
+    }
+
+    //最終決策
+    public void finalDecision(final int position){
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+        ad.setTitle("最終決策");
+        ad.setMessage("確定選擇：\n" + data.get(position)[1] + "\n作為最終選擇嗎？");
+        ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ data.get(position)[0] +","+
+                        "                                                                       `Complete`= 'Y'" +
+                        "WHERE `ID` = "+ table_data[0]+";";
+                DBConnector.executeQuery(sql);
+                tableStatus();
+                myAdapter = new MyAdapter(T_Table_Activity.this);
+                t_table_list.setAdapter(myAdapter);
+            }
+        });
+        ad.setNegativeButton("不要,再等等", null);
+        ad.show();
+    }
 
     @Override // 覆寫 onActivityResult，按下項目進入論點後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

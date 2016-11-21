@@ -224,7 +224,7 @@ public class V_Table_Activity extends AppCompatActivity {
                         */
             String sql;
             if(table_data[5].equals("Y")){
-                sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
+                sql = "SELECT `a`.*, `b`.`Name` as `Account_Name`" +
                         "FROM `Tables_item` `a`, `Account` `b`" +
                         "WHERE `a`.`Account_ID` = `b`.`ID`" +
                         "   AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
@@ -614,30 +614,30 @@ public class V_Table_Activity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //先更新決策桌暫時的建議方案
-                                String sql = sql = "UPDATE `Decision_tables`" +
-                                        "                               SET `Final_decision` =(SELECT `ID`" +
-                                        "                                                                               FROM (SELECT `a`.`ID`," +
-                                        "                                                                                                               SUM( `b`.`Score` ) `Score` " +
-                                        "                                                                                                  FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                                        "                                                                                              WHERE `a`.`Account_ID` = `c`.`ID`" +
-                                        "                                                                                                     AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
-                                        "                                                                                                GROUP BY `a`.`ID`" +
-                                        "                                                                                                ORDER BY `Score` DESC" +
-                                        "                                                                                                  LIMIT 1) `Score`" +
+                                String sql  = "UPDATE `Decision_tables`" +
+                                        "                     SET `Final_decision` =(SELECT `ID`" +
+                                        "                                                                     FROM (SELECT `a`.`ID`," +
+                                        "                                                                                                     IFNULL(SUM( `b`.`Score` ), 0) `Score` " +
+                                        "                                                                                        FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
+                                        "                                                                                    WHERE `a`.`Account_ID` = `c`.`ID`" +
+                                        "                                                                                           AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
+                                        "                                                                                      GROUP BY `a`.`ID`" +
+                                        "                                                                                      ORDER BY `Score` DESC" +
+                                        "                                                                                        LIMIT 1) `Score`" +
                                         "                                                                             )" +
                                         "                          WHERE `ID` = '" + table_data[0] + "';";
                                 DBConnector.executeQuery(sql);
                                 //接著更新桌的項目統計分數
                                 sql = "UPDATE `Tables_item` `ti` INNER JOIN " +
                                       "                 (SELECT `a`.`ID`," +
-                                      "                         SUM( `b`.`Score` ) `Score` " +
-                                      "                    FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                                      "                   WHERE `a`.`Account_ID` = `c`.`ID`" +
-                                      "                     AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
-                                      "                   GROUP BY `a`.`ID`" +
-                                      "                   ORDER BY `Score` DESC" +
+                                      "                                    IFNULL(SUM( `b`.`Score` ), 0) `Score` " +
+                                      "                       FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
+                                      "                    WHERE `a`.`Account_ID` = `c`.`ID`" +
+                                      "                          AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
+                                      "                     GROUP BY `a`.`ID`" +
+                                      "                     ORDER BY `Score` DESC" +
                                       "                 )`vis`" +
-                                      "          ON `ti`.`ID` = `vis`.`ID`" +
+                                      "                 ON `ti`.`ID` = `vis`.`ID`" +
                                       "        SET `ti`.`Score` = `vis`.`Score`" +
                                       "WHERE `ti`.`Decision_tables_ID`= '" + table_data[0] + "' ";
                                 DBConnector.executeQuery(sql);

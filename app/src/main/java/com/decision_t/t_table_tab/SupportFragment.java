@@ -197,4 +197,10 @@ public class SupportFragment extends Fragment {
             return true;
         }
     };
+
+    //供外層去更新資料
+    public void reload(ArrayList<String[]> support_data){
+        this.support_data = support_data;
+        listView.setAdapter(new MyAdapter(getActivity()));
+    }
 }

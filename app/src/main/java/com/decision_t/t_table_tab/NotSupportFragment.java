@@ -196,4 +196,10 @@ public class NotSupportFragment extends Fragment {
             return true;
         }
     };
+
+    //供外層去更新資料
+    public void reload(ArrayList<String[]> notSupport_data){
+        this.notSupport_data = notSupport_data;
+        listView.setAdapter(new MyAdapter(getActivity()));
+    }
 }
