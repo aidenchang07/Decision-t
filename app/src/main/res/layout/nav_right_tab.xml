@@ -12,20 +12,20 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="決策桌名稱"
+            android:text="項目名稱"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:textColor="#000000"
             android:textSize="16dp"
-            android:id="@+id/textView"
+            android:id="@+id/textView_item_name"
             android:layout_weight="1"
             android:singleLine="true" />
 
         <Button
             android:text="編輯"
             android:layout_height="wrap_content"
-            android:id="@+id/button_tablename_edit"
+            android:id="@+id/button_item_name_edit"
             android:layout_width="52dp" />
 
     </LinearLayout>
@@ -38,7 +38,7 @@
         android:paddingBottom="8dp">
 
         <TextView
-            android:text="主持人："
+            android:text="建立者："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
@@ -47,12 +47,12 @@
             android:id="@+id/textView6" />
 
         <TextView
-            android:text="主持人"
+            android:text="建立者"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="16dp"
-            android:id="@+id/textView_host"
+            android:id="@+id/textView_item_creator"
             android:singleLine="true" />
 
     </LinearLayout>
@@ -84,7 +84,7 @@
                 <Button
                     android:text="編輯"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_description_edit"
+                    android:id="@+id/button_item_description_edit"
                     android:layout_width="52dp" />
 
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:paddingLeft="16dp"
                     android:textColor="#000000"
                     android:textSize="16dp"
-                    android:id="@+id/textView_description" />
+                    android:id="@+id/textView_item_description" />
             </ScrollView>
 
         </LinearLayout>

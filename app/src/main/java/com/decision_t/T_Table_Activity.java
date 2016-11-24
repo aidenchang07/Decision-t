@@ -650,5 +650,7 @@ public class T_Table_Activity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //不管如何先更新member列表再說
         showMemberList(table_data[0]);
+        //再更新項目列表
+        getItemList(table_data[0]);
     }
 }

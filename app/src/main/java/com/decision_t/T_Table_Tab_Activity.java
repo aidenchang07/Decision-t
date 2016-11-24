@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
     private ArrayList<String[]> support_data, notSupport_data;
     private SupportFragment supportFragment;
     private NotSupportFragment notSupportFragment;
+    private TextView nav_item_name, nav_item_creator, nav_item_description;
+    private Button nav_description_edit, nav_item_name_edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,33 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         user_info = getIntent().getStringArrayExtra("user_info");
         table_data = getIntent().getStringArrayExtra("table_data");
         item_data = getIntent().getStringArrayExtra("item_data");
+
+        /** 初始化按鈕 */
+        nav_item_name_edit = (Button) findViewById(R.id.button_item_name_edit);
+        nav_description_edit = (Button) findViewById(R.id.button_item_description_edit);
+        nav_item_name = (TextView) findViewById(R.id.textView_item_name);
+        nav_item_creator = (TextView) findViewById(R.id.textView_item_creator);
+        nav_item_description = (TextView) findViewById(R.id.textView_item_description);
+        //若非主持人則隱藏按鈕
+        if(!table_data[8].equals(user_info[0])){
+            nav_item_name_edit.setVisibility(View.INVISIBLE);
+            nav_description_edit.setVisibility(View.INVISIBLE);
+        }
+        nav_item_name.setText(item_data[1]);
+        nav_item_creator.setText(item_data[5]);
+        nav_item_description.setText(item_data[2]);
+        nav_item_name_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemName(item_data[0]);
+            }
+        });
+        nav_description_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateItemInfo(item_data[0]);
+            }
+        });
 
         /** 初始化各元件 */
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -219,5 +250,48 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
                 newitem.show();
             }
         }
+    }
+
+    //右側選單修改項目名稱
+    public void updateItemName(final String item_id){
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(item_data[1]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("修改項目名稱");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Tables_item` SET `Name` = '"+ text.getText()+"'"+
+                        "           WHERE `ID` = "+ item_id +";";
+                DBConnector.executeQuery(sql);
+                item_data[1] = String.valueOf(text.getText());
+                getSupportActionBar().setTitle(text.getText());
+                nav_item_name.setText(text.getText());
+            }
+        });
+        dialog.show();
+    }
+
+    //右側選單修改項目INFO
+    public void updateItemInfo(final String item_id){
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text_multi_line, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(item_data[2]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("修改項目描述");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Tables_item` SET `Info` = '"+ text.getText()+"'"+
+                        "           WHERE `ID` = "+ item_id +";";
+                DBConnector.executeQuery(sql);
+                item_data[2]=String.valueOf(text.getText());
+                nav_item_description.setText(text.getText());
+            }
+        });
+        dialog.show();
     }
 }
