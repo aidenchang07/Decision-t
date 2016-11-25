@@ -436,15 +436,17 @@ public class T_Table_Activity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             //如果目前狀態為待決策且使用者又是主持人時需要可以選擇是要決策還是進入觀看
-            if(table_data[5].equals("N") && table_data[6].equals("Y") && !table_data[7].equals("null")){
-                finalDecision(position);
-            }else{
-                Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
-                argument.putExtra("user_info", user_info);
-                argument.putExtra("table_data", table_data);
-                argument.putExtra("item_data", data.get(position));
-                startActivityForResult(argument, 0);
+            if(table_data[8].equals(user_info[0])){
+                if(table_data[5].equals("N") && table_data[6].equals("Y") && !table_data[7].equals("null")){
+                    finalDecision(position);
+                    return;
+                }
             }
+            Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
+            argument.putExtra("user_info", user_info);
+            argument.putExtra("table_data", table_data);
+            argument.putExtra("item_data", data.get(position));
+            startActivityForResult(argument, 0);
         }
     };
 

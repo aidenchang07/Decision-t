@@ -63,10 +63,11 @@ public class ArchiveActivity extends AppCompatActivity {
                     "    ON `a`.`ID` = `b`.`Decision_tables_ID`" +
                     " WHERE (`a`.`Account_ID` = '" + user_id + "'" +
                     "                    OR `b`.`Account_ID` = '" + user_id + "')"+
-                    "        AND  EXISTS (SELECT *" +
-                    "                                        FROM `Decision_tables_archive`" +
-                    "                                     WHERE `Decision_tables_ID`=`a`.`ID`" +
-                    "                                           AND `Account_ID`='"+user_id+"')" +
+                    "        AND EXISTS (SELECT *" +
+                    "                                                 FROM `Decision_tables_archive`" +
+                    "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
+                    "                                                    AND `Account_ID`='"+user_id+"')" +
+                    "  GROUP BY `a`.`ID`" +
                     "  ORDER BY `ID` DESC; ";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);

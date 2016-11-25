@@ -169,7 +169,7 @@ public class TableActivity extends AppCompatActivity
             Intent archiveIntent = new Intent(TableActivity.this, ArchiveActivity.class);
             archiveIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             archiveIntent.putExtra("user_info", user_info);
-            startActivity(archiveIntent);
+            startActivityForResult(archiveIntent, 4);
         }else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
