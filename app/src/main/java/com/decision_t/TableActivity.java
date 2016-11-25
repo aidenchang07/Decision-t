@@ -138,7 +138,7 @@ public class TableActivity extends AppCompatActivity
             new AlertDialog.Builder(this)
                     .setTitle("確認視窗")
                     .setMessage("確定要結束應用程式嗎?")
-                    .setIcon(R.mipmap.ic_launcher)
+                    .setIcon(R.mipmap.logo)
                     .setPositiveButton("確定",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -147,14 +147,7 @@ public class TableActivity extends AppCompatActivity
                                     System.exit(0);
                                 }
                             })
-                    .setNegativeButton("取消",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // TODO Auto-generated method stub
-
-                                }
-                            }).show();
+                    .setNegativeButton("取消",null).show();
         }
         return true;
     }
