@@ -1,35 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.decision_t.LoginActivity">
+    android:background="@color/colorLoginBackGround"
+    tools:context="com.decision_t.LoginActivity"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_white" />
+
+        <ImageView
+            android:id="@+id/wordImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_word_white" />
+
+    </LinearLayout>
+    
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:inputType="textEmailAddress"
                 android:ems="10"
-                android:id="@+id/emailEditText"
-                android:layout_gravity="center_horizontal"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:hint="電子郵件"/>
+                android:hint="電子郵件"
+                android:background="@drawable/edittext_login_form"/>
 
 
         </android.support.design.widget.TextInputLayout>
@@ -39,24 +65,30 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/passwordEditText"
-                android:layout_gravity="center_horizontal"
-                android:hint="密碼"/>
+                android:hint="密碼"
+                android:background="@drawable/edittext_login_form"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="登入"
-            android:id="@+id/loginButton"
-            android:layout_gravity="center_horizontal"
-            android:theme="@style/AppTheme.BlueButton"
-            android:textSize="18dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:text="Log in"
+            android:textSize="18dp"
+            android:textAllCaps="false"
+            android:background="@drawable/button_blue_form"
+            android:theme="@style/AppTheme.WhiteWordButton"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,17 +102,23 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:onClick="onClick" />
 
         <Button
+            android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:text="註冊新帳號"
-            android:id="@+id/registerButton"
-            android:layout_gravity="center_horizontal"
-            android:theme="@style/AppTheme.PinkButton"
             android:textSize="18dp"
-            android:layout_marginTop="50dp" />
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_pink_form"
+            android:theme="@style/AppTheme.WhiteWordButton" />
 
     </LinearLayout>
-</RelativeLayout>
+
+</LinearLayout>

@@ -10,9 +10,8 @@
     <!-- Base application theme. -->
 
     <!-- 按鈕風格 -->
-    <style name="AppTheme.BlueButton" parent="Widget.AppCompat.Button.Colored">
-        <!-- 底藍配白 -->
-        <item name="colorButtonNormal">@color/colorBlue</item>
+    <style name="AppTheme.WhiteWordButton" parent="Widget.AppCompat.Button.Colored">
+        <!-- 文字 - 白色 -->
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 

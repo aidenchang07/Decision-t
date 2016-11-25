@@ -34,8 +34,9 @@
         android:text="加入此ID決策桌"
         android:id="@+id/registerButton"
         android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.BlueButton"
-        android:textSize="18dp" />
+        android:theme="@style/AppTheme.WhiteWordButton"
+        android:textSize="18dp"
+        android:background="@drawable/button_blue_form"/>
 
     <TextView
         android:text="創建決策桌"
@@ -52,9 +53,10 @@
         android:text="T字"
         android:id="@+id/tButton"
         android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.PinkButton"
+        android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_pink_form"/>
 
     <Button
         android:layout_width="match_parent"
@@ -62,9 +64,10 @@
         android:text="投票"
         android:id="@+id/voteButton"
         android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.PinkButton"
+        android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_pink_form"/>
 
     <Button
         android:layout_width="match_parent"
@@ -72,8 +75,9 @@
         android:text="隨機"
         android:id="@+id/randomButton"
         android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.PinkButton"
+        android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_pink_form"/>
 
 </LinearLayout>

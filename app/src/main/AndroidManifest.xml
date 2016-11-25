@@ -75,7 +75,7 @@
         <activity
             android:name=".T_Table_Tab_Activity"
             android:label="論點頁面" />
-        
+
     </application>
 
 </manifest>
