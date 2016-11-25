@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-//hello
+
 public class DBConnector {
     public static String executeQuery(String query_string) {
         //JSON取得資料前置動作

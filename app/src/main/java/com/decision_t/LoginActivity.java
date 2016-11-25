@@ -40,8 +40,8 @@ import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "LoginActivity";
+    private static final int RC_SIGN_IN = 1;
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -138,11 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.signInButton:
-                        signIn();
-                        break;
-                }
+                signIn();
             }
         });
     }
@@ -164,26 +160,24 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //跑出轉圈圈的畫面
+        mProgressDialog.setMessage("Starting Sign in...");
+        mProgressDialog.show();
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
-            //跑出轉圈圈的畫面
-            mProgressDialog.setMessage("Starting Sign in...");
-            mProgressDialog.show();
-
+            //關閉轉圈圈的畫面
+            mProgressDialog.dismiss();
             if (result.isSuccess()) {
                 //Google Sign In 登入成功，則取得使用者的資料
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-            } else {
-                //登入失敗，則關閉轉圈圈的畫面
-                mProgressDialog.dismiss();
             }
         }
     }
@@ -207,8 +201,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            mProgressDialog.show();
-
                             checkUserExist();
                         }
                     }
@@ -218,7 +210,6 @@ public class LoginActivity extends AppCompatActivity {
     // [START signIn]
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     // [END signIn]
@@ -288,7 +279,16 @@ public class LoginActivity extends AppCompatActivity {
     private void checkUserExist() {
         if(mAuth.getCurrentUser() != null){
             final String user_id = mAuth.getCurrentUser().getUid();
+            final String user_name = mAuth.getCurrentUser().getDisplayName();
             final String user_email = mAuth.getCurrentUser().getEmail();
+            Intent mainIntent = new Intent(LoginActivity.this, TableActivity.class);
+            startActivity(mainIntent);
+            saveuid(user_id, user_email);
+            finish();
+            String sql = "INSERT INTO `Account`" +
+                    "       VALUES('"+user_email+"', '"+user_name+"', 'GOOGLE')" +
+                    "       ON DUPLICATE KEY UPDATE `Name` = '" + user_name + "';";
+            DBConnector.executeQuery(sql);
             //新增資料監聽器
             mDatabaseUsers.addValueEventListener(new ValueEventListener() {
                 @Override
