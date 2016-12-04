@@ -155,9 +155,13 @@ public class ArchiveActivity extends AppCompatActivity {
                     Intent vTable = new Intent(ArchiveActivity.this, V_Table_Activity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
-                    startActivityForResult(vTable, 1);
+                    startActivityForResult(vTable, 2);
                     break;
                 case "T":
+                    Intent tTable = new Intent(ArchiveActivity.this, T_Table_Activity.class);
+                    tTable.putExtra("user_info", user_info);
+                    tTable.putExtra("table_data", data.get(position));
+                    startActivityForResult(tTable, 3);
                     break;
             }
         }
@@ -202,4 +206,20 @@ public class ArchiveActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override // 覆寫 onActivityResult，按下+後傳值回來時會執行此方法。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //不管如何先更新列表再說
+        getTableList(user_info[0]);
+        switch (requestCode){
+            case 0://按下+按鈕後畫面返回的動作
+                break;
+            case 1://進入R類型決策桌後返回的動作
+                break;
+            case 2://進入V類型決策桌後返回的動作
+                break;
+            case 3://進入T類型決策桌後返回的動作
+                break;
+        }
+    }
 }

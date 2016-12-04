@@ -651,6 +651,7 @@ public class T_Table_Activity extends AppCompatActivity {
     @Override // 覆寫 onActivityResult，按下項目進入論點後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //不管如何先更新member列表再說
+        tableStatus();
         showMemberList(table_data[0]);
         //再更新項目列表
         getItemList(table_data[0]);
