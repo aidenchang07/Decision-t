@@ -1,4 +1,5 @@
 # Decision-t
+<<<<<<< refs/remotes/origin/master
 * 正式版
 >v1.0 commit cc42fa8
 >使用Android Studio開發(版本 2.1.2)
@@ -24,3 +25,7 @@
 * 新建畫面-可輸入討論主題以及選擇類型
 
 ![image](https://github.com/robinaiden/temp/blob/master/003.png)
+=======
+畢業專題
+commit 212266c 為版本 v1.0
+>>>>>>> Create README.md
