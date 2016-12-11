@@ -2,7 +2,7 @@
 <resources>
     <!--系統預設-->
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#0277BD</color>
     <color name="colorAccent">#FF4081</color>
 
     <!--藍色 500-->
@@ -19,5 +19,8 @@
 
     <!--登入頁面 - 按鈕 - 藍色-->
     <color name="colorLoginButtonBackGround">#2877B2</color>
+
+    <!--左側滑欄-->
+    <color name="colorNavLeft">#005981</color>
 
 </resources>
