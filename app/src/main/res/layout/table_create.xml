@@ -2,44 +2,50 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.decision_t.TableCreateActivity"
     android:id="@+id/table_create"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.decision_t.TableCreateActivity"
     android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include layout="@layout/toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/table_id_or_name"
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
-            android:hint="請輸入桌ID or 桌名"
+            android:hint="請輸入ID / 桌名"
             android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="加入此ID決策桌"
+        android:text="加入此決策桌"
         android:id="@+id/registerButton"
         android:layout_gravity="center_horizontal"
         android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
-        android:background="@drawable/button_blue_form"/>
+        android:background="@drawable/button_logocolor_form"/>
 
     <TextView
-        android:text="創建決策桌"
+        android:text="選擇決策方式"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tablecreateButton"
@@ -48,36 +54,36 @@
         android:layout_marginTop="50dp"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="T字"
+        android:text="T字分析"
         android:id="@+id/tButton"
         android:layout_gravity="center_horizontal"
         android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_pink_form"/>
+        android:background="@drawable/button_logocolor_form"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="投票"
+        android:text="投票決定"
         android:id="@+id/voteButton"
         android:layout_gravity="center_horizontal"
         android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_pink_form"/>
+        android:background="@drawable/button_yellow_form"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:text="隨機"
+        android:text="隨機選擇"
         android:id="@+id/randomButton"
         android:layout_gravity="center_horizontal"
         android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_pink_form"/>
+        android:background="@drawable/button_logocolor_form"/>
 
 </LinearLayout>

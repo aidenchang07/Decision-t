@@ -14,6 +14,9 @@
     <!--粉紅色 500-->
     <color name="colorPink">#E91E63</color>
 
+    <!--黃色-->
+    <color name="colorYellow">#FDC928</color>
+
     <!--登入頁面 - 藍色-->
     <color name="colorLoginBackGround">#2AACDD</color>
 
