@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:background="@drawable/item_form">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_toStartOf="@+id/img_table_status">
+
         <TextView
             android:id="@+id/item_name"
             android:layout_height="wrap_content"
