@@ -17,6 +17,9 @@
     <!--黃色-->
     <color name="colorYellow">#FDC928</color>
 
+    <!--V桌黃色-->
+    <color name="colorYellow01">#FCC929</color>
+
     <!--登入頁面 - 藍色-->
     <color name="colorLoginBackGround">#2AACDD</color>
 

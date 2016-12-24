@@ -292,9 +292,26 @@ public class TableActivity extends AppCompatActivity
             String[] dd = data.get(position);
             name.setText(dd[1]);//決策桌名
             id.setText("ID:" + dd[0]);
-            //若是成員而不是主持人則顯示圖片6
-            if(!dd[8].equals(user_info[0])){
-                table_status.setImageResource(R.drawable.ic_v);
+
+            // 依據是否為主持人和桌類型來判斷選擇何種圖片
+            if(!dd[8].equals(user_info[0])) {
+                // 不是主持人，會是黃色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_r_36dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_v_24dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_yellow_t_36dp);
+                }
+            } else {
+                // 是主持人，會是藍色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_blue_r_36dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_blue_v_36dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_blue_t_36dp);
+                }
             }
             return convertView;
         }

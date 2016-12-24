@@ -288,7 +288,7 @@ public class V_Table_Activity extends AppCompatActivity {
             //產生一個table_list_view的view
             convertView = myInflater.inflate(R.layout.x_table_item_list_view, null);
             if(table_data[7].equals(data.get(position)[0])){
-                convertView.setBackgroundColor(0xC0FFFF00);
+                convertView.setBackgroundResource(R.drawable.item_yellow_form);
             }
             //設定元件內容
             TextView itemtitle = (TextView) convertView.findViewById(R.id.x_item_name);

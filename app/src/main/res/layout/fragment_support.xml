@@ -7,6 +7,11 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/t_table_tab_support_list" />
+        android:id="@+id/t_table_tab_support_list"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:divider="#EEEEEE"
+        android:dividerHeight="10dp"/>
 
 </FrameLayout>
