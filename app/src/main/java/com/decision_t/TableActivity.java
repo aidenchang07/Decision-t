@@ -104,10 +104,11 @@ public class TableActivity extends AppCompatActivity
         user_info = load_user_info();
         NavigationView nav= (NavigationView) findViewById(R.id.table_nav_view);
         View nav_view = nav.getHeaderView(0);
-        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
-        table_nav_name.setText(user_info[0]);
         TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
-        table_nav_email.setText(user_info[1]);
+        table_nav_email.setText(user_info[0]);
+        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
+        table_nav_name.setText(user_info[1]);
+        
         //取得圖片測試
         //ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
         //table_nav_imageView.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
