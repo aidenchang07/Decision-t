@@ -112,14 +112,12 @@ public class TableActivity extends AppCompatActivity
         table_nav_name.setText(user_info[1]);
 
         //取得圖片測試
-//        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
-//        Uri uri = mAuth.getCurrentUser().getPhotoUrl();
-//        table_nav_imageView.setImageURI(uri);
-
-        //取得圖片測試
         ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
-        Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
-        //Toast.makeText(TableActivity.this, user_info[2], Toast.LENGTH_SHORT).show();
+        //避免初次開啟APP時導致畢卡索載入空値網址失敗，用try catch包覆
+        try{
+            Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
+        }catch (Exception e){}
+
 
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         //取得使用者資料完畢
