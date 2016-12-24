@@ -297,20 +297,20 @@ public class TableActivity extends AppCompatActivity
             if(!dd[8].equals(user_info[0])) {
                 // 不是主持人，會是黃色
                 if(dd[2].equals("R")) {
-                    table_status.setImageResource(R.drawable.ic_yellow_r_36dp);
+                    table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
                 } else if(dd[2].equals("V")) {
-                    table_status.setImageResource(R.drawable.ic_yellow_v_24dp);
+                    table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
                 } else {
-                    table_status.setImageResource(R.drawable.ic_yellow_t_36dp);
+                    table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
                 }
             } else {
                 // 是主持人，會是藍色
                 if(dd[2].equals("R")) {
-                    table_status.setImageResource(R.drawable.ic_blue_r_36dp);
+                    table_status.setImageResource(R.drawable.ic_blue_r_215dp);
                 } else if(dd[2].equals("V")) {
-                    table_status.setImageResource(R.drawable.ic_blue_v_36dp);
+                    table_status.setImageResource(R.drawable.ic_blue_v_215dp);
                 } else {
-                    table_status.setImageResource(R.drawable.ic_blue_t_36dp);
+                    table_status.setImageResource(R.drawable.ic_blue_t_215dp);
                 }
             }
             return convertView;
