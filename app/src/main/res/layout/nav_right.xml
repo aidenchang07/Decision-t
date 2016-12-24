@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:text="決策桌名稱"
@@ -23,11 +25,15 @@
             android:layout_weight="1"
             android:singleLine="true" />
 
-        <Button
-            android:text="編輯"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button_tablename_edit"
-            android:layout_width="52dp" />
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            app:srcCompat="@drawable/ic_pen_215dp"
+            android:id="@+id/imageButton_tablename_edit"
+            android:background="#00000000"/>
 
     </LinearLayout>
 
@@ -41,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:gravity="center">
 
         <TextView
             android:text="ID："
@@ -73,7 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:gravity="center">
 
         <TextView
             android:text="主持人："
@@ -113,7 +121,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:text="描述："
@@ -125,11 +134,15 @@
                     android:layout_weight="1"
                     android:id="@+id/textView2" />
 
-                <Button
-                    android:text="編輯"
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_description_edit"
-                    android:layout_width="52dp" />
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_pen_215dp"
+                    android:id="@+id/imageButton_description_edit"
+                    android:background="#00000000"/>
 
             </LinearLayout>
 
@@ -166,7 +179,8 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:text="成員："
@@ -178,11 +192,15 @@
                     android:layout_weight="1"
                     android:id="@+id/textView_member" />
 
-                <Button
-                    android:text="編輯"
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_member_edit"
-                    android:layout_width="52dp" />
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_pen_215dp"
+                    android:id="@+id/imageButton_member_edit"
+                    android:background="#00000000"/>
 
             </LinearLayout>
 

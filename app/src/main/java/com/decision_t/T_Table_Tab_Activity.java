@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
     private SupportFragment supportFragment;
     private NotSupportFragment notSupportFragment;
     private TextView nav_item_name, nav_item_creator, nav_item_description;
-    private Button nav_description_edit, nav_item_name_edit;
+    private ImageButton nav_description_edit, nav_item_name_edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +56,8 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         item_data = getIntent().getStringArrayExtra("item_data");
 
         /** 初始化按鈕 */
-        nav_item_name_edit = (Button) findViewById(R.id.button_item_name_edit);
-        nav_description_edit = (Button) findViewById(R.id.button_item_description_edit);
+        nav_item_name_edit = (ImageButton) findViewById(R.id.imageButton_item_name_edit);
+        nav_description_edit = (ImageButton) findViewById(R.id.imageButton_item_description_edit);
         nav_item_name = (TextView) findViewById(R.id.textView_item_name);
         nav_item_creator = (TextView) findViewById(R.id.textView_item_creator);
         nav_item_description = (TextView) findViewById(R.id.textView_item_description);
