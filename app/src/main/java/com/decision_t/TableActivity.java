@@ -3,6 +3,7 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import com.github.clans.fab.FloatingActionButton;
@@ -110,8 +111,9 @@ public class TableActivity extends AppCompatActivity
         table_nav_name.setText(user_info[1]);
 
         //取得圖片測試
-        //ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
-        //table_nav_imageView.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
+//        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
+//        Uri uri = mAuth.getCurrentUser().getPhotoUrl();
+//        table_nav_imageView.setImageURI(uri);
 
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         //取得使用者資料完畢
