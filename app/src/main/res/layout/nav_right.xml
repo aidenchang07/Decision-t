@@ -162,7 +162,13 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/listView_member"/>
+                android:id="@+id/listView_member"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:divider="#EEEEEE"
+                android:dividerHeight="10dp"/>
 
         </LinearLayout>
 
