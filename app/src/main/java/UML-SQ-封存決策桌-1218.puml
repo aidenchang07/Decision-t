@@ -1,0 +1,11 @@
+@startuml
+actor User
+User -> 封存Activity: 選擇封存之決策桌
+activate 封存Activity
+封存Activity -> 資料庫: 更新封存資料
+activate 資料庫
+封存Activity <-- 資料庫: 回應結果
+deactivate 資料庫
+User <-- 封存Activity: 封存成功
+deactivate 封存Activity
+@enduml

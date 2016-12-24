@@ -3,6 +3,7 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +35,9 @@ import java.util.ArrayList;
 
 public class T_Table_Activity extends AppCompatActivity {
 
-    private Button nav_tablename_edit;
-    private Button nav_description_edit;
-    private Button nav_member_edit;
+    private ImageButton nav_tablename_edit;
+    private ImageButton nav_description_edit;
+    private ImageButton nav_member_edit;
     private TextView nav_table_name, nav_table_id, nav_table_host, nav_table_description;
     private ListView nav_table_member;
     private DrawerLayout drawer;
@@ -62,9 +64,9 @@ public class T_Table_Activity extends AppCompatActivity {
         table_data = getIntent().getStringArrayExtra("table_data");
 
         /** 初始化按鈕 */
-        nav_tablename_edit = (Button) findViewById(R.id.button_tablename_edit);
-        nav_description_edit = (Button) findViewById(R.id.button_description_edit);
-        nav_member_edit = (Button) findViewById(R.id.button_member_edit);
+        nav_tablename_edit = (ImageButton) findViewById(R.id.imageButton_tablename_edit);
+        nav_description_edit = (ImageButton) findViewById(R.id.imageButton_description_edit);
+        nav_member_edit = (ImageButton) findViewById(R.id.imageButton_member_edit);
         nav_table_name = (TextView) findViewById(R.id.textView);
         nav_table_id = (TextView) findViewById(R.id.textView_id);
         nav_table_host = (TextView) findViewById(R.id.textView_host);
@@ -267,7 +269,7 @@ public class T_Table_Activity extends AppCompatActivity {
             //產生一個table_list_view的view
             convertView = myInflater.inflate(R.layout.x_table_item_list_view, null);
             if(table_data[7].equals(data.get(position)[0])){
-                convertView.setBackgroundColor(0xC0FFFF00);
+                convertView.setBackgroundResource(R.drawable.item_yellow_form);
             }
             //設定元件內容
             TextView itemtitle = (TextView) convertView.findViewById(R.id.x_item_name);

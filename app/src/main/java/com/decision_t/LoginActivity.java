@@ -44,12 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1;
 
-    private EditText emailEditText;
-    private EditText passwordEditText;
-
-    private Button loginButton;
-    private Button registerButton;
-
     private GoogleApiClient mGoogleApiClient;
 
     private ProgressDialog mProgressDialog;
@@ -96,29 +90,11 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         //------ Initializing Views ------
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        registerButton = (Button) findViewById(R.id.registerButton);
         signInButton = (SignInButton) findViewById(R.id.signInButton);
 
         mProgressDialog = new ProgressDialog(this);
 
         setGooglePlusButtonText(signInButton, "使用 Google 登入");
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkLogin();
-            }
-        });
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startRegister();
-            }
-        });
 
         //------ Google Sigh In 初始化 ------
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -227,54 +203,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         }
-    }
-
-    //按下"登入按鈕"後，會進行驗證帳號
-    private void checkLogin(){
-
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-
-            //若信箱或密碼任一個是空白
-            Toast.makeText(LoginActivity.this, "電子信箱或密碼，請勿空白！", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            //若信箱和密碼都有填寫
-            //跑出轉圈圈的畫面
-            mProgressDialog.setMessage("Checking Login...");
-            mProgressDialog.show();
-
-            //進行信箱和密碼的驗證
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-
-                        //若成功
-                        //則關閉轉圈圈的畫面
-                        mProgressDialog.dismiss();
-
-                        checkUserExist();
-                    } else {
-
-                        //若失敗
-                        //則關閉轉圈圈的畫面
-                        mProgressDialog.dismiss();
-
-                        Toast.makeText(LoginActivity.this, "登入失敗！", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-    }
-
-    private void startRegister() {
-        Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-        registerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(registerIntent);
     }
 
     private void checkUserExist() {

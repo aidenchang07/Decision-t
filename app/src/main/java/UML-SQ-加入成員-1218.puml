@@ -1,0 +1,18 @@
+@startuml
+actor User
+User -> 成員Activity: 輸入成員帳號
+activate 成員Activity
+成員Activity -> 成員Activity: 成員資料是否搜尋到
+activate 成員Activity
+成員Activity -> 資料庫: 搜尋成員
+activate 資料庫
+成員Activity <-- 資料庫: 回應結果
+deactivate 資料庫
+成員Activity <-- 成員Activity: 回應結果
+deactivate 成員Activity
+User <-- 成員Activity: 列出成員資料
+User -> 成員Activity: 選擇成員
+成員Activity -> 資料庫: 更新資料
+User <-- 成員Activity: 加入成功
+deactivate 成員Activity
+@enduml

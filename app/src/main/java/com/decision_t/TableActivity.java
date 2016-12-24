@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -106,10 +106,16 @@ public class TableActivity extends AppCompatActivity
         user_info = load_user_info();
         NavigationView nav= (NavigationView) findViewById(R.id.table_nav_view);
         View nav_view = nav.getHeaderView(0);
-        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
-        table_nav_name.setText(user_info[0]);
         TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
-        table_nav_email.setText(user_info[1]);
+        table_nav_email.setText(user_info[0]);
+        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
+        table_nav_name.setText(user_info[1]);
+
+        //取得圖片測試
+//        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
+//        Uri uri = mAuth.getCurrentUser().getPhotoUrl();
+//        table_nav_imageView.setImageURI(uri);
+
         //取得圖片測試
         ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
         Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
@@ -297,9 +303,26 @@ public class TableActivity extends AppCompatActivity
             String[] dd = data.get(position);
             name.setText(dd[1]);//決策桌名
             id.setText("ID:" + dd[0]);
-            //若是成員而不是主持人則顯示圖片6
+
+            // 依據是否為主持人和桌類型來判斷選擇何種圖片
             if(!dd[8].equals(user_info[0])){
-                table_status.setImageResource(R.drawable.table_list_shared);
+                // 不是主持人，會是黃色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
+            }
+            } else {
+                // 是主持人，會是藍色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_blue_r_215dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_blue_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_blue_t_215dp);
+                }
             }
             return convertView;
         }

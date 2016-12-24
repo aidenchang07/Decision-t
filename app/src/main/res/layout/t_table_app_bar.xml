@@ -29,8 +29,8 @@
         android:src="@drawable/ic_add_black_24dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#8aa9ff"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        app:fab_colorNormal="#00B0EC"
+        app:fab_colorPressed="#00B0EC" />
 
 <!--
     20161005 12:00
@@ -52,8 +52,11 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/fab_margin"
+        fab:menu_icon="@drawable/ic_d_24dp"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
+        fab:menu_colorNormal="#00B0EC"
+        fab:menu_colorPressed="#00B0EC"
         fab:menu_backgroundColor="#ccffffff"
         fab:menu_labels_position="right">
 
@@ -61,7 +64,9 @@
             android:id="@+id/t_table_fab_menu_item_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/ic_s_24dp"
+            fab:fab_colorNormal="#00B0EC"
+            fab:fab_colorPressed="#00B0EC"
             fab:fab_size="mini"
             fab:fab_label="開始評分" />
 
@@ -69,7 +74,9 @@
             android:id="@+id/t_table_fab_menu_item_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black_24dp"
+            android:src="@drawable/ic_e_24dp"
+            fab:fab_colorNormal="#00B0EC"
+            fab:fab_colorPressed="#00B0EC"
             fab:fab_size="mini"
             fab:fab_label="結束評分" />
 

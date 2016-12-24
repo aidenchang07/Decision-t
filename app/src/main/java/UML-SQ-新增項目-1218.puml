@@ -1,0 +1,18 @@
+@startuml
+actor User
+User -> 決策桌: 新增項目要求
+activate 決策桌
+決策桌 -> 決策桌: 驗證資料是否合法
+activate 決策桌
+alt 合法
+    決策桌 -> 資料庫: 新增資料
+    activate 資料庫
+    決策桌 <-- 資料庫: 回應結果
+    deactivate 資料庫
+    deactivate 決策桌
+    User <-- 決策桌: 顯示新增結果
+else 不合法
+    User <-- 決策桌: 顯示重新輸入
+    deactivate 決策桌
+end
+@enduml

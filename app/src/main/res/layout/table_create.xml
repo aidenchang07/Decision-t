@@ -18,9 +18,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
         <EditText
             android:layout_width="280dp"
@@ -30,60 +32,64 @@
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
             android:hint="請輸入ID / 桌名"
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@drawable/edittext_login_form"/>
 
-    </android.support.design.widget.TextInputLayout>
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="加入此決策桌"
+            android:id="@+id/registerButton"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.WhiteWordButton"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_logocolor_form"/>
 
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:text="加入此決策桌"
-        android:id="@+id/registerButton"
-        android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.WhiteWordButton"
-        android:textSize="18dp"
-        android:background="@drawable/button_logocolor_form"/>
+        <TextView
+            android:text="選擇決策方式"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tablecreateButton"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
 
-    <TextView
-        android:text="選擇決策方式"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tablecreateButton"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_marginTop="50dp"/>
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="T字分析"
+            android:id="@+id/tButton"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.WhiteWordButton"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_logocolor_form"/>
 
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:text="T字分析"
-        android:id="@+id/tButton"
-        android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.WhiteWordButton"
-        android:textSize="18dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_logocolor_form"/>
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="投票決定"
+            android:id="@+id/voteButton"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.WhiteWordButton"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_logocolor_form"/>
 
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:text="投票決定"
-        android:id="@+id/voteButton"
-        android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.WhiteWordButton"
-        android:textSize="18dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_yellow_form"/>
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="隨機選擇"
+            android:id="@+id/randomButton"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.WhiteWordButton"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_logocolor_form"/>
 
-    <Button
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:text="隨機選擇"
-        android:id="@+id/randomButton"
-        android:layout_gravity="center_horizontal"
-        android:theme="@style/AppTheme.WhiteWordButton"
-        android:textSize="18dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_logocolor_form"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>
