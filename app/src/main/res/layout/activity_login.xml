@@ -32,71 +32,13 @@
     
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linearLayout">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/emailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:hint="電子郵件"
-                android:background="@drawable/edittext_login_form"/>
-
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:hint="密碼"
-                android:background="@drawable/edittext_login_form"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:text="Log in"
-            android:textSize="18dp"
-            android:textAllCaps="false"
-            android:background="@drawable/button_blue_form"
-            android:theme="@style/AppTheme.WhiteWordButton"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="－－－or－－－"
-            android:id="@+id/divider_text_view"
-            android:layout_gravity="center_horizontal"/>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signInButton"
@@ -105,19 +47,6 @@
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:text="註冊新帳號"
-            android:textSize="18dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button_pink_form"
-            android:theme="@style/AppTheme.WhiteWordButton" />
 
     </LinearLayout>
 
