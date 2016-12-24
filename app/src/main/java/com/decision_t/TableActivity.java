@@ -112,7 +112,7 @@ public class TableActivity extends AppCompatActivity
         table_nav_email.setText(user_info[1]);
         //取得圖片測試
         ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
-        //Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
+        Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
         //Toast.makeText(TableActivity.this, user_info[2], Toast.LENGTH_SHORT).show();
 
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
@@ -196,7 +196,7 @@ public class TableActivity extends AppCompatActivity
             inStream.close();
             String[] user_data = stream.toString().split(" ");
             String user_email = user_data[0];//取得Email
-            String userPhotoUrl = user_data[1];
+            String userPhotoUrl =  user_data[1];
             String user_name = "";
             String result = DBConnector.executeQuery("SELECT *" +
                     "                                                                    FROM `Account` " +

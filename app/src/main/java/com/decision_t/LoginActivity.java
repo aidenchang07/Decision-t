@@ -321,6 +321,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             FileOutputStream outStream=this.openFileOutput("uu.txt", Context.MODE_PRIVATE);
             outStream.write(email.getBytes());
+            outStream.write(" ".getBytes()); // 分隔用
             outStream.write(userPhoto.getBytes());
             outStream.close();
         } catch (FileNotFoundException e) {
