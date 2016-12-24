@@ -18,22 +18,17 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/table_id_or_name"
-            android:layout_gravity="center_horizontal"
-            android:maxLines="1"
-            android:hint="請輸入ID / 桌名"
-            android:inputType="text"
-            android:background="@drawable/edittext_login_form"/>
-
-    </android.support.design.widget.TextInputLayout>
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:id="@+id/table_id_or_name"
+        android:layout_gravity="center_horizontal"
+        android:maxLines="1"
+        android:hint="請輸入ID / 桌名"
+        android:inputType="text"
+        android:background="@drawable/edittext_login_form"/>
 
     <Button
         android:layout_width="280dp"
@@ -43,6 +38,7 @@
         android:layout_gravity="center_horizontal"
         android:theme="@style/AppTheme.WhiteWordButton"
         android:textSize="18dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_logocolor_form"/>
 
     <TextView
