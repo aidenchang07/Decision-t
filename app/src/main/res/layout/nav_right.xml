@@ -33,7 +33,7 @@
             android:paddingRight="5dp"
             app:srcCompat="@drawable/ic_pen_215dp"
             android:id="@+id/imageButton_tablename_edit"
-            android:background="#00000000"/>
+            android:background="@color/colorTransparent"/>
 
     </LinearLayout>
 

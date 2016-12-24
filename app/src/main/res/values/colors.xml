@@ -32,4 +32,10 @@
     <!--右側滑欄-->
     <color name="colorNavRight">#2E5983</color>
 
+    <!--透明-->
+    <color name="colorTransparent">#00000000</color>
+
+    <!--淡灰色背景-->
+    <color name="colorGray">#EEEEEE</color>
+
 </resources>
