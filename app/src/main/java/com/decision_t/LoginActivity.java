@@ -3,6 +3,7 @@ package com.decision_t;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -281,9 +282,12 @@ public class LoginActivity extends AppCompatActivity {
             final String user_id = mAuth.getCurrentUser().getUid();
             final String user_name = mAuth.getCurrentUser().getDisplayName();
             final String user_email = mAuth.getCurrentUser().getEmail();
+            //取得個人照片
+            final Uri userPhoto = mAuth.getCurrentUser().getPhotoUrl();
+
             Intent mainIntent = new Intent(LoginActivity.this, TableActivity.class);
             startActivity(mainIntent);
-            saveuid(user_id, user_email);
+            saveuid(user_id, user_email, userPhoto.toString());
             finish();
             String sql = "INSERT INTO `Account`" +
                     "       VALUES('"+user_email+"', '"+user_name+"', 'GOOGLE')" +
@@ -297,7 +301,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(dataSnapshot.hasChild(user_id)){
                         Intent mainIntent = new Intent(LoginActivity.this, TableActivity.class);
                         startActivity(mainIntent);
-                        saveuid(user_id, user_email);
+                        saveuid(user_id, user_email, userPhoto.toString());
                         finish();
                     }
                 }
@@ -312,11 +316,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //將使用者資料存起來
-    public void saveuid(String uid, String email)
+    public void saveuid(String uid, String email, String userPhoto)
     {
         try {
             FileOutputStream outStream=this.openFileOutput("uu.txt", Context.MODE_PRIVATE);
             outStream.write(email.getBytes());
+            outStream.write(userPhoto.getBytes());
             outStream.close();
         } catch (FileNotFoundException e) {
             return;

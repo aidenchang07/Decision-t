@@ -3,6 +3,7 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,6 +110,11 @@ public class TableActivity extends AppCompatActivity
         table_nav_name.setText(user_info[0]);
         TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
         table_nav_email.setText(user_info[1]);
+        //取得圖片測試
+        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
+        //Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
+        //Toast.makeText(TableActivity.this, user_info[2], Toast.LENGTH_SHORT).show();
+
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         //取得使用者資料完畢
 
@@ -187,7 +194,9 @@ public class TableActivity extends AppCompatActivity
             }
             stream.close();
             inStream.close();
-            String user_email = stream.toString();//取得Email
+            String[] user_data = stream.toString().split(" ");
+            String user_email = user_data[0];//取得Email
+            String userPhotoUrl = user_data[1];
             String user_name = "";
             String result = DBConnector.executeQuery("SELECT *" +
                     "                                                                    FROM `Account` " +
@@ -197,7 +206,7 @@ public class TableActivity extends AppCompatActivity
                 JSONObject jsonData = jsonArray.getJSONObject(i);
                 user_name = jsonData.getString("Name");
             }
-            return new String[] {user_email, user_name};
+            return new String[] {user_email, user_name, userPhotoUrl};
         } catch (FileNotFoundException e) {
             //找不到檔案就重新登入
             mAuth.signOut();
@@ -207,7 +216,7 @@ public class TableActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return new String[] {"", ""};
+        return new String[] {"", "", ""};
     }
     //取得決策桌列表
     public void getTableList(String user_id){
