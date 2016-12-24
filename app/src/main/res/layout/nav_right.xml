@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorNavRight">
 
     <!-- 以下命名方式，參考此規範 http://gityuan.com/2015/08/10/android-arch-coding-style/ -->
 
@@ -16,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView"
             android:layout_weight="1"
@@ -30,6 +31,11 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -42,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView5" />
 
@@ -50,12 +56,17 @@
             android:text="ID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView_id"
             android:singleLine="true" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -69,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView6" />
 
@@ -77,12 +88,17 @@
             android:text="主持人"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView_host"
             android:singleLine="true" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -92,7 +108,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="170dp">
+            android:layout_height="170dp"
+            >
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -103,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:layout_weight="1"
                     android:id="@+id/textView2" />
@@ -116,6 +133,11 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhite"/>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -124,12 +146,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:id="@+id/textView_description" />
             </ScrollView>
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorWhite"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -146,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:layout_weight="1"
                     android:id="@+id/textView_member" />
@@ -159,6 +186,11 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhite"/>
+
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -167,7 +199,7 @@
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:divider="#EEEEEE"
+                android:divider="@color/colorNavRight"
                 android:dividerHeight="10dp"/>
 
         </LinearLayout>

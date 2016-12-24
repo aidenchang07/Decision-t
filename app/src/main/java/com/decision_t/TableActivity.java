@@ -108,7 +108,7 @@ public class TableActivity extends AppCompatActivity
         table_nav_email.setText(user_info[0]);
         TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
         table_nav_name.setText(user_info[1]);
-        
+
         //取得圖片測試
         //ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
         //table_nav_imageView.setImageURI(mAuth.getCurrentUser().getPhotoUrl());

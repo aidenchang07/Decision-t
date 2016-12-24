@@ -29,4 +29,7 @@
     <!--左側滑欄-->
     <color name="colorNavLeft">#005981</color>
 
+    <!--右側滑欄-->
+    <color name="colorNavRight">#2E5983</color>
+
 </resources>
