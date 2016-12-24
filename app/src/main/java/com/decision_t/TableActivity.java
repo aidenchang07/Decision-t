@@ -290,7 +290,7 @@ public class TableActivity extends AppCompatActivity
             id.setText("ID:" + dd[0]);
             //若是成員而不是主持人則顯示圖片6
             if(!dd[8].equals(user_info[0])){
-                table_status.setImageResource(R.drawable.table_list_shared);
+                table_status.setImageResource(R.drawable.ic_v);
             }
             return convertView;
         }

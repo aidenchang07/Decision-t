@@ -30,7 +30,8 @@
             android:layout_gravity="center_horizontal"
             android:maxLines="1"
             android:hint="請輸入ID / 桌名"
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@drawable/edittext_login_form"/>
 
     </android.support.design.widget.TextInputLayout>
 

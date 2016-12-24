@@ -1,0 +1,19 @@
+@startuml
+actor User
+User -> 決策桌: 登入要求
+activate 決策桌
+決策桌 -> 決策桌: 驗證登入資料是否成功
+activate 決策桌
+決策桌 -> 資料庫: 驗證登入資料
+activate 資料庫
+決策桌 <-- 資料庫: 回應結果
+deactivate 資料庫
+決策桌 <-- 決策桌: 回應結果
+deactivate 決策桌
+alt 成功
+    User <-- 決策桌: 登入成功
+else 不成功
+    User <-- 決策桌: 登入失敗
+    deactivate 決策桌
+end
+@enduml
