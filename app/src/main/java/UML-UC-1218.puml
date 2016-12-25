@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+actor 使用者 as ac1
+actor 主持人 as ac2
+actor 成員 as ac3
+
+ac1 <|-- ac2
+ac1 <|-- ac3
+
+(登入) as UC1
+(T字) as UC2
+(投票) as UC3
+(隨機) as UC4
+(管理項目) as UC5
+(評分) as UC6
+(管理論點) as UC7
+
+ac1 -> UC1
+ac1 -> UC2
+ac1 -> UC3
+ac1 -> UC4
+UC5 .> UC2 : extends
+UC6 .> UC2 : extends
+UC7 .> UC5 : extends
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+(*) --> [Initialisation] "TableActivity"
+  if "是否需要登入？" then
+    ---> [false] (*)
+
+  else
+    --> [ture] "LoginActivity"
+    if "是否登入成功？" then
+        --> [ture] "TableActivity"
+    else
+        --> [false] "LoginActivity"
+    endif
+  endif
+@enduml

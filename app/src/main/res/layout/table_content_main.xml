@@ -7,12 +7,19 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/table_app_bar"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorGray">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/table_list" />
+        android:id="@+id/table_list"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:divider="@color/colorTransparent"
+        android:dividerHeight="10dp"/>
+
 </LinearLayout>

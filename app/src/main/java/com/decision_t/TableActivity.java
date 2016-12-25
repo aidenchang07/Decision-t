@@ -3,9 +3,10 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,10 +106,19 @@ public class TableActivity extends AppCompatActivity
         user_info = load_user_info();
         NavigationView nav= (NavigationView) findViewById(R.id.table_nav_view);
         View nav_view = nav.getHeaderView(0);
-        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
-        table_nav_name.setText(user_info[0]);
         TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
-        table_nav_email.setText(user_info[1]);
+        table_nav_email.setText(user_info[0]);
+        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
+        table_nav_name.setText(user_info[1]);
+
+        //取得圖片測試
+        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
+        //避免初次開啟APP時導致畢卡索載入空値網址失敗，用try catch包覆
+        try{
+            Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
+        }catch (Exception e){}
+
+
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         //取得使用者資料完畢
 
@@ -187,7 +198,9 @@ public class TableActivity extends AppCompatActivity
             }
             stream.close();
             inStream.close();
-            String user_email = stream.toString();//取得Email
+            String[] user_data = stream.toString().split(" ");
+            String user_email = user_data[0];//取得Email
+            String userPhotoUrl =  user_data[1];
             String user_name = "";
             String result = DBConnector.executeQuery("SELECT *" +
                     "                                                                    FROM `Account` " +
@@ -197,7 +210,7 @@ public class TableActivity extends AppCompatActivity
                 JSONObject jsonData = jsonArray.getJSONObject(i);
                 user_name = jsonData.getString("Name");
             }
-            return new String[] {user_email, user_name};
+            return new String[] {user_email, user_name, userPhotoUrl};
         } catch (FileNotFoundException e) {
             //找不到檔案就重新登入
             mAuth.signOut();
@@ -207,7 +220,7 @@ public class TableActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return new String[] {"", ""};
+        return new String[] {"", "", ""};
     }
     //取得決策桌列表
     public void getTableList(String user_id){
@@ -288,9 +301,26 @@ public class TableActivity extends AppCompatActivity
             String[] dd = data.get(position);
             name.setText(dd[1]);//決策桌名
             id.setText("ID:" + dd[0]);
-            //若是成員而不是主持人則顯示圖片6
+
+            // 依據是否為主持人和桌類型來判斷選擇何種圖片
             if(!dd[8].equals(user_info[0])){
-                table_status.setImageResource(R.drawable.table_list_shared);
+                // 不是主持人，會是黃色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
+            }
+            } else {
+                // 是主持人，會是藍色
+                if(dd[2].equals("R")) {
+                    table_status.setImageResource(R.drawable.ic_blue_r_215dp);
+                } else if(dd[2].equals("V")) {
+                    table_status.setImageResource(R.drawable.ic_blue_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_blue_t_215dp);
+                }
             }
             return convertView;
         }

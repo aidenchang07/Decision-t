@@ -111,6 +111,10 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
+    /**
+     * 顯示Google登入圖片用
+     */
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 /**
  * 引入Firebase必加

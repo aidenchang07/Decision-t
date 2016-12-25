@@ -2,7 +2,7 @@
 <resources>
     <!--系統預設-->
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#0277BD</color>
     <color name="colorAccent">#FF4081</color>
 
     <!--藍色 500-->
@@ -14,10 +14,28 @@
     <!--粉紅色 500-->
     <color name="colorPink">#E91E63</color>
 
+    <!--黃色-->
+    <color name="colorYellow">#FDC928</color>
+
+    <!--V桌黃色-->
+    <color name="colorYellow01">#FCC929</color>
+
     <!--登入頁面 - 藍色-->
     <color name="colorLoginBackGround">#2AACDD</color>
 
     <!--登入頁面 - 按鈕 - 藍色-->
     <color name="colorLoginButtonBackGround">#2877B2</color>
+
+    <!--左側滑欄-->
+    <color name="colorNavLeft">#005981</color>
+
+    <!--右側滑欄-->
+    <color name="colorNavRight">#2E5983</color>
+
+    <!--透明-->
+    <color name="colorTransparent">#00000000</color>
+
+    <!--淡灰色背景-->
+    <color name="colorGray">#EEEEEE</color>
 
 </resources>

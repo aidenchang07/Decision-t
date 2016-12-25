@@ -1,0 +1,19 @@
+@startuml
+(*) --> [Initialisation] "TableActivity"
+  if "是否要創決策桌？" then
+    --> [no] (*)
+
+  else
+    --> [yes] "TableCreateActivity"
+    if "是否創建成功？" then
+        --> [true] ===A1===
+        --> "T_Table_Activity"
+        --> ===A2===
+        ===A1=== ---> "T_Table_Tab_Activity"
+        --> ===A2===
+        --> (*)
+    else
+        --> [false] "TableCreateActivity"
+    endif
+  endif
+@enduml

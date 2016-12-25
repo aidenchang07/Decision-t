@@ -47,7 +47,8 @@
             android:src="@drawable/ic_add_black_24dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="#8aa9ff"
+            app:fab_colorNormal="#00B0EC"
+            app:fab_colorPressed="#00B0EC"
             app:srcCompat="@drawable/ic_add_black_24dp" />
 
     </android.support.design.widget.CoordinatorLayout>

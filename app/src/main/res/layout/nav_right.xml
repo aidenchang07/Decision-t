@@ -1,48 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorNavRight">
 
     <!-- 以下命名方式，參考此規範 http://gityuan.com/2015/08/10/android-arch-coding-style/ -->
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:text="決策桌名稱"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView"
             android:layout_weight="1"
             android:singleLine="true" />
 
-        <Button
-            android:text="編輯"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button_tablename_edit"
-            android:layout_width="52dp" />
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            app:srcCompat="@drawable/ic_pen_215dp"
+            android:id="@+id/imageButton_tablename_edit"
+            android:background="@color/colorTransparent"/>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:gravity="center">
 
         <TextView
             android:text="ID："
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView5" />
 
@@ -50,26 +63,32 @@
             android:text="ID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView_id"
             android:singleLine="true" />
 
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:gravity="center">
 
         <TextView
             android:text="主持人："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView6" />
 
@@ -77,12 +96,17 @@
             android:text="主持人"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="16dp"
             android:id="@+id/textView_host"
             android:singleLine="true" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -92,29 +116,40 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="170dp">
+            android:layout_height="170dp"
+            >
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:text="描述："
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:layout_weight="1"
                     android:id="@+id/textView2" />
 
-                <Button
-                    android:text="編輯"
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_description_edit"
-                    android:layout_width="52dp" />
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_pen_215dp"
+                    android:id="@+id/imageButton_description_edit"
+                    android:background="#00000000"/>
 
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhite"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -124,12 +159,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:id="@+id/textView_description" />
             </ScrollView>
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorWhite"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -139,30 +179,46 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:text="成員："
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:layout_weight="1"
                     android:id="@+id/textView_member" />
 
-                <Button
-                    android:text="編輯"
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button_member_edit"
-                    android:layout_width="52dp" />
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    app:srcCompat="@drawable/ic_pen_215dp"
+                    android:id="@+id/imageButton_member_edit"
+                    android:background="#00000000"/>
 
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorWhite"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/listView_member"/>
+                android:id="@+id/listView_member"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:divider="@color/colorNavRight"
+                android:dividerHeight="10dp"/>
 
         </LinearLayout>
 

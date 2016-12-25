@@ -5,7 +5,8 @@
     android:id="@+id/activity_archive"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.decision_t.ArchiveActivity">
+    tools:context="com.decision_t.ArchiveActivity"
+    android:background="@color/colorGray">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -25,6 +26,12 @@
         android:id="@+id/listView_archive"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:divider="@color/colorTransparent"
+        android:dividerHeight="10dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
