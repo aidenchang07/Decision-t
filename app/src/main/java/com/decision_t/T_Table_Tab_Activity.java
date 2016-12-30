@@ -84,6 +84,9 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
 
         /** 初始化各元件 */
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(item_data[1]);
+
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         drawer = (DrawerLayout) findViewById(R.id.t_table_tab_drawer_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
