@@ -443,13 +443,14 @@ public class T_Table_Activity extends AppCompatActivity {
             = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            /*  依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
             //如果目前狀態為待決策且使用者又是主持人時需要可以選擇是要決策還是進入觀看
             if(table_data[8].equals(user_info[0])){
                 if(table_data[5].equals("N") && table_data[6].equals("Y") && !table_data[7].equals("null")){
                     finalDecision(position);
                     return;
                 }
-            }
+            }*/
             Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
             argument.putExtra("user_info", user_info);
             argument.putExtra("table_data", table_data);
@@ -606,13 +607,15 @@ public class T_Table_Activity extends AppCompatActivity {
                                         "                ON `ti`.`ID` = `sc`.`ID`" +
                                         "      SET `ti`.`Score` = `sc`.`Score`;";
                                 DBConnector.executeQuery(sql);
-                                //再來是更新決策桌暫時的建議方案
+                                //依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
+                                //再來是更新決策桌的建議方案
                                 sql  = "UPDATE `Decision_tables`" +
                                         "   SET `Final_decision` = (SELECT `ID`" +
                                         "                             FROM `Tables_item`" +
                                         "                            WHERE `Decision_tables_ID` = " + table_data[0] +
                                         "                            ORDER BY `Score` DESC" +
-                                        "                            LIMIT 1)" +
+                                        "                            LIMIT 1)," +
+                                        "              `Complete`= 'Y'" +
                                         "  WHERE `ID` = " + table_data[0] +";";
                                 DBConnector.executeQuery(sql);
                                 //更新決策桌資訊
@@ -634,7 +637,7 @@ public class T_Table_Activity extends AppCompatActivity {
         }
         fab_left.close(true);
     }
-
+/*  依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
     //最終決策
     public void finalDecision(final int position){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -654,7 +657,7 @@ public class T_Table_Activity extends AppCompatActivity {
         });
         ad.setNegativeButton("不要,再等等", null);
         ad.show();
-    }
+    }*/
 
     @Override // 覆寫 onActivityResult，按下項目進入論點後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
