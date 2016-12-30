@@ -16,15 +16,15 @@ public class UpdateScreenThead {
 
     private UpdateScreenThead(){
         run = false;
-        //避免直接抽換，額外取出
-        copyHandler = this.handler;
         thread = new Thread(new Runnable(){
             public void run(){
                 try {
                     while(run){
+                        //避免直接抽換，額外取出
+                        copyHandler = handler;
                         Thread.sleep(3000);
                         Message msg = new Message();
-                        handler.sendMessage(msg);
+                        copyHandler.sendMessage(msg);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
