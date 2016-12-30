@@ -471,14 +471,16 @@ public class V_Table_Activity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "已經投過票囉！", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        /*若是主持人則可以進行最終決策
+                        /*依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
+                                                *若是主持人則可以進行最終決策
                                                 *若不是則等待
-                                                */
+
                         if(table_data[8].equals(user_info[0])){
                             finalDecision(position);
                         }else{
                             Toast.makeText(getApplicationContext(), "投票環節已過！\n請等待主持人做出最終決策！", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
+                        Toast.makeText(getApplicationContext(), "投票環節已過！\n請等待主持人做出最終決策！", Toast.LENGTH_SHORT).show();
                     }
                 }//未鎖定之前點擊沒反應
             }else{
@@ -619,7 +621,8 @@ public class V_Table_Activity extends AppCompatActivity {
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //先更新決策桌暫時的建議方案
+                                //依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
+                                //先更新決策桌的建議方案
                                 String sql  = "UPDATE `Decision_tables`" +
                                         "                     SET `Final_decision` =(SELECT `ID`" +
                                         "                                                                     FROM (SELECT `a`.`ID`," +
@@ -630,7 +633,8 @@ public class V_Table_Activity extends AppCompatActivity {
                                         "                                                                                      GROUP BY `a`.`ID`" +
                                         "                                                                                      ORDER BY `Score` DESC" +
                                         "                                                                                        LIMIT 1) `Score`" +
-                                        "                                                                             )" +
+                                        "                                                                             )," +
+                                        "                                `Complete`= 'Y'" +
                                         "                          WHERE `ID` = '" + table_data[0] + "';";
                                 DBConnector.executeQuery(sql);
                                 //接著更新桌的項目統計分數
@@ -666,7 +670,7 @@ public class V_Table_Activity extends AppCompatActivity {
         }
         fab_left.close(true);
     }
-
+/*  依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
     //最終決策
     public void finalDecision(final int position){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
@@ -686,7 +690,7 @@ public class V_Table_Activity extends AppCompatActivity {
         });
         ad.setNegativeButton("不要,再等等", null);
         ad.show();
-    }
+    }*/
 
     @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

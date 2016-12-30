@@ -311,8 +311,6 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         public  void  handleMessage(Message msg) {
             super.handleMessage(msg);
             getArgument(item_data[0], user_info[0]);
-            supportFragment.reload(support_data);
-            notSupportFragment.reload(notSupport_data);
             getSupportActionBar().setTitle(item_data[1]);
         }
     };
