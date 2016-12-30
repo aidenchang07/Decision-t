@@ -2,6 +2,8 @@ package com.decision_t;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -44,6 +46,7 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
     private NotSupportFragment notSupportFragment;
     private TextView nav_item_name, nav_item_creator, nav_item_description;
     private ImageButton nav_description_edit, nav_item_name_edit;
+    private UpdateScreenThead updateScreenThead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +121,9 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         /** 左上角出現返回鍵 */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        updateScreenThead = UpdateScreenThead.getInstance();
+        updateScreenThead.execute(handler);
     }
 
     //創建右上角的 info
@@ -298,4 +304,16 @@ public class T_Table_Tab_Activity extends AppCompatActivity {
         });
         dialog.show();
     }
+
+
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler(){
+        public  void  handleMessage(Message msg) {
+            super.handleMessage(msg);
+            getArgument(item_data[0], user_info[0]);
+            supportFragment.reload(support_data);
+            notSupportFragment.reload(notSupport_data);
+            getSupportActionBar().setTitle(item_data[1]);
+        }
+    };
 }

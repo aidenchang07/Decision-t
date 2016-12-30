@@ -3,6 +3,8 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -53,6 +55,7 @@ public class V_Table_Activity extends AppCompatActivity {
     private TextView v_table_status;
     private ArrayList<String[]> member_data;
     private boolean can_vote;
+    private UpdateScreenThead updateScreenThead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +193,8 @@ public class V_Table_Activity extends AppCompatActivity {
         }
         //顯示項目列
         getItemList(table_data[0]);
+        updateScreenThead = UpdateScreenThead.getInstance();
+        updateScreenThead.execute(handler);
         //取得目前是否可以投票的權限，投過就不能投了
         can_vote = V_Table_Function.canVote(table_data[0], user_info[0]);
     }
@@ -688,4 +693,18 @@ public class V_Table_Activity extends AppCompatActivity {
         //不管如何先更新member列表再說
         showMemberList(table_data[0]);
     }
+
+
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler(){
+        public  void  handleMessage(Message msg) {
+            super.handleMessage(msg);
+            showMemberList(table_data[0]);
+            tableStatus();
+            getSupportActionBar().setTitle(table_data[1]);
+            nav_table_name.setText(table_data[1]);
+            nav_table_description.setText(table_data[3]);
+            getItemList(table_data[0]);
+        }
+    };
 }
