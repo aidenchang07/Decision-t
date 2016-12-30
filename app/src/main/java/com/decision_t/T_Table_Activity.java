@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -54,6 +56,8 @@ public class T_Table_Activity extends AppCompatActivity {
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
     private ListView listView;
+    private UpdateScreenThead updateScreenThead;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +191,8 @@ public class T_Table_Activity extends AppCompatActivity {
         }
         //顯示項目列
         getItemList(table_data[0]);
+        updateScreenThead = UpdateScreenThead.getInstance();
+        updateScreenThead.execute(handler);
     }
 
     //創建右上角的 info
@@ -658,4 +664,18 @@ public class T_Table_Activity extends AppCompatActivity {
         //再更新項目列表
         getItemList(table_data[0]);
     }
+
+
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler(){
+        public  void  handleMessage(Message msg) {
+            super.handleMessage(msg);
+            showMemberList(table_data[0]);
+            tableStatus();
+            getSupportActionBar().setTitle(table_data[1]);
+            nav_table_name.setText(table_data[1]);
+            nav_table_description.setText(table_data[3]);
+            getItemList(table_data[0]);
+        }
+    };
 }

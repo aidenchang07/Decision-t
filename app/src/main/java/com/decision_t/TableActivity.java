@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import com.github.clans.fab.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -39,11 +42,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class TableActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        UpdateScreen{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -52,7 +55,7 @@ public class TableActivity extends AppCompatActivity
     private ArrayList<String[]> data;
     private ListView table_list;
     private String[] user_info;
-    private Timer updateScreenTimer;
+    private UpdateScreenThead updateScreenThead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,19 +136,19 @@ public class TableActivity extends AppCompatActivity
         //決策桌列表宣告END
         //顯示正在進行中的決策表
         getTableList(user_info[0]);
+        //開始使用Timer 每隔3秒更新畫面
+        updateScreenThead = UpdateScreenThead.getInstance();
+        updateScreenThead.execute(handler);
         //顯示正在進行中的決策表完畢
-        //開始使用Timer 每隔5秒更新畫面
-        updateScreenTimer = new Timer(true);
-        updateScreenTimer.schedule(new UpdateScreenTimerTask(this), 0, 5000);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //新增 FirebaseAuth 的監聽事件
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler(){
+        public  void  handleMessage(Message msg) {
+            super.handleMessage(msg);
+            getTableList(user_info[0]);
+        }
+    };
     //離開程式
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -415,9 +418,4 @@ public class TableActivity extends AppCompatActivity
         }
     }
 
-    //更新畫面
-    @Override
-    public void update() {
-        getTableList(user_info[0]);
-    }
 }
