@@ -11,10 +11,13 @@ public class UpdateScreenThead {
     private static UpdateScreenThead updateScreenThead = new UpdateScreenThead();
     private Thread thread;
     private Handler handler = new Handler();
+    private Handler copyHandler;
     private boolean run;
 
     private UpdateScreenThead(){
         run = false;
+        //避免直接抽換，額外取出
+        copyHandler = this.handler;
         thread = new Thread(new Runnable(){
             public void run(){
                 try {

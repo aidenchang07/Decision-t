@@ -149,6 +149,14 @@ public class TableActivity extends AppCompatActivity
             getTableList(user_info[0]);
         }
     };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //新增 FirebaseAuth 的監聽事件
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    
     //離開程式
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
