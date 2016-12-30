@@ -38,18 +38,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class TableActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener,
+        UpdateScreen{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    Toast tos;
-    MyAdapter myAdapter;
-    ArrayList<String[]> data;
-    ListView table_list;
-    String[] user_info;
+    private Toast tos;
+    private MyAdapter myAdapter;
+    private ArrayList<String[]> data;
+    private ListView table_list;
+    private String[] user_info;
+    private Timer updateScreenTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,9 @@ public class TableActivity extends AppCompatActivity
         //顯示正在進行中的決策表
         getTableList(user_info[0]);
         //顯示正在進行中的決策表完畢
+        //開始使用Timer 每隔5秒更新畫面
+        updateScreenTimer = new Timer(true);
+        updateScreenTimer.schedule(new UpdateScreenTimerTask(this), 0, 5000);
     }
 
     @Override
@@ -407,5 +413,11 @@ public class TableActivity extends AppCompatActivity
             case 3://進入T類型決策桌後返回的動作
                 break;
         }
+    }
+
+    //更新畫面
+    @Override
+    public void update() {
+        getTableList(user_info[0]);
     }
 }
