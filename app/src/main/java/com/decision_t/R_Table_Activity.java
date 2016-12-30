@@ -421,11 +421,15 @@ public class R_Table_Activity extends AppCompatActivity {
     public void finalDecision(final int position){
         AlertDialog.Builder ad = new AlertDialog.Builder(R_Table_Activity.this);
         ad.setTitle("最終決策");
-        ad.setMessage("確定選擇：\n" + data.get(position)[1] + "\n作為最終選擇嗎？");
+        //暫時先這樣，未來有空再說
+        final String id, name;
+        id = data.get(position)[0];
+        name = data.get(position)[1];
+        ad.setMessage("確定選擇：\n" + name + "\n作為最終選擇嗎？");
         ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ data.get(position)[0] +","+
+                String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ id +","+
                         "                                                                       `Complete`= 'Y'" +
                         "WHERE `ID` = "+ table_data[0]+";";
                 DBConnector.executeQuery(sql);
