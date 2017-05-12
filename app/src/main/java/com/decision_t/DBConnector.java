@@ -29,7 +29,7 @@ public class DBConnector {
         HttpURLConnection urlConnection=null;
         InputStream is =null;
         try {
-            URL url=new URL("http://mysql.mis.knjc.edu.tw/~proj1/test.php");  //php的位置
+            URL url=new URL("http://kqv28079.000webhostapp.com/test.php");  //php的位置
             urlConnection=(HttpURLConnection) url.openConnection();//對資料庫打開連結
             urlConnection.setRequestMethod("POST");
             query_string = "sql=" + query_string;
