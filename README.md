@@ -28,4 +28,13 @@
 =======
 畢業專題
 commit 212266c 為版本 v1.0
+<<<<<<< refs/remotes/origin/master
 >>>>>>> Create README.md
+=======
+
+此作品核心理念為「協助身處不同地方的人，藉由此APP能更輕鬆討論、決定最終結果、結論」，因此稱為「Decision-T」的決策軟體。
+功能大致分為3類：
+1.T字分析
+2.投票決定
+3.隨機選擇
+>>>>>>> Update README.md
