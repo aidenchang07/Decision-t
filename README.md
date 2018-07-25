@@ -9,10 +9,10 @@ commit 212266c 為版本 v1.0
 3.隨機選擇
 
 登入畫面-可使用Google帳號登入
-https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-224758.png
+![image](https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-224758.png)
 
 主畫面-討論主題列表
-https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-225140.png
+![image](https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-225140.png)
 
 新建畫面-可輸入討論主題以及選擇類型
-https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-225156.png
+![image](https://github.com/robinaiden/temp/blob/master/Screenshot_20180723-225156.png)
