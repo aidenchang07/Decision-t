@@ -1,6 +1,7 @@
 # Decision-t
 * 正式版
 >v1.0 commit cc42fa8
+>使用Android Studio開發(版本 2.1.2)
 
 ## 作品理念
 為「協助身處不同地方的人，藉由此APP能更輕鬆討論、決定最終結果、結論」，因此稱為「Decision-T」的決策軟體。
