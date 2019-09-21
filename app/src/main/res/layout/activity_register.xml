@@ -17,7 +17,7 @@
         android:padding="10dip"
         android:layout_below="@id/toolbar">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
@@ -28,9 +28,9 @@
                 android:id="@+id/nameEditText"
                 android:layout_gravity="center_horizontal"
                 android:hint="Name..." />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
@@ -41,9 +41,9 @@
                 android:id="@+id/emailEditText"
                 android:layout_gravity="center_horizontal"
                 android:hint="Email..." />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
@@ -54,9 +54,9 @@
                 android:id="@+id/passwordEditText"
                 android:layout_gravity="center_horizontal"
                 android:hint="Password..." />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="確認"
@@ -65,7 +65,7 @@
             android:theme="@style/AppTheme.PinkButton"
             android:layout_marginTop="50dp"
             android:textSize="18dp">
-        </android.support.v7.widget.AppCompatButton>
+        </androidx.appcompat.widget.AppCompatButton>
 
 
     </LinearLayout>

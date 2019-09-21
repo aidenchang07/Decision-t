@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 29
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.decision_t"
@@ -17,7 +17,7 @@ android {
         /**
          * targetSdkVersion：這個版本是可以正確執行的
          */
-        targetSdkVersion 21
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -26,15 +26,18 @@ android {
          */
         multiDexEnabled false
     }
-
+    // Specifies one flavor dimension.
+    flavorDimensions "origin"
     productFlavors {
         dev {
+            dimension "origin"
             applicationId "com.decision_t"
 
             minSdkVersion 21
             versionCode 2
         }
         prod {
+            dimension "origin"
             applicationId "com.decision_t"
 
             minSdkVersion 19
@@ -76,45 +79,45 @@ android {
  * ext準確的說是Gradle領域對象的一個屬性，我們可以將自定義的屬性添加到ext對像上，讓Build.gradle中的其它代碼片段可以使用。
  */
 ext {
-    supportLibVersion = '24.2.1'
-    servicesLibVersion = '9.4.0'
-    firebaseLibVersion = '9.4.0'
+//    supportLibVersion = '24.2.1'
+//    servicesLibVersion = '9.4.0'
+//    firebaseLibVersion = '9.4.0'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 
     /**
      * 實感設計的材料
      */
-    compile "com.android.support:design:${supportLibVersion}"
+    implementation 'com.google.android.material:material:1.0.0'
 
     /**
      * 引入Firebase必加
      */
-    compile "com.google.firebase:firebase-core:${firebaseLibVersion}"
-    compile "com.google.firebase:firebase-auth:${firebaseLibVersion}"
+    implementation "com.google.firebase:firebase-core:17.2.0"
+    implementation "com.google.firebase:firebase-auth:19.0.0"
 
     //Firebase的即時資料庫
-    compile "com.google.firebase:firebase-database:${firebaseLibVersion}"
+    implementation "com.google.firebase:firebase-database:19.1.0"
 
     /**
      * Google登入必用
      */
-    compile "com.google.android.gms:play-services-auth:${servicesLibVersion}"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     /**
      * FloatingActionButton
      * 因為有需要用到會展開FloatingButton的功能，所以使用此lib
      */
-    compile 'com.github.clans:fab:1.6.4'
-    compile 'com.android.support:support-v4:24.2.1'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
     /**
      * 顯示Google登入圖片用
      */
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }
 /**
  * 引入Firebase必加

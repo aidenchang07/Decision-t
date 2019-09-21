@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Decision-t.iml" filepath="$PROJECT_DIR$/Decision-t.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Decision-t.iml" filepath="$PROJECT_DIR$/Decision-t.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Decision-t-app.iml" filepath="$PROJECT_DIR$/app/Decision-t-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
