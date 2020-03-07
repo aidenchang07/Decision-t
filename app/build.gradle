@@ -96,11 +96,11 @@ dependencies {
     /**
      * 引入Firebase必加
      */
-    implementation "com.google.firebase:firebase-core:17.2.0"
-    implementation "com.google.firebase:firebase-auth:19.0.0"
+    implementation "com.google.firebase:firebase-core:17.2.3"
+    implementation "com.google.firebase:firebase-auth:19.2.0"
 
     //Firebase的即時資料庫
-    implementation "com.google.firebase:firebase-database:19.1.0"
+    implementation "com.google.firebase:firebase-database:19.2.1"
 
     /**
      * Google登入必用
@@ -118,6 +118,9 @@ dependencies {
      * 顯示Google登入圖片用
      */
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // Firebase analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
 }
 /**
  * 引入Firebase必加

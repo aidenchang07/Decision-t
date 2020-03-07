@@ -39,12 +39,12 @@
     當初有討論到蛋沒有畫上去設計圖
 -->
     <TextView
-        android:text="目前狀態"
+        android:id="@+id/v_table_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/v_table_status"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
+        android:text="目前狀態"
         android:textSize="30sp" />
 
     <com.github.clans.fab.FloatingActionMenu
