@@ -408,9 +408,10 @@ public class TableActivity extends AppCompatActivity
     };
     @Override // 覆寫 onActivityResult，按下+後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //不管如何先更新列表再說
         getTableList(user_info[0]);
-        switch (requestCode){
+        switch (requestCode) {
             case 0://按下+按鈕後畫面返回的動作
                 break;
             case 1://進入R類型決策桌後返回的動作

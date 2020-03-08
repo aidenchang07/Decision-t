@@ -693,6 +693,7 @@ public class V_Table_Activity extends AppCompatActivity {
 
     @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //不管如何先更新member列表再說
         showMemberList(table_data[0]);
     }

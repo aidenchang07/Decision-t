@@ -11,6 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -526,6 +528,7 @@ public class R_Table_Activity extends AppCompatActivity {
 
     @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //不管如何先更新member列表再說
         showMemberList(table_data[0]);
     }

@@ -28,6 +28,8 @@ android {
          * Enabling multidex support.(突破64K限制，也就是dex突破65535個Function的限制)
          */
         multiDexEnabled false
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
