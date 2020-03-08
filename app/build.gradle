@@ -29,25 +29,6 @@ android {
          */
         multiDexEnabled false
     }
-    // Specifies one flavor dimension.
-    flavorDimensions "origin"
-    productFlavors {
-        dev {
-            dimension "origin"
-            applicationId "com.decision_t"
-
-            minSdkVersion 21
-            versionCode 2
-        }
-        prod {
-            dimension "origin"
-            applicationId "com.decision_t"
-
-            minSdkVersion 19
-            multiDexEnabled false
-        }
-    }
-
 
     buildTypes {
         debug {
