@@ -21,8 +21,19 @@ android {
          * targetSdkVersion：這個版本是可以正確執行的
          */
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+
+        /**
+         * v1.0.0 -> 1 00 00 00 -> versionCode: 1000000
+         *
+         * ex.
+         * 2.8.0, versionCode is 2080000
+         * 2.8.1, versionCode is 2080100
+         * 2.8.2, versionCode is 2080200
+         * 2.9.0, versionCode is 2090000
+         * 2.9.10, versionCode is 2091000
+         */
+        versionCode 1000000
+        versionName "1.0.0"
 
         /**
          * Enabling multidex support.(突破64K限制，也就是dex突破65535個Function的限制)
