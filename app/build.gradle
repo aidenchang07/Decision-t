@@ -45,7 +45,7 @@ android {
          * 2.9.0, versionCode is 2090000
          * 2.9.10, versionCode is 2091000
          */
-        versionCode 1000000
+        versionCode 1000001
         versionName "1.0.0"
 
         /**
