@@ -3,9 +3,22 @@ apply plugin: 'com.android.application'
 // Firebase Fabric plugin.
 apply plugin: 'io.fabric'
 
+Properties props = new Properties()
+//props.load(new FileInputStream(file("release.properties")))
+props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "28.0.3"
+
+    signingConfigs {
+        release {//發布版本的簽名配置
+            storeFile file(props['KEYSTORE_FILE'])
+            keyAlias props['KEY_ALIAS']
+            storePassword props['KEYSTORE_PWD']
+            keyPassword props['KEY_PWD']
+        }
+    }
 
     defaultConfig {
         applicationId "com.decision_t"
@@ -68,6 +81,7 @@ android {
              */
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
