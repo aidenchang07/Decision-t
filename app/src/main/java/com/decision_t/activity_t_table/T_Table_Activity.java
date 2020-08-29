@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
@@ -40,7 +41,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Activity extends BaseActivity {
+public class T_Table_Activity extends BaseActivity implements T_TableContract.IT_TableView {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -253,6 +254,16 @@ public class T_Table_Activity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new T_TablePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

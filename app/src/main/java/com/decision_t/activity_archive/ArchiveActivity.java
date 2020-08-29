@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.activity_r_table.R_Table_Activity;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ArchiveActivity extends BaseActivity {
+public class ArchiveActivity extends BaseActivity implements ArchiveContract.IArchiveView {
 
     private Toolbar toolbar;
     private String[] user_info;
@@ -61,6 +62,7 @@ public class ArchiveActivity extends BaseActivity {
         //顯示決策桌列表(已封存)
         getTableList(user_info[0]);
     }
+
     public void getTableList(String user_id){
         //先清空資料
         data = new ArrayList<String[]>();
@@ -99,6 +101,16 @@ public class ArchiveActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new ArchivePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

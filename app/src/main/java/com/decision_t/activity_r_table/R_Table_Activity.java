@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
+import com.decision_t.activity_t_table.T_TableContract;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
@@ -39,7 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class R_Table_Activity extends BaseActivity {
+public class R_Table_Activity extends BaseActivity implements T_TableContract.IT_TableView {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -256,6 +258,16 @@ public class R_Table_Activity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new R_TablePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

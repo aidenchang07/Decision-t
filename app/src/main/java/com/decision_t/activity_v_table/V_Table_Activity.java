@@ -8,6 +8,7 @@ import android.os.Message;
 
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
@@ -40,7 +41,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class V_Table_Activity extends BaseActivity {
+public class V_Table_Activity extends BaseActivity implements V_TableContract.IV_TableView {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -273,6 +274,16 @@ public class V_Table_Activity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new V_TablePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

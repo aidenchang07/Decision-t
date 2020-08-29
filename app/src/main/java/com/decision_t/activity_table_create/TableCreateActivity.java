@@ -1,5 +1,6 @@
 package com.decision_t.activity_table_create;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -10,13 +11,14 @@ import android.widget.Toast;
 
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TableCreateActivity extends BaseActivity {
+public class TableCreateActivity extends BaseActivity implements TableCreateContract.ITableCreateView {
 
     private Button registerButton;
     private Button tButton;
@@ -56,6 +58,16 @@ public class TableCreateActivity extends BaseActivity {
         user_info = it.getStringArrayExtra("user_info");
     }
 
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new TableCreatePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
     private class handlerButton implements View.OnClickListener {
         public void onClick(View view) {
             switch (view.getId()) {
@@ -78,6 +90,7 @@ public class TableCreateActivity extends BaseActivity {
             }
         }
     }
+
     private void createTable(String table_name, String table_type, String user_id){
         table_id_or_name.setText(table_id_or_name.getText().toString().trim());
         if(table_id_or_name.getText().toString().equals("")){
@@ -147,5 +160,4 @@ public class TableCreateActivity extends BaseActivity {
         }
 
     }
-
 }

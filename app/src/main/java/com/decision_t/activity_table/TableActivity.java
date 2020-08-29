@@ -9,6 +9,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.decision_t.activity_archive.ArchiveActivity;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_login.LoginActivity;
 import com.decision_t.R;
@@ -53,7 +54,7 @@ import java.util.ArrayList;
 
 
 public class TableActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements TableContract.ITableView, NavigationView.OnNavigationItemSelectedListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -285,6 +286,16 @@ public class TableActivity extends BaseActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new TablePresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

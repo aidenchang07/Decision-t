@@ -1,10 +1,13 @@
 package com.decision_t.activity_t_table_tab;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.decision_t.activity_t_table.T_TablePresenter;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.manager.TableFunction;
@@ -32,7 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Tab_Activity extends BaseActivity {
+public class T_Table_Tab_Activity extends BaseActivity implements T_Table_TabContract.IT_Table_TabView {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -305,7 +308,6 @@ public class T_Table_Tab_Activity extends BaseActivity {
         dialog.show();
     }
 
-
     //給多執行緒更新畫面的介面
     private Handler handler = new Handler(){
         public  void  handleMessage(Message msg) {
@@ -314,4 +316,14 @@ public class T_Table_Tab_Activity extends BaseActivity {
             getSupportActionBar().setTitle(item_data[1]);
         }
     };
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new T_Table_TabPresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
 }

@@ -19,13 +19,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.decision_t.R;
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.manager.DBConnector;
 
 import java.util.ArrayList;
 
-public class MemberActivity extends BaseActivity {
+public class MemberActivity extends BaseActivity implements MemberContract.IMemberView {
 
     private Toolbar toolbar;
     private SearchView searchView;
@@ -107,6 +108,16 @@ public class MemberActivity extends BaseActivity {
         listView.setAdapter(memberAdapter);
         //設置監聽器
         listView.setOnItemClickListener(click_item_list);
+    }
+
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new MemberPresenter();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     public class MemberAdapter extends BaseAdapter {

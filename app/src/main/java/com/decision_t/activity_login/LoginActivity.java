@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.base.IBasePresenter;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
@@ -40,9 +41,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class LoginActivity extends BaseActivity {
-
-    private static final String TAG = "LoginActivity";
+public class LoginActivity extends BaseActivity implements LoginContract.ILoginView {
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 1;
 
     private ProgressDialog mProgressDialog;
@@ -130,6 +130,7 @@ public class LoginActivity extends BaseActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -181,12 +182,10 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
-    // [START signIn]
     private void signIn() {
         Log.v(TAG, "signIn");
         startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
     }
-    // [END signIn]
 
     protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
         // Find the TextView that is inside of the SignInButton and set its text
@@ -257,6 +256,13 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected IBasePresenter setPresenter() {
+        return new LoginPresenter();
+    }
 
-
+    @Override
+    public Context getContext() {
+        return this;
+    }
 }
