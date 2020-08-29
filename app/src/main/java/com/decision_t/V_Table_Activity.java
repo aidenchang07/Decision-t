@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+
+import com.decision_t.base.BaseActivity;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,7 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class V_Table_Activity extends AppCompatActivity {
+public class V_Table_Activity extends BaseActivity {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;

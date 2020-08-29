@@ -4,12 +4,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import com.decision_t.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Tab_Activity extends AppCompatActivity {
+public class T_Table_Tab_Activity extends BaseActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

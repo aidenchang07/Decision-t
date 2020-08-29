@@ -1,7 +1,6 @@
 package com.decision_t;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
@@ -9,11 +8,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.base.BaseActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TableCreateActivity extends AppCompatActivity {
+public class TableCreateActivity extends BaseActivity {
 
     private Button registerButton;
     private Button tButton;

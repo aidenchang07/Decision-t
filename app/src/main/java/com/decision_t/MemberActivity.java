@@ -3,7 +3,7 @@ package com.decision_t;
 import android.content.Context;
 import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -18,9 +18,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.decision_t.base.BaseActivity;
+
 import java.util.ArrayList;
 
-public class MemberActivity extends AppCompatActivity {
+public class MemberActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private SearchView searchView;
