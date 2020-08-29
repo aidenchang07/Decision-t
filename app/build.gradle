@@ -97,26 +97,26 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 
     /**
      * 實感設計的材料
      */
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.0'
 
     /**
      * 引入Firebase必加
      */
-    implementation "com.google.firebase:firebase-core:17.2.3"
-    implementation "com.google.firebase:firebase-auth:19.2.0"
+    implementation "com.google.firebase:firebase-core:17.5.0"
+    implementation "com.google.firebase:firebase-auth:19.3.2"
 
     //Firebase的即時資料庫
-    implementation "com.google.firebase:firebase-database:19.2.1"
+    implementation "com.google.firebase:firebase-database:19.4.0"
 
     /**
      * Google登入必用
      */
-    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.android.gms:play-services-auth:18.1.0"
 
     /**
      * FloatingActionButton
@@ -131,7 +131,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     // Firebase analytics
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
     // Firebase Crashlytics dependency.
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
