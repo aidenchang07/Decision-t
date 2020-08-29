@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.activity_login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,7 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.manager.DBConnector;
+import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.activity_table.TableActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

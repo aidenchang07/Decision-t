@@ -1,4 +1,6 @@
-package com.decision_t;
+package com.decision_t.activity_v_table;
+
+import com.decision_t.manager.DBConnector;
 
 import org.json.JSONArray;
 import org.json.JSONException;

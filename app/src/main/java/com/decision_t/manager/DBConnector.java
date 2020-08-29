@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.manager;
 
 import android.os.StrictMode;
 import android.util.Log;

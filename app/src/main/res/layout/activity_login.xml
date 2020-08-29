@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLoginBackGround"
-    tools:context="com.decision_t.LoginActivity"
+    tools:context="com.decision_t.activity_login.LoginActivity"
     android:orientation="vertical"
     android:gravity="center">
 

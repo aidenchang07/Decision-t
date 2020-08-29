@@ -5,7 +5,7 @@
     android:id="@+id/activity_archive"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.decision_t.ArchiveActivity"
+    tools:context="com.decision_t.activity_archive.ArchiveActivity"
     android:background="@color/colorGray">
 
     <com.google.android.material.appbar.AppBarLayout

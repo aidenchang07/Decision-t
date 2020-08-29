@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.activity_r_table;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +23,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.activity_member.MemberActivity;
+import com.decision_t.R;
+import com.decision_t.manager.TableFunction;
+import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.manager.DBConnector;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 

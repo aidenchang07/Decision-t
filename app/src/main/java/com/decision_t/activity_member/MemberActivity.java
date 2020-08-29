@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.activity_member;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +18,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.decision_t.R;
+import com.decision_t.manager.TableFunction;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.manager.DBConnector;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.decision_t.t_table_tab;
+package com.decision_t.activity_t_table_tab;
 
 
 import android.content.Context;
@@ -16,9 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.DBConnector;
+import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
-import com.decision_t.TableFunction;
+import com.decision_t.manager.TableFunction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,32 +29,31 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SupportFragment extends Fragment {
+public class NotSupportFragment extends Fragment {
 
     private AppCompatActivity t_tab;
     private String[] user_info;
     private String[] table_data;
     private String[] item_data;
-    private ArrayList<String[]>support_data;
+    private ArrayList<String[]> notSupport_data;
     private ListView listView;
 
-    public SupportFragment(AppCompatActivity aa,
-                           String[] user_info,
-                           String[] table_data,
-                           String[] item_data,
-                           ArrayList<String[]> support_data)
+    public NotSupportFragment(AppCompatActivity aa,
+                              String[] user_info,
+                              String[] table_data,
+                              String[] item_data,
+                              ArrayList<String[]> notSupport_data)
     {
         this.t_tab = aa;
         this.user_info = user_info;
         this.table_data = table_data;
         this.item_data = item_data;
-        this.support_data = support_data;
+        this.notSupport_data = notSupport_data;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_support, container, false);
         listView = (ListView) rootView.findViewById(R.id.t_table_tab_support_list);
         listView.setAdapter(new MyAdapter(getActivity()));
@@ -71,12 +70,12 @@ public class SupportFragment extends Fragment {
         }
         @Override
         public int getCount() {
-            return support_data.size();
+            return notSupport_data.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return support_data.get(position);
+            return notSupport_data.get(position);
         }
 
         @Override
@@ -90,14 +89,14 @@ public class SupportFragment extends Fragment {
             convertView = myInflater.inflate(R.layout.t_table_argument_list_view, null);
             //設定元件內容
             TextView itemtitle = (TextView) convertView.findViewById(R.id.t_argument_name);
-            itemtitle.setText(support_data.get(position)[1]);
+            itemtitle.setText(notSupport_data.get(position)[1]);
             TextView itemaccount = (TextView) convertView.findViewById(R.id.t_argument_account);
-            itemaccount.setText("建立者:" + support_data.get(position)[7]+"("+support_data.get(position)[6]+")");
+            itemaccount.setText("建立者:" + notSupport_data.get(position)[7]+"("+ notSupport_data.get(position)[6]+")");
             TextView itemscore = (TextView) convertView.findViewById(R.id.t_argument_score);
-            if(support_data.get(position)[4].equals("null")){
-                support_data.get(position)[4] = "0";
+            if(notSupport_data.get(position)[4].equals("null")){
+                notSupport_data.get(position)[4] = "0";
             }
-            itemscore.setText(support_data.get(position)[4]);
+            itemscore.setText(notSupport_data.get(position)[4]);
             //如果為進行中(決策桌剛建立)將score隱藏
             if(table_data[5].equals("N") && table_data[6].equals("N")){
                 itemscore.setVisibility(View.INVISIBLE);
@@ -130,18 +129,18 @@ public class SupportFragment extends Fragment {
     private void score(final int position) {
         String[] function = {"0分", "1分", "2分", "3分", "4分", "5分"};
         AlertDialog.Builder dialog = new AlertDialog.Builder(t_tab);
-        dialog.setTitle("給 " + support_data.get(position)[1] + " 評分");
+        dialog.setTitle("給 " + notSupport_data.get(position)[1] + " 評分");
         dialog.setItems(function, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //which是指選擇的項目在function裡的index所以直接拿來用就行
                 String sql = "INSERT INTO `T_argument_score`" +
-                        "                   VALUES ('" + support_data.get(position)[0] + "'," +
+                        "                   VALUES ('" + notSupport_data.get(position)[0] + "'," +
                         "                                      '" + user_info[0] + "', " +
                         "                                     " + which + ")" +
                         "           ON DUPLICATE KEY UPDATE `Score` = " + which + ";";
                 DBConnector.executeQuery(sql);
-                support_data.get(position)[4] = String.valueOf(which);
+                notSupport_data.get(position)[4] = String.valueOf(which);
                 listView.setAdapter(new MyAdapter(getActivity()));
             }
         });
@@ -163,7 +162,7 @@ public class SupportFragment extends Fragment {
                         //先檢查是否為決策桌主持人
                         if(!table_data[8].equals(user_info[0])){
                             //再檢查是否為該論點創建者
-                            sql = "SELECT * FROM `Item_argument` WHERE `ID`='"+support_data.get(position)[0]+"' AND `Account_ID`='"+user_info[0]+"';";
+                            sql = "SELECT * FROM `Item_argument` WHERE `ID`='"+ notSupport_data.get(position)[0]+"' AND `Account_ID`='"+user_info[0]+"';";
                             String result = DBConnector.executeQuery(sql);
                             JSONArray jsonArray = new JSONArray(result);
                             if(jsonArray.length() == 0) {
@@ -181,9 +180,9 @@ public class SupportFragment extends Fragment {
                             return;
                         }else{
                             sql = "DELETE FROM `Item_argument`" +
-                                    "WHERE `ID` = '"+support_data.get(position)[0]+"';";
+                                    "WHERE `ID` = '"+ notSupport_data.get(position)[0]+"';";
                             DBConnector.executeQuery(sql);
-                            support_data.remove(position);
+                            notSupport_data.remove(position);
                             listView.setAdapter(new MyAdapter(getActivity()));
                         }
 
@@ -199,8 +198,8 @@ public class SupportFragment extends Fragment {
     };
 
     //供外層去更新資料
-    public void reload(ArrayList<String[]> support_data){
-        this.support_data = support_data;
+    public void reload(ArrayList<String[]> notSupport_data){
+        this.notSupport_data = notSupport_data;
         listView.setAdapter(new MyAdapter(getActivity()));
     }
 }

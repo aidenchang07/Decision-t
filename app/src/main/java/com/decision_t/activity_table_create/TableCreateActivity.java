@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.activity_table_create;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.manager.DBConnector;
 
 import org.json.JSONArray;
 import org.json.JSONException;

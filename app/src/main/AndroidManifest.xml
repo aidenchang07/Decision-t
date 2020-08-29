@@ -12,12 +12,12 @@
 
         <!-- 登入頁面 -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity_login.LoginActivity"
             android:label="@string/title_activity_login" />
 
         <!-- 主頁面 -->
         <activity
-            android:name=".TableActivity"
+            android:name=".activity_table.TableActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,7 +29,7 @@
 
         <!-- 註冊頁面 -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity_register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
 
@@ -38,43 +38,43 @@
         android:parentActivityName=".TableActivity" 這表示點選動作列的返回鍵會切回到 TableActivity
         -->
         <activity
-            android:name=".TableCreateActivity"
+            android:name=".activity_table_create.TableCreateActivity"
             android:label="新增決策桌"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 隨機桌頁面 -->
         <activity
-            android:name=".R_Table_Activity"
+            android:name=".activity_r_table.R_Table_Activity"
             android:label="隨機桌名稱"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 投票桌頁面 -->
         <activity
-            android:name=".V_Table_Activity"
+            android:name=".activity_v_table.V_Table_Activity"
             android:label="投票桌名稱"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 決策桌頁面 -->
         <activity
-            android:name=".T_Table_Activity"
+            android:name=".activity_t_table.T_Table_Activity"
             android:label="決策桌名稱"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 封存頁面 -->
         <activity
-            android:name=".ArchiveActivity"
+            android:name=".activity_archive.ArchiveActivity"
             android:label="已封存"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 成員頁面 -->
         <activity
-            android:name=".MemberActivity"
+            android:name=".activity_member.MemberActivity"
             android:label="成員"
-            android:parentActivityName=".TableActivity" />
+            android:parentActivityName=".activity_table.TableActivity" />
 
         <!-- 論點頁面 -->
         <activity
-            android:name=".T_Table_Tab_Activity"
+            android:name=".activity_t_table_tab.T_Table_Tab_Activity"
             android:label="論點頁面" />
 
     </application>

@@ -1,4 +1,4 @@
-package com.decision_t;
+package com.decision_t.activity_register;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.activity_table.TableActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

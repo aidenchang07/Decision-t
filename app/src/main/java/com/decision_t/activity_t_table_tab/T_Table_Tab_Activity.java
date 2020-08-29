@@ -1,10 +1,14 @@
-package com.decision_t;
+package com.decision_t.activity_t_table_tab;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.decision_t.manager.DBConnector;
+import com.decision_t.R;
+import com.decision_t.manager.TableFunction;
+import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
@@ -20,9 +24,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.t_table_tab.NotSupportFragment;
-import com.decision_t.t_table_tab.SupportFragment;
-import com.decision_t.t_table_tab.ViewPagerAdapter;
 import com.github.clans.fab.FloatingActionButton;
 
 import org.json.JSONArray;
