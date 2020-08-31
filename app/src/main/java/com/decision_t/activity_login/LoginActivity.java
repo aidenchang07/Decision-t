@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
 
         mProgressDialog = new ProgressDialog(this);
 
-        setGooglePlusButtonText(signInButton, "使用 Google 登入");
+        setGooglePlusButtonText(signInButton, getString(R.string.string_001));
 
         //------ Google Sigh In 初始化 ------
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -233,7 +233,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     //資料有錯誤則執行以下動作
-                    Toast.makeText(LoginActivity.this, "DatabaseError.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.string_002), Toast.LENGTH_LONG).show();
                 }
             });
         }
