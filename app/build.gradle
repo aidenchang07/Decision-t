@@ -1,7 +1,10 @@
 apply plugin: 'com.android.application'
 
-// Firebase Fabric plugin.
-apply plugin: 'io.fabric'
+// for firebase (Google Services Gradle plugin)
+apply plugin: 'com.google.gms.google-services'
+
+// for firebase Crashlytics plugin.
+apply plugin: 'com.google.firebase.crashlytics'
 
 Properties props = new Properties()
 //props.load(new FileInputStream(file("release.properties")))
@@ -134,9 +137,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
     // Firebase Crashlytics dependency.
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
 }
-/**
- * 引入Firebase必加
- */
-apply plugin: 'com.google.gms.google-services'
