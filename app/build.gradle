@@ -11,8 +11,7 @@ Properties props = new Properties()
 props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 30
 
     signingConfigs {
         release {//發布版本的簽名配置
@@ -31,12 +30,12 @@ android {
          * 原數值為API 19(Android 4.4 KitKat)，改為API 21(Android 5.0-5.0.2 Lollipop)可讓建構速度提高，
          * 但實際要發佈正式版APK時，要把數值改回原本的API 19(好讓Android 4.4 KitKat的用戶可以在Google Play下載我們的App)。
          */
-        minSdkVersion 19
+        minSdkVersion 21
 
         /**
          * targetSdkVersion：這個版本是可以正確執行的
          */
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         /**
          * v1.0.0 -> 1 00 00 00 -> versionCode: 1000000
