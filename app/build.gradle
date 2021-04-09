@@ -1,10 +1,8 @@
-apply plugin: 'com.android.application'
-
-// for firebase (Google Services Gradle plugin)
-apply plugin: 'com.google.gms.google-services'
-
-// for firebase Crashlytics plugin.
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'// for firebase (Google Services Gradle plugin)
+    id 'com.google.firebase.crashlytics'// for firebase Crashlytics plugin.
+}
 
 Properties props = new Properties()
 //props.load(new FileInputStream(file("release.properties")))
