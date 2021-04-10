@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatActivity implements IBaseView {
+public abstract class BaseActivity<P extends IBasePresenter<IBaseView>> extends AppCompatActivity implements IBaseView {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     private P mPresenter;
