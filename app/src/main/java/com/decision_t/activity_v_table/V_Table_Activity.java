@@ -21,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -285,7 +284,7 @@ public class V_Table_Activity extends BaseActivity implements V_TableContract.IV
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public VTableActivityMainBinding getInflatedBinding() {
         return VTableActivityMainBinding.inflate(getLayoutInflater());
     }
 

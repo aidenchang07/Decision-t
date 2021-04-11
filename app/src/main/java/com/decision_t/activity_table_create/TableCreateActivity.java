@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.view.View;
 import android.widget.Button;
@@ -67,7 +66,7 @@ public class TableCreateActivity extends BaseActivity implements TableCreateCont
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public TableCreateBinding getInflatedBinding() {
         return TableCreateBinding.inflate(getLayoutInflater());
     }
 

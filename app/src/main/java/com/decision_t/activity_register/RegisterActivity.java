@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.text.TextUtils;
 import android.view.View;
@@ -120,7 +119,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.I
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public ActivityRegisterBinding getInflatedBinding() {
         return ActivityRegisterBinding.inflate(getLayoutInflater());
     }
 

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog;
 import android.os.Bundle;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -119,7 +118,7 @@ public class MemberActivity extends BaseActivity implements MemberContract.IMemb
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public ActivityMemberBinding getInflatedBinding() {
         return ActivityMemberBinding.inflate(getLayoutInflater());
     }
 

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,7 +111,7 @@ public class ArchiveActivity extends BaseActivity implements ArchiveContract.IAr
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public ActivityArchiveBinding getInflatedBinding() {
         return ActivityArchiveBinding.inflate(getLayoutInflater());
     }
 

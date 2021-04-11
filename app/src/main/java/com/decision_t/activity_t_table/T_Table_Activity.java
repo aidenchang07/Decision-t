@@ -21,7 +21,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -265,7 +264,7 @@ public class T_Table_Activity extends BaseActivity implements T_TableContract.IT
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public TTableActivityMainBinding getInflatedBinding() {
         return TTableActivityMainBinding.inflate(getLayoutInflater());
     }
 

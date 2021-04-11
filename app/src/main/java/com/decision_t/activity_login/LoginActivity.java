@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.viewbinding.ViewBinding;
 
 import android.util.Log;
 import android.view.View;
@@ -264,7 +263,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public ActivityLoginBinding getInflatedBinding() {
         return ActivityLoginBinding.inflate(getLayoutInflater());
     }
 

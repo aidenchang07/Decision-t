@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.decision_t.activity_t_table.T_TablePresenter;
 import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.TTableTabBinding;
 import com.decision_t.manager.DBConnector;
@@ -16,7 +15,6 @@ import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
-import androidx.viewbinding.ViewBinding;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
@@ -325,7 +323,7 @@ public class T_Table_Tab_Activity extends BaseActivity implements T_Table_TabCon
     }
 
     @Override
-    public ViewBinding getInflatedBinding() {
+    public TTableTabBinding getInflatedBinding() {
         return TTableTabBinding.inflate(getLayoutInflater());
     }
 
