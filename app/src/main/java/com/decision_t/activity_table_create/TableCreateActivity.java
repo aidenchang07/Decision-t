@@ -1,6 +1,5 @@
 package com.decision_t.activity_table_create;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.TableCreateBinding;
 import com.decision_t.manager.DBConnector;
 
@@ -20,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TableCreateActivity extends BaseActivity implements TableCreateContract.ITableCreateView {
+public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
 
     private Button registerButton;
     private Button tButton;
@@ -61,18 +59,8 @@ public class TableCreateActivity extends BaseActivity implements TableCreateCont
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new TableCreatePresenter();
-    }
-
-    @Override
     public TableCreateBinding getInflatedBinding() {
         return TableCreateBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     private class handlerButton implements View.OnClickListener {

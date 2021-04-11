@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.ActivityArchiveBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
@@ -34,7 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ArchiveActivity extends BaseActivity implements ArchiveContract.IArchiveView {
+public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
 
     private Toolbar toolbar;
     private String[] user_info;
@@ -106,18 +105,8 @@ public class ArchiveActivity extends BaseActivity implements ArchiveContract.IAr
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new ArchivePresenter();
-    }
-
-    @Override
     public ActivityArchiveBinding getInflatedBinding() {
         return ActivityArchiveBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

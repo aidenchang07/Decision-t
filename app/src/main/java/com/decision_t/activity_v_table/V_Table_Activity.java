@@ -8,7 +8,6 @@ import android.os.Message;
 
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.VTableActivityMainBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
@@ -43,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class V_Table_Activity extends BaseActivity implements V_TableContract.IV_TableView {
+public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -279,18 +278,8 @@ public class V_Table_Activity extends BaseActivity implements V_TableContract.IV
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new V_TablePresenter();
-    }
-
-    @Override
     public VTableActivityMainBinding getInflatedBinding() {
         return VTableActivityMainBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     public class MyAdapter extends BaseAdapter {

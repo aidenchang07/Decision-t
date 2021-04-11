@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.decision_t.R;
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.ActivityMemberBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.base.BaseActivity;
@@ -28,7 +27,7 @@ import com.decision_t.manager.DBConnector;
 
 import java.util.ArrayList;
 
-public class MemberActivity extends BaseActivity implements MemberContract.IMemberView {
+public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
 
     private Toolbar toolbar;
     private SearchView searchView;
@@ -113,18 +112,8 @@ public class MemberActivity extends BaseActivity implements MemberContract.IMemb
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new MemberPresenter();
-    }
-
-    @Override
     public ActivityMemberBinding getInflatedBinding() {
         return ActivityMemberBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     public class MemberAdapter extends BaseAdapter {

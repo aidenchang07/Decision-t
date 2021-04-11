@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.activity_table.TableActivity;
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.ActivityRegisterBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegisterActivity extends BaseActivity implements RegisterContract.IRegisterView {
+public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
 
     private EditText nameEditText;
     private EditText emailEditText;
@@ -114,17 +113,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.I
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new RegisterPresenter();
-    }
-
-    @Override
     public ActivityRegisterBinding getInflatedBinding() {
         return ActivityRegisterBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 }

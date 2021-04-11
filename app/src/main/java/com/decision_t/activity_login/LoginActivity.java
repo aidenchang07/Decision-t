@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.ActivityLoginBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
@@ -42,7 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class LoginActivity extends BaseActivity implements LoginContract.ILoginView {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 1;
 
@@ -258,17 +257,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new LoginPresenter();
-    }
-
-    @Override
     public ActivityLoginBinding getInflatedBinding() {
         return ActivityLoginBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 }

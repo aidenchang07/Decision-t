@@ -1,12 +1,10 @@
 package com.decision_t.activity_t_table_tab;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.TTableTabBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
@@ -35,7 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Tab_Activity extends BaseActivity implements T_Table_TabContract.IT_Table_TabView {
+public class T_Table_Tab_Activity extends BaseActivity<TTableTabBinding> {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -318,17 +316,7 @@ public class T_Table_Tab_Activity extends BaseActivity implements T_Table_TabCon
     };
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new T_Table_TabPresenter();
-    }
-
-    @Override
     public TTableTabBinding getInflatedBinding() {
         return TTableTabBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 }

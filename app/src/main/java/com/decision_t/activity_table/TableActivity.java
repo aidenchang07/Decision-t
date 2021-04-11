@@ -9,7 +9,6 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.decision_t.activity_archive.ArchiveActivity;
-import com.decision_t.base.IBasePresenter;
 import com.decision_t.databinding.TableActivityMainBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_login.LoginActivity;
@@ -54,8 +53,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TableActivity extends BaseActivity
-        implements TableContract.ITableView, NavigationView.OnNavigationItemSelectedListener{
+public class TableActivity extends BaseActivity<TableActivityMainBinding>
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -290,18 +289,8 @@ public class TableActivity extends BaseActivity
     }
 
     @Override
-    protected IBasePresenter setPresenter() {
-        return new TablePresenter();
-    }
-
-    @Override
     public TableActivityMainBinding getInflatedBinding() {
         return TableActivityMainBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 
     public class MyAdapter extends BaseAdapter {
