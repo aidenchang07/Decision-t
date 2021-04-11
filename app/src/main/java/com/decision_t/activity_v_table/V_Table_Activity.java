@@ -9,6 +9,7 @@ import android.os.Message;
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.VTableActivityMainBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
@@ -20,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -279,6 +282,11 @@ public class V_Table_Activity extends BaseActivity implements V_TableContract.IV
     @Override
     protected IBasePresenter setPresenter() {
         return new V_TablePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return VTableActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override

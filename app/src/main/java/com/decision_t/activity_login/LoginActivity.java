@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.viewbinding.ViewBinding;
 
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.ActivityLoginBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
@@ -259,6 +261,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.ILoginV
     @Override
     protected IBasePresenter setPresenter() {
         return new LoginPresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return ActivityLoginBinding.inflate(getLayoutInflater());
     }
 
     @Override

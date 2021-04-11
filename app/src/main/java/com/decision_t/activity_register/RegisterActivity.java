@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.activity_table.TableActivity;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.ActivityRegisterBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -114,6 +117,11 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.I
     @Override
     protected IBasePresenter setPresenter() {
         return new RegisterPresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return ActivityRegisterBinding.inflate(getLayoutInflater());
     }
 
     @Override

@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.ActivityArchiveBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.activity_r_table.R_Table_Activity;
@@ -106,6 +109,11 @@ public class ArchiveActivity extends BaseActivity implements ArchiveContract.IAr
     @Override
     protected IBasePresenter setPresenter() {
         return new ArchivePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return ActivityArchiveBinding.inflate(getLayoutInflater());
     }
 
     @Override

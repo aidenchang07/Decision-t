@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
 import com.decision_t.activity_t_table.T_TableContract;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.RTableActivityMainBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
@@ -263,6 +265,11 @@ public class R_Table_Activity extends BaseActivity implements T_TableContract.IT
     @Override
     protected IBasePresenter setPresenter() {
         return new R_TablePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return RTableActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override

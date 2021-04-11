@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 import android.os.Bundle;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import com.decision_t.R;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.ActivityMemberBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.manager.DBConnector;
@@ -113,6 +116,11 @@ public class MemberActivity extends BaseActivity implements MemberContract.IMemb
     @Override
     protected IBasePresenter setPresenter() {
         return new MemberPresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return ActivityMemberBinding.inflate(getLayoutInflater());
     }
 
     @Override

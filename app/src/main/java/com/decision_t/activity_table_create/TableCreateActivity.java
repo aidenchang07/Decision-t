@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.TableCreateBinding;
 import com.decision_t.manager.DBConnector;
 
 import org.json.JSONArray;
@@ -61,6 +64,11 @@ public class TableCreateActivity extends BaseActivity implements TableCreateCont
     @Override
     protected IBasePresenter setPresenter() {
         return new TableCreatePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return TableCreateBinding.inflate(getLayoutInflater());
     }
 
     @Override

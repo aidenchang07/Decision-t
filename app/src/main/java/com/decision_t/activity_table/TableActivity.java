@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.decision_t.activity_archive.ArchiveActivity;
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.TableActivityMainBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_login.LoginActivity;
 import com.decision_t.R;
@@ -27,6 +28,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -291,6 +294,11 @@ public class TableActivity extends BaseActivity
     @Override
     protected IBasePresenter setPresenter() {
         return new TablePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return TableActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.decision_t.base.IBasePresenter;
+import com.decision_t.databinding.TTableActivityMainBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_member.MemberActivity;
 import com.decision_t.R;
@@ -20,6 +21,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -259,6 +262,11 @@ public class T_Table_Activity extends BaseActivity implements T_TableContract.IT
     @Override
     protected IBasePresenter setPresenter() {
         return new T_TablePresenter();
+    }
+
+    @Override
+    public ViewBinding getInflatedBinding() {
+        return TTableActivityMainBinding.inflate(getLayoutInflater());
     }
 
     @Override
