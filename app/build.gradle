@@ -102,26 +102,26 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
 
     /**
      * 實感設計的材料
      */
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
     /**
      * 引入Firebase必加
      */
-    implementation "com.google.firebase:firebase-core:17.5.0"
-    implementation "com.google.firebase:firebase-auth:19.3.2"
+    implementation "com.google.firebase:firebase-core:19.0.0"
+    implementation "com.google.firebase:firebase-auth:21.0.1"
 
     //Firebase的即時資料庫
-    implementation "com.google.firebase:firebase-database:19.4.0"
+    implementation "com.google.firebase:firebase-database:20.0.1"
 
     /**
      * Google登入必用
      */
-    implementation "com.google.android.gms:play-services-auth:18.1.0"
+    implementation "com.google.android.gms:play-services-auth:19.2.0"
 
     /**
      * FloatingActionButton
@@ -129,18 +129,18 @@ dependencies {
      */
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    testImplementation 'junit:junit:4.13.2'
     /**
      * 顯示Google登入圖片用
      */
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     // Firebase analytics
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
 
     // Firebase Crashlytics dependency.
-    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
-    implementation "androidx.core:core-ktx:1.3.2"
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
+    implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
