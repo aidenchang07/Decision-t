@@ -17,7 +17,7 @@ import com.decision_t.activity_r_table.RandomActivity;
 import com.decision_t.activity_table_create.TableCreateActivity;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
-import com.decision_t.activity_v_table.V_Table_Activity;
+import com.decision_t.activity_v_table.VoteActivity;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.activity_t_table.T_Table_Activity;
 import com.github.clans.fab.FloatingActionButton;
@@ -369,7 +369,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
                     startActivityForResult(rTable, 1);
                     break;
                 case "V":
-                    Intent vTable = new Intent(TableActivity.this, V_Table_Activity.class);
+                    Intent vTable = new Intent(TableActivity.this, VoteActivity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
                     startActivityForResult(vTable, 2);

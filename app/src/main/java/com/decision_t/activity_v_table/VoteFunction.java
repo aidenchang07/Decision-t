@@ -5,7 +5,7 @@ import com.decision_t.manager.DBConnector;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class V_Table_Function {
+public class VoteFunction {
     public static boolean canVote(String table_id, String user_id){
         try {
             //顯示決策桌的項目

@@ -50,7 +50,7 @@
 
         <!-- 投票桌頁面 -->
         <activity
-            android:name=".activity_v_table.V_Table_Activity"
+            android:name=".activity_v_table.VoteActivity"
             android:label="投票桌名稱"
             android:parentActivityName=".activity_table.TableActivity" />
 

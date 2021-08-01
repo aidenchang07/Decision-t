@@ -42,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
+public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -110,7 +110,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
         nav_member_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent memberIntent = new Intent(V_Table_Activity.this, MemberActivity.class);
+                Intent memberIntent = new Intent(VoteActivity.this, MemberActivity.class);
                 memberIntent.putExtra("table_data", table_data);
                 startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
@@ -204,7 +204,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
         updateScreenThead = UpdateScreenThead.getInstance();
         updateScreenThead.execute(handler);
         //取得目前是否可以投票的權限，投過就不能投了
-        can_vote = V_Table_Function.canVote(table_data[0], user_info[0]);
+        can_vote = VoteFunction.canVote(table_data[0], user_info[0]);
     }
 
     //創建右上角的 info
@@ -270,7 +270,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
                         jsonData.getString("Account_ID"),
                         jsonData.getString("Account_Name")});
             }
-            myAdapter = new MyAdapter(V_Table_Activity.this);
+            myAdapter = new MyAdapter(VoteActivity.this);
             v_table_list.setAdapter(myAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -504,7 +504,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
 
     //投票
     public void vote(final int position){
-        AlertDialog.Builder ad = new AlertDialog.Builder(V_Table_Activity.this);
+        AlertDialog.Builder ad = new AlertDialog.Builder(VoteActivity.this);
         ad.setTitle("投票");
         ad.setMessage("確定將票投給：\n" + data.get(position)[1] + "\n嗎？");
         ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -516,7 +516,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
                         "                                     '1');";
                 DBConnector.executeQuery(sql);
                 data.get(position)[3] = String.valueOf(Integer.parseInt(data.get(position)[3]) + 1);
-                myAdapter = new MyAdapter(V_Table_Activity.this);
+                myAdapter = new MyAdapter(VoteActivity.this);
                 v_table_list.setAdapter(myAdapter);
                 can_vote = false;
             }
@@ -531,7 +531,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder check = new AlertDialog.Builder(V_Table_Activity.this);
+            AlertDialog.Builder check = new AlertDialog.Builder(VoteActivity.this);
             check.setTitle("確定刪除?");
             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                 @Override
@@ -586,7 +586,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(V_Table_Activity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(VoteActivity.this);
                         lockcheck.setTitle("進入下一階段？");
                         lockcheck.setMessage("進入下一階段  <投票中>？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -628,7 +628,7 @@ public class V_Table_Activity extends BaseActivity<VTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(V_Table_Activity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(VoteActivity.this);
                         lockcheck.setTitle("進入下一階段？");
                         lockcheck.setMessage("確定要結束投票結算票數？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {

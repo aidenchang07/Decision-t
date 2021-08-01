@@ -23,7 +23,7 @@ import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.activity_r_table.RandomActivity;
 import com.decision_t.manager.TableFunction;
-import com.decision_t.activity_v_table.V_Table_Activity;
+import com.decision_t.activity_v_table.VoteActivity;
 import com.decision_t.base.BaseActivity;
 import com.decision_t.activity_t_table.T_Table_Activity;
 
@@ -184,7 +184,7 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
                     startActivityForResult(rTable, 1);
                     break;
                 case "V":
-                    Intent vTable = new Intent(ArchiveActivity.this, V_Table_Activity.class);
+                    Intent vTable = new Intent(ArchiveActivity.this, VoteActivity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
                     startActivityForResult(vTable, 2);
