@@ -44,7 +44,7 @@
 
         <!-- 隨機桌頁面 -->
         <activity
-            android:name=".activity_r_table.R_Table_Activity"
+            android:name=".activity_r_table.RandomActivity"
             android:label="隨機桌名稱"
             android:parentActivityName=".activity_table.TableActivity" />
 

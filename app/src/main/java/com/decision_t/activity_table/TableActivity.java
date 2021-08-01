@@ -13,7 +13,7 @@ import com.decision_t.databinding.TableActivityMainBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.activity_login.LoginActivity;
 import com.decision_t.R;
-import com.decision_t.activity_r_table.R_Table_Activity;
+import com.decision_t.activity_r_table.RandomActivity;
 import com.decision_t.activity_table_create.TableCreateActivity;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
@@ -363,7 +363,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (data.get(position)[2]){
                 case "R":
-                    Intent rTable = new Intent(TableActivity.this, R_Table_Activity.class);
+                    Intent rTable = new Intent(TableActivity.this, RandomActivity.class);
                     rTable.putExtra("user_info", user_info);
                     rTable.putExtra("table_data", data.get(position));
                     startActivityForResult(rTable, 1);

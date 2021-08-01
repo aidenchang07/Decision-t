@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
+public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -104,7 +104,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
         nav_member_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent memberIntent = new Intent(R_Table_Activity.this, MemberActivity.class);
+                Intent memberIntent = new Intent(RandomActivity.this, MemberActivity.class);
                 memberIntent.putExtra("table_data", table_data);
                 startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
@@ -154,7 +154,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
                             if(data.size() == 0){
                                 Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                             }else{
-                                AlertDialog.Builder lockcheck = new AlertDialog.Builder(R_Table_Activity.this);
+                                AlertDialog.Builder lockcheck = new AlertDialog.Builder(RandomActivity.this);
                                 lockcheck.setTitle("進入下一階段？");
                                 lockcheck.setMessage("進入下一階段  <決策中>？\n注意：此步驟不可逆");
                                 lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -252,7 +252,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
                         jsonData.getString("Account_ID"),
                         jsonData.getString("Account_Name")});
             }
-            myAdapter = new MyAdapter(R_Table_Activity.this);
+            myAdapter = new MyAdapter(RandomActivity.this);
             r_table_list.setAdapter(myAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -305,7 +305,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder check = new AlertDialog.Builder(R_Table_Activity.this);
+            AlertDialog.Builder check = new AlertDialog.Builder(RandomActivity.this);
             check.setTitle("確定刪除?");
             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                 @Override
@@ -413,7 +413,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
         }while( data.size( ) > 0 );
         data =  randomList;
         finalDecision(0);//最終決策判斷
-        myAdapter = new MyAdapter(R_Table_Activity.this);
+        myAdapter = new MyAdapter(RandomActivity.this);
         r_table_list.setAdapter(myAdapter);
     }
     //決策桌表按下事件
@@ -429,7 +429,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
     };
     //最終決策
     public void finalDecision(final int position){
-        AlertDialog.Builder ad = new AlertDialog.Builder(R_Table_Activity.this);
+        AlertDialog.Builder ad = new AlertDialog.Builder(RandomActivity.this);
         ad.setTitle("最終決策");
         //暫時先這樣，未來有空再說
         final String id, name;
@@ -444,7 +444,7 @@ public class R_Table_Activity extends BaseActivity<RTableActivityMainBinding> {
                         "WHERE `ID` = "+ table_data[0]+";";
                 DBConnector.executeQuery(sql);
                 tableStatus();
-                myAdapter = new MyAdapter(R_Table_Activity.this);
+                myAdapter = new MyAdapter(RandomActivity.this);
                 r_table_list.setAdapter(myAdapter);
             }
         });
