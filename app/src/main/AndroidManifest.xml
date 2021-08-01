@@ -56,7 +56,7 @@
 
         <!-- 決策桌頁面 -->
         <activity
-            android:name=".activity_t_table.T_Table_Activity"
+            android:name=".activity_t_table.WeightActivity"
             android:label="決策桌名稱"
             android:parentActivityName=".activity_table.TableActivity" />
 
@@ -74,7 +74,7 @@
 
         <!-- 論點頁面 -->
         <activity
-            android:name=".activity_t_table_tab.T_Table_Tab_Activity"
+            android:name=".activity_t_table_tab.WeightSupportActivity"
             android:label="論點頁面" />
 
     </application>

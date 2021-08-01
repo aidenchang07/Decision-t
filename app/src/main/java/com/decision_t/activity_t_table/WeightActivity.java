@@ -14,7 +14,7 @@ import com.decision_t.R;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_t_table_tab.T_Table_Tab_Activity;
+import com.decision_t.activity_t_table_tab.WeightSupportActivity;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -42,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
+public class WeightActivity extends BaseActivity<TTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -110,7 +110,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
         nav_member_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent memberIntent = new Intent(T_Table_Activity.this, MemberActivity.class);
+                Intent memberIntent = new Intent(WeightActivity.this, MemberActivity.class);
                 memberIntent.putExtra("table_data", table_data);
                 startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
@@ -250,7 +250,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
                         jsonData.getString("Account_ID"),
                         jsonData.getString("Account_Name")});
             }
-            myAdapter = new MyAdapter(T_Table_Activity.this);
+            myAdapter = new MyAdapter(WeightActivity.this);
             t_table_list.setAdapter(myAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -463,7 +463,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
                     return;
                 }
             }*/
-            Intent argument = new Intent(T_Table_Activity.this, T_Table_Tab_Activity.class);
+            Intent argument = new Intent(WeightActivity.this, WeightSupportActivity.class);
             argument.putExtra("user_info", user_info);
             argument.putExtra("table_data", table_data);
             argument.putExtra("item_data", data.get(position));
@@ -477,7 +477,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder check = new AlertDialog.Builder(T_Table_Activity.this);
+            AlertDialog.Builder check = new AlertDialog.Builder(WeightActivity.this);
             check.setTitle("確定刪除?");
             check.setMessage("這將連支持與不支持論點都一並刪除且無法復原！");
             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -534,7 +534,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(T_Table_Activity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(WeightActivity.this);
                         lockcheck.setTitle("進入下一階段？");
                         lockcheck.setMessage("進入下一階段  <評分中>？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
@@ -576,7 +576,7 @@ public class T_Table_Activity extends BaseActivity<TTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(T_Table_Activity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(WeightActivity.this);
                         lockcheck.setTitle("進入下一階段？");
                         lockcheck.setMessage("確定要結束評分結算票數？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {

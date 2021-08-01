@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class T_Table_Tab_Activity extends BaseActivity<TTableTabBinding> {
+public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

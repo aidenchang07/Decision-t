@@ -19,7 +19,7 @@ import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.activity_v_table.VoteActivity;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_t_table.T_Table_Activity;
+import com.decision_t.activity_t_table.WeightActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -375,7 +375,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
                     startActivityForResult(vTable, 2);
                     break;
                 case "T":
-                    Intent tTable = new Intent(TableActivity.this, T_Table_Activity.class);
+                    Intent tTable = new Intent(TableActivity.this, WeightActivity.class);
                     tTable.putExtra("user_info", user_info);
                     tTable.putExtra("table_data", data.get(position));
                     startActivityForResult(tTable, 3);

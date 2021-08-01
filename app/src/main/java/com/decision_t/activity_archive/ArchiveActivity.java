@@ -25,7 +25,7 @@ import com.decision_t.activity_r_table.RandomActivity;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.activity_v_table.VoteActivity;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_t_table.T_Table_Activity;
+import com.decision_t.activity_t_table.WeightActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -190,7 +190,7 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
                     startActivityForResult(vTable, 2);
                     break;
                 case "T":
-                    Intent tTable = new Intent(ArchiveActivity.this, T_Table_Activity.class);
+                    Intent tTable = new Intent(ArchiveActivity.this, WeightActivity.class);
                     tTable.putExtra("user_info", user_info);
                     tTable.putExtra("table_data", data.get(position));
                     startActivityForResult(tTable, 3);
