@@ -1,24 +1,24 @@
-package com.decision_t.activity_v_table;
+package com.decision_t.ui.weight;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.decision_t.activity_member.MemberActivity;
+import com.decision_t.databinding.TTableActivityMainBinding;
+import com.decision_t.manager.DBConnector;
+import com.decision_t.ui.member.MemberActivity;
 import com.decision_t.R;
-import com.decision_t.databinding.VTableActivityMainBinding;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.manager.DBConnector;
+import com.decision_t.ui.weight_support.WeightSupportActivity;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
-
-import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.LayoutInflater;
@@ -42,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
+public class WeightActivity extends BaseActivity<TTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;
     private ImageButton nav_description_edit;
@@ -57,24 +57,24 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private String[] user_info, table_data;
-    private ListView v_table_list;
+    private ArrayList<String[]> member_data;
+    private TextView t_table_status;
+    private ListView t_table_list;
     private ArrayList<String[]> data;
     private MyAdapter myAdapter;
-    private TextView v_table_status;
-    private ArrayList<String[]> member_data;
-    private boolean can_vote;
+    private ListView listView;
     private UpdateScreenThead updateScreenThead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.v_table_activity_main);
+        setContentView(R.layout.t_table_activity_main);
 
         //先取得傳進來的資料
         user_info = getIntent().getStringArrayExtra("user_info");
         table_data = getIntent().getStringArrayExtra("table_data");
 
-        /**右側選單初始化按鈕*/
+        /** 初始化按鈕 */
         nav_tablename_edit = (ImageButton) findViewById(R.id.imageButton_tablename_edit);
         nav_description_edit = (ImageButton) findViewById(R.id.imageButton_description_edit);
         nav_member_edit = (ImageButton) findViewById(R.id.imageButton_member_edit);
@@ -110,7 +110,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         nav_member_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent memberIntent = new Intent(VoteActivity.this, MemberActivity.class);
+                Intent memberIntent = new Intent(WeightActivity.this, MemberActivity.class);
                 memberIntent.putExtra("table_data", table_data);
                 startActivityForResult(memberIntent, 1);//返回後會執行onActivityResult
             }
@@ -120,18 +120,17 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         showMemberList(table_data[0]);
 
         //toolbar設定
-        toolbar = (Toolbar) findViewById(R.id.v_table_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.t_table_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(table_data[1]);
 
-        drawer = (DrawerLayout) findViewById(R.id.v_table_drawer_layout);
-
-        /** 初始化 FloatingActionButton */
-        fab_left = (FloatingActionMenu) findViewById(R.id.v_table_fab_menu_left);
-        fab_left_start = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_start);
-        fab_left_end = (FloatingActionButton) findViewById(R.id.v_table_fab_menu_item_end);
-        fab_right = (FloatingActionButton) findViewById(R.id.v_table_fab_right);
+        drawer = (DrawerLayout) findViewById(R.id.t_table_drawer_layout);
+        listView = (ListView) findViewById(R.id.t_table_list) ;
+        fab_left = (FloatingActionMenu) findViewById(R.id.t_table_fab_menu_left);
+        fab_left_start = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_start);
+        fab_left_end = (FloatingActionButton) findViewById(R.id.t_table_fab_menu_item_end);
+        fab_right = (FloatingActionButton) findViewById(R.id.t_table_fab_right);
         fab_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +151,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
             fab_left_start.setEnabled(false);
             fab_left_end.setEnabled(false);
         }else{
-            if(table_data[6].equals("Y")){//已鎖定投票中
+            if(table_data[6].equals("Y")){//已鎖定評分中
                 if(!table_data[7].equals("") && !table_data[7].equals("null")){
                     fab_left_end.setEnabled(false);
                 }
@@ -162,49 +161,45 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
             }
         }
 
-
-        /** 配置開始投票的監聽器 */
+        /** 配置開始評分的監聽器 */
         fab_left_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                voteStart();
+                scoreStart();
             }
         });
 
-        /** 配置結束投票的監聽器 */
+        /** 配置結束評分的監聽器 */
         fab_left_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                voteEnd();
+                scoreEnd();
             }
         });
-
         //初始化listview
-        v_table_list = (ListView) findViewById(R.id.v_table_list);
-        v_table_list.setOnItemLongClickListener(long_click_item_list);
-        v_table_list.setOnItemClickListener(click_item_list);
+        t_table_list = (ListView) findViewById(R.id.t_table_list);
+        t_table_list.setOnItemLongClickListener(long_click_item_list);
+        t_table_list.setOnItemClickListener(click_item_list);
         //初始化桌狀態
-        v_table_status = (TextView) findViewById(R.id.v_table_status);
+        t_table_status = (TextView) findViewById(R.id.t_table_status);
         //刷新桌狀態
         if(table_data[5].equals("Y")){
-            v_table_status.setText("已完結");
+            t_table_status.setText("已完結");
         }else{
             if(table_data[6].equals("Y")){
                 if(table_data[7].equals("") || table_data[7].equals("null")){
-                    v_table_status.setText("投票中");
+                    t_table_status.setText("評分中");
                 }else{
-                    v_table_status.setText("待決策");
+                    t_table_status.setText("待決策");
                 }
             }else{
-                v_table_status.setText("進行中");
+                t_table_status.setText("進行中");
             }
         }
         //顯示項目列
         getItemList(table_data[0]);
         updateScreenThead = UpdateScreenThead.getInstance();
         updateScreenThead.execute(handler);
-        //取得目前是否可以投票的權限，投過就不能投了
-        can_vote = VoteFunction.canVote(table_data[0], user_info[0]);
     }
 
     //創建右上角的 info
@@ -225,6 +220,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     //取得決策桌項目列表
     public void getItemList(String table_id){
         //先清空資料
@@ -232,30 +228,14 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         try {
             /*
                             顯示決策桌的項目
-                             依照目前狀態選用不同的sql
-                             投票中看V_item_score的分數
-                             完結了直接看Tables_item的分數
+                             因為沒有即時觀看的功能
+                             直接看Tables_item的分數即可
                         */
-            String sql;
-            if(table_data[5].equals("Y")){
-                sql = "SELECT `a`.*, `b`.`Name` as `Account_Name`" +
-                        "FROM `Tables_item` `a`, `Account` `b`" +
-                        "WHERE `a`.`Account_ID` = `b`.`ID`" +
-                        "   AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
-                        "ORDER BY `ID` ASC";
-            }else{
-                sql = "SELECT `a`.`ID` , " +
-                        "             `a`.`Name` ," +
-                        "             `a`.`Info` ," +
-                        "              SUM( `b`.`Score` ) `Score` ," +
-                        "             `a`.`Decision_tables_ID` , " +
-                        "             `a`.`Account_ID`," +
-                        "             `c`.`Name` `Account_Name`" +
-                        "FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                        "WHERE `a`.`Account_ID` = `c`.`ID`" +
-                        "      AND `a`.`Decision_tables_ID` ='"+ table_id +"'" +
-                        "GROUP BY `a`.`ID` ";
-            }
+            String sql = "SELECT `a`.*, `b`.`Name` as `Account_Name`" +
+                        "      FROM `Tables_item` `a`, `Account` `b`" +
+                        "  WHERE `a`.`Account_ID` = `b`.`ID`" +
+                        "         AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
+                        "   ORDER BY `ID` ASC";
 
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
@@ -270,16 +250,16 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                         jsonData.getString("Account_ID"),
                         jsonData.getString("Account_Name")});
             }
-            myAdapter = new MyAdapter(VoteActivity.this);
-            v_table_list.setAdapter(myAdapter);
+            myAdapter = new MyAdapter(WeightActivity.this);
+            t_table_list.setAdapter(myAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public VTableActivityMainBinding getInflatedBinding() {
-        return VTableActivityMainBinding.inflate(getLayoutInflater());
+    public TTableActivityMainBinding getInflatedBinding() {
+        return TTableActivityMainBinding.inflate(getLayoutInflater());
     }
 
     public class MyAdapter extends BaseAdapter {
@@ -319,8 +299,8 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                 data.get(position)[3] = "0";
             }
             itemscore.setText(data.get(position)[3]);
-            //如果為進行中(決策桌剛建立)將score隱藏
-            if(table_data[5].equals("N") && table_data[6].equals("N")){
+            //如果為未完結且  未鎖定或是未有建議決策選項時  隱藏分數
+            if(table_data[5].equals("N") && (table_data[6].equals("N") || table_data[7].equals("null"))){
                 itemscore.setVisibility(View.INVISIBLE);
             }
 
@@ -332,19 +312,20 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
     public void tableStatus(){
         table_data = TableFunction.table_data(table_data[0]);//更新桌資訊
         if(table_data[5].equals("Y")){
-            v_table_status.setText("已完結");
+            t_table_status.setText("已完結");
         }else{
             if(table_data[6].equals("Y")){
                 if(table_data[7].equals("") || table_data[7].equals("null")){
-                    v_table_status.setText("投票中");
+                    t_table_status.setText("評分中");
                 }else{
-                    v_table_status.setText("待決策");
+                    t_table_status.setText("待決策");
                 }
             }else{
-                v_table_status.setText("進行中");
+                t_table_status.setText("進行中");
             }
         }
     }
+
     //創建新項目
     public void createItem(final String table_id, final String user_id){
         //先初步檢查是否可以新增
@@ -352,7 +333,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
             Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
             return;
         }else if(table_data[6].equals("Y")){
-            Toast.makeText(getApplicationContext(), "目前為投票中狀態", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "目前為評分中狀態", Toast.LENGTH_SHORT).show();
             return;
         }else{
             //取得資料庫資訊確定真的可以新增
@@ -361,7 +342,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                 Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
                 return;
             }else if(table_data[6].equals("Y")){
-                Toast.makeText(getApplicationContext(), "目前為投票中狀態", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "目前為評分中狀態", Toast.LENGTH_SHORT).show();
                 return;
             }else{
                 //點擊新增項目
@@ -384,6 +365,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
             }
         }
     }
+
     //右側選單修改決策桌名稱
     public void updateTableName(final String table_id){
         final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
@@ -395,7 +377,6 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 String sql = "UPDATE `Decision_tables` SET `Name` = '"+ text.getText()+"'"+
                         "           WHERE `ID` = "+ table_id +";";
                 DBConnector.executeQuery(sql);
@@ -468,62 +449,27 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         }
     }
 
+
     //決策桌表按下事件
     private AdapterView.OnItemClickListener click_item_list
             = new AdapterView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            //如果是投票中狀態且尚未投過票，則可以投票
-            if(table_data[5].equals("N")){
-                if(table_data[6].equals("Y")){
-                    tableStatus();//更新資訊
-                    if(table_data[7].equals("") || table_data[7].equals("null")){//確定還沒被主持人關閉即可投票
-                        if(can_vote){//沒投過可以投
-                            vote(position);
-                        }else{
-                            Toast.makeText(getApplicationContext(), "已經投過票囉！", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        /*依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
-                                                *若是主持人則可以進行最終決策
-                                                *若不是則等待
-
-                        if(table_data[8].equals(user_info[0])){
-                            finalDecision(position);
-                        }else{
-                            Toast.makeText(getApplicationContext(), "投票環節已過！\n請等待主持人做出最終決策！", Toast.LENGTH_SHORT).show();
-                        }*/
-                        Toast.makeText(getApplicationContext(), "投票環節已過！\n請等待主持人做出最終決策！", Toast.LENGTH_SHORT).show();
-                    }
-                }//未鎖定之前點擊沒反應
-            }else{
-                Toast.makeText(getApplicationContext(), "決策桌已完結！", Toast.LENGTH_SHORT).show();
-            }
+            /*  依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
+            //如果目前狀態為待決策且使用者又是主持人時需要可以選擇是要決策還是進入觀看
+            if(table_data[8].equals(user_info[0])){
+                if(table_data[5].equals("N") && table_data[6].equals("Y") && !table_data[7].equals("null")){
+                    finalDecision(position);
+                    return;
+                }
+            }*/
+            Intent argument = new Intent(WeightActivity.this, WeightSupportActivity.class);
+            argument.putExtra("user_info", user_info);
+            argument.putExtra("table_data", table_data);
+            argument.putExtra("item_data", data.get(position));
+            startActivityForResult(argument, 0);
         }
     };
-
-    //投票
-    public void vote(final int position){
-        AlertDialog.Builder ad = new AlertDialog.Builder(VoteActivity.this);
-        ad.setTitle("投票");
-        ad.setMessage("確定將票投給：\n" + data.get(position)[1] + "\n嗎？");
-        ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String sql = "INSERT INTO `V_item_score`" +
-                        "                   VALUES ('" + data.get(position)[0] + "'," +
-                        "                                      '" + user_info[0] + "', " +
-                        "                                     '1');";
-                DBConnector.executeQuery(sql);
-                data.get(position)[3] = String.valueOf(Integer.parseInt(data.get(position)[3]) + 1);
-                myAdapter = new MyAdapter(VoteActivity.this);
-                v_table_list.setAdapter(myAdapter);
-                can_vote = false;
-            }
-        });
-        ad.setNegativeButton("不要,再等等", null);
-        ad.show();
-    }
 
 
     //項目列長按
@@ -531,8 +477,9 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder check = new AlertDialog.Builder(VoteActivity.this);
+            AlertDialog.Builder check = new AlertDialog.Builder(WeightActivity.this);
             check.setTitle("確定刪除?");
+            check.setMessage("這將連支持與不支持論點都一並刪除且無法復原！");
             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -555,7 +502,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                             Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
                             return;
                         }else if(table_data[6].equals("Y")){
-                            Toast.makeText(getApplicationContext(), "目前為投票中狀態", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "目前為評分中狀態", Toast.LENGTH_SHORT).show();
                             return;
                         }else{
                             sql = "DELETE FROM `Tables_item`" +
@@ -570,13 +517,14 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                     }
                 }
             });
+            check.setNegativeButton("再考慮一下", null );
             check.show();
             return true;
         }
     };
 
-    //投票開始
-    public void voteStart(){
+    //評分開始
+    public void scoreStart(){
         //確定是否是主持人
         if(table_data[8].equals(user_info[0])){
             if(table_data[5].equals("Y")){
@@ -586,9 +534,9 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(VoteActivity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(WeightActivity.this);
                         lockcheck.setTitle("進入下一階段？");
-                        lockcheck.setMessage("進入下一階段  <投票中>？\n注意：此步驟不可逆");
+                        lockcheck.setMessage("進入下一階段  <評分中>？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -598,13 +546,13 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                                 DBConnector.executeQuery(sql);
                                 //更新決策桌資訊，因為主持人只有一個所以不用連資料庫取得資料直接改就行
                                 table_data[6] = "Y";
-                                v_table_status.setText("投票中");
+                                t_table_status.setText("評分中");
                                 //打開按鈕
                                 fab_left_start.setEnabled(false);
                                 fab_left_end.setEnabled(true);
                                 //更新列表佈局
                                 getItemList(table_data[0]);
-                                Toast.makeText(getApplication(), "開始投票！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "開始評分！", Toast.LENGTH_SHORT).show();
                             }
                         });
                         lockcheck.setNegativeButton("否", null);
@@ -618,7 +566,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
         fab_left.close(true);
     }
 
-    public void voteEnd(){
+    public void scoreEnd(){
         //確定是否是主持人
         if(table_data[8].equals(user_info[0])){
             if(table_data[5].equals("Y")){
@@ -628,41 +576,59 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                     if(data.size() == 0){
                         Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
                     }else{
-                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(VoteActivity.this);
+                        AlertDialog.Builder lockcheck = new AlertDialog.Builder(WeightActivity.this);
                         lockcheck.setTitle("進入下一階段？");
-                        lockcheck.setMessage("確定要結束投票結算票數？\n注意：此步驟不可逆");
+                        lockcheck.setMessage("確定要結束評分結算票數？\n注意：此步驟不可逆");
                         lockcheck.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
-                                //先更新決策桌的建議方案
-                                String sql  = "UPDATE `Decision_tables`" +
-                                        "                     SET `Final_decision` =(SELECT `ID`" +
-                                        "                                                                     FROM (SELECT `a`.`ID`," +
-                                        "                                                                                                     IFNULL(SUM( `b`.`Score` ), 0) `Score` " +
-                                        "                                                                                        FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                                        "                                                                                    WHERE `a`.`Account_ID` = `c`.`ID`" +
-                                        "                                                                                           AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
-                                        "                                                                                      GROUP BY `a`.`ID`" +
-                                        "                                                                                      ORDER BY `Score` DESC" +
-                                        "                                                                                        LIMIT 1) `Score`" +
-                                        "                                                                             )," +
-                                        "                                `Complete`= 'Y'" +
-                                        "                          WHERE `ID` = '" + table_data[0] + "';";
+                                String sql;
+                                //先把論點分數算好
+                                sql = "UPDATE `Item_argument` `ia` inner join" +
+                                        "        (SELECT `ia`.`ID`," +
+                                        "                IFNULL(SUM(`tas`.`Score`), 0) `Score`" +
+                                        "           FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                   ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                 LEFT JOIN `T_argument_score` `tas`" +
+                                        "                                   ON `ia`.`ID` = `tas`.`Argument_ID`" +
+                                        "          WHERE `ti`.`Decision_tables_ID` = " + table_data[0] +
+                                        "          GROUP BY `ia`.`ID`) `sc`" +
+                                        "        ON `ia`.`ID` = `sc`.`ID`" +
+                                        "   SET `ia`.`Score` = `sc`.`Score`;";
                                 DBConnector.executeQuery(sql);
-                                //接著更新桌的項目統計分數
-                                sql = "UPDATE `Tables_item` `ti` INNER JOIN " +
-                                      "                 (SELECT `a`.`ID`," +
-                                      "                                    IFNULL(SUM( `b`.`Score` ), 0) `Score` " +
-                                      "                       FROM `Tables_item` `a`LEFT JOIN `V_item_score` `b` ON `a`.`ID` = `b`.`Item_ID` , `Account` `c` " +
-                                      "                    WHERE `a`.`Account_ID` = `c`.`ID`" +
-                                      "                          AND `a`.`Decision_tables_ID` ='" + table_data[0] + "'" +
-                                      "                     GROUP BY `a`.`ID`" +
-                                      "                     ORDER BY `Score` DESC" +
-                                      "                 )`vis`" +
-                                      "                 ON `ti`.`ID` = `vis`.`ID`" +
-                                      "        SET `ti`.`Score` = `vis`.`Score`" +
-                                      "WHERE `ti`.`Decision_tables_ID`= '" + table_data[0] + "' ";
+
+                                //算出各項目分數
+                                sql = "UPDATE `Tables_item` `ti` inner join" +
+                                        "              (SELECT `a`.`ID`," +
+                                        "                                 IFNULL(`a`.`Score`, 0) - IFNULL(`b`.`Score`, 0) `Score`" +
+                                        "                   FROM (SELECT `ti`.`ID`," +
+                                        "                                                    IFNULL(SUM(`ia`.`Score`), 0) `Score`" +
+                                        "                                      FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                                                                      ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                                   WHERE `ti`.`Decision_tables_ID` =" + table_data[0] +
+                                        "                                         AND `ia`.`Type` = '支持'" +
+                                        "                                    GROUP BY `ti`.`ID`)`a`," +
+                                        "                                 (SELECT `ti`.`ID`," +
+                                        "                                                    IFNULL(SUM(`ia`.`Score`), 0) `Score`" +
+                                        "                                       FROM `Tables_item` `ti` INNER JOIN `Item_argument` `ia`" +
+                                        "                                                                                      ON `ti`.`ID` = `ia`.`Tables_item_ID`" +
+                                        "                                   WHERE `ti`.`Decision_tables_ID` = " + table_data[0] +
+                                        "                                          AND `ia`.`Type` = '不支持'" +
+                                        "                                    GROUP BY `ti`.`ID`)`b`" +
+                                        "                 WHERE `a`.`ID` = `b`.`ID`) `sc`" +
+                                        "                ON `ti`.`ID` = `sc`.`ID`" +
+                                        "      SET `ti`.`Score` = `sc`.`Score`;";
+                                DBConnector.executeQuery(sql);
+                                //依使用者回饋之意見，直接完結決策桌，不讓主持人再次自行決定
+                                //再來是更新決策桌的建議方案
+                                sql  = "UPDATE `Decision_tables`" +
+                                        "   SET `Final_decision` = (SELECT `ID`" +
+                                        "                             FROM `Tables_item`" +
+                                        "                            WHERE `Decision_tables_ID` = " + table_data[0] +
+                                        "                            ORDER BY `Score` DESC" +
+                                        "                            LIMIT 1)," +
+                                        "              `Complete`= 'Y'" +
+                                        "  WHERE `ID` = " + table_data[0] +";";
                                 DBConnector.executeQuery(sql);
                                 //更新決策桌資訊
                                 tableStatus();
@@ -670,7 +636,7 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                                 fab_left_end.setEnabled(false);
                                 //更新列表佈局
                                 getItemList(table_data[0]);
-                                Toast.makeText(getApplication(), "投票結束！", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "評分結束！", Toast.LENGTH_SHORT).show();
                             }
                         });
                         lockcheck.setNegativeButton("否", null);
@@ -697,19 +663,22 @@ public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
                         "WHERE `ID` = "+ table_data[0]+";";
                 DBConnector.executeQuery(sql);
                 tableStatus();
-                myAdapter = new MyAdapter(V_Table_Activity.this);
-                v_table_list.setAdapter(myAdapter);
+                myAdapter = new MyAdapter(T_Table_Activity.this);
+                t_table_list.setAdapter(myAdapter);
             }
         });
         ad.setNegativeButton("不要,再等等", null);
         ad.show();
     }*/
 
-    @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
+    @Override // 覆寫 onActivityResult，按下項目進入論點後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //不管如何先更新member列表再說
+        tableStatus();
         showMemberList(table_data[0]);
+        //再更新項目列表
+        getItemList(table_data[0]);
     }
 
 

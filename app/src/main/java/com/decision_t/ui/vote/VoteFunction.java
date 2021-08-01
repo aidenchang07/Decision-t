@@ -1,4 +1,4 @@
-package com.decision_t.activity_v_table;
+package com.decision_t.ui.vote;
 
 import com.decision_t.manager.DBConnector;
 

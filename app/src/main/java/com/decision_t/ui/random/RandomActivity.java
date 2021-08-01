@@ -1,4 +1,4 @@
-package com.decision_t.activity_r_table;
+package com.decision_t.ui.random;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.activity_member.MemberActivity;
+import com.decision_t.ui.member.MemberActivity;
 import com.decision_t.R;
 import com.decision_t.databinding.RTableActivityMainBinding;
 import com.decision_t.manager.TableFunction;

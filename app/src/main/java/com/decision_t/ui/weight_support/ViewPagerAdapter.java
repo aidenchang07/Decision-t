@@ -1,4 +1,4 @@
-package com.decision_t.activity_t_table_tab;
+package com.decision_t.ui.weight_support;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

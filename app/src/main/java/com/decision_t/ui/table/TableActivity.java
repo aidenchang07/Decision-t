@@ -1,4 +1,4 @@
-package com.decision_t.activity_table;
+package com.decision_t.ui.table;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,18 +8,18 @@ import android.os.Handler;
 import android.os.Message;
 import androidx.annotation.NonNull;
 
-import com.decision_t.activity_archive.ArchiveActivity;
+import com.decision_t.ui.archive.ArchiveActivity;
 import com.decision_t.databinding.TableActivityMainBinding;
 import com.decision_t.manager.DBConnector;
-import com.decision_t.activity_login.LoginActivity;
+import com.decision_t.ui.login.LoginActivity;
 import com.decision_t.R;
-import com.decision_t.activity_r_table.RandomActivity;
-import com.decision_t.activity_table_create.TableCreateActivity;
+import com.decision_t.ui.random.RandomActivity;
+import com.decision_t.ui.table_create.TableCreateActivity;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
-import com.decision_t.activity_v_table.VoteActivity;
+import com.decision_t.ui.vote.VoteActivity;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_t_table.WeightActivity;
+import com.decision_t.ui.weight.WeightActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;

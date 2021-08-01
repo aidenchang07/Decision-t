@@ -1,4 +1,4 @@
-package com.decision_t.activity_table_create;
+package com.decision_t.ui.table_create;
 
 import android.content.Intent;
 import android.os.Bundle;

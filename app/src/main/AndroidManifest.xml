@@ -12,12 +12,12 @@
 
         <!-- 登入頁面 -->
         <activity
-            android:name=".activity_login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
 
         <!-- 主頁面 -->
         <activity
-            android:name=".activity_table.TableActivity"
+            android:name=".ui.table.TableActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,7 +29,7 @@
 
         <!-- 註冊頁面 -->
         <activity
-            android:name=".activity_register.RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
 
@@ -38,43 +38,43 @@
         android:parentActivityName=".TableActivity" 這表示點選動作列的返回鍵會切回到 TableActivity
         -->
         <activity
-            android:name=".activity_table_create.TableCreateActivity"
+            android:name=".ui.table_create.TableCreateActivity"
             android:label="新增決策桌"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 隨機桌頁面 -->
         <activity
-            android:name=".activity_r_table.RandomActivity"
+            android:name=".ui.random.RandomActivity"
             android:label="隨機桌名稱"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 投票桌頁面 -->
         <activity
-            android:name=".activity_v_table.VoteActivity"
+            android:name=".ui.vote.VoteActivity"
             android:label="投票桌名稱"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 決策桌頁面 -->
         <activity
-            android:name=".activity_t_table.WeightActivity"
+            android:name=".ui.weight.WeightActivity"
             android:label="決策桌名稱"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 封存頁面 -->
         <activity
-            android:name=".activity_archive.ArchiveActivity"
+            android:name=".ui.archive.ArchiveActivity"
             android:label="已封存"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 成員頁面 -->
         <activity
-            android:name=".activity_member.MemberActivity"
+            android:name=".ui.member.MemberActivity"
             android:label="成員"
-            android:parentActivityName=".activity_table.TableActivity" />
+            android:parentActivityName=".ui.table.TableActivity" />
 
         <!-- 論點頁面 -->
         <activity
-            android:name=".activity_t_table_tab.WeightSupportActivity"
+            android:name=".ui.weight_support.WeightSupportActivity"
             android:label="論點頁面" />
 
     </application>

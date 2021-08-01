@@ -1,4 +1,4 @@
-package com.decision_t.activity_archive;
+package com.decision_t.ui.archive;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,11 +21,11 @@ import android.widget.Toast;
 import com.decision_t.databinding.ActivityArchiveBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
-import com.decision_t.activity_r_table.RandomActivity;
+import com.decision_t.ui.random.RandomActivity;
 import com.decision_t.manager.TableFunction;
-import com.decision_t.activity_v_table.VoteActivity;
+import com.decision_t.ui.vote.VoteActivity;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_t_table.WeightActivity;
+import com.decision_t.ui.weight.WeightActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

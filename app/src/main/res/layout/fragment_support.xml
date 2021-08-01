@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.decision_t.activity_t_table_tab.SupportFragment"
+    tools:context=".ui.weight_support.SupportFragment"
     android:background="@color/colorGray">
 
     <ListView

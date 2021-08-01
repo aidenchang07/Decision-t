@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorLoginBackGround"
     android:gravity="center"
-    tools:context="com.decision_t.activity_login.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
 
     <ImageView

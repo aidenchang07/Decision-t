@@ -1,4 +1,4 @@
-package com.decision_t.activity_member;
+package com.decision_t.ui.member;
 
 import android.content.Context;
 import android.content.DialogInterface;

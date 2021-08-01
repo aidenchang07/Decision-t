@@ -1,4 +1,4 @@
-package com.decision_t.activity_login;
+package com.decision_t.ui.login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,7 +16,7 @@ import com.decision_t.databinding.ActivityLoginBinding;
 import com.decision_t.manager.DBConnector;
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
-import com.decision_t.activity_table.TableActivity;
+import com.decision_t.ui.table.TableActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
