@@ -164,28 +164,10 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
         //新增 FirebaseAuth 的監聽事件
         mAuth.addAuthStateListener(mAuthListener);
     }
-    
-    //離開程式
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
 
-        if (keyCode == KeyEvent.KEYCODE_BACK) { // 攔截返回鍵
-            new AlertDialog.Builder(this)
-                    .setTitle("確認視窗")
-                    .setMessage("確定要結束應用程式嗎?")
-                    .setIcon(R.mipmap.logo)
-                    .setPositiveButton("確定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                    System.exit(0);
-                                }
-                            })
-                    .setNegativeButton("取消",null).show();
-        }
-        return true;
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     @Override
