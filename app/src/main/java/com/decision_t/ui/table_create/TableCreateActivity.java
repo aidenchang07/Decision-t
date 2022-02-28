@@ -1,5 +1,9 @@
 package com.decision_t.ui.table_create;
 
+import static com.decision_t.config.TableConfig.TABLE_R;
+import static com.decision_t.config.TableConfig.TABLE_T;
+import static com.decision_t.config.TableConfig.TABLE_V;
+
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -72,15 +76,15 @@ public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
                     break;
                 case R.id.tButton:
                     //創建T桌
-                    createTable(table_id_or_name.getText().toString(), "T", user_info[0]);
+                    createTable(table_id_or_name.getText().toString(), TABLE_T, user_info[0]);
                     break;
                 case R.id.voteButton:
                     //創建投票桌
-                    createTable(table_id_or_name.getText().toString(), "V", user_info[0]);
+                    createTable(table_id_or_name.getText().toString(), TABLE_V, user_info[0]);
                     break;
                 case R.id.randomButton:
                     //創建隨機桌
-                    createTable(table_id_or_name.getText().toString(), "R", user_info[0]);
+                    createTable(table_id_or_name.getText().toString(), TABLE_R, user_info[0]);
                     break;
             }
         }

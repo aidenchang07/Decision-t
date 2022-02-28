@@ -1,5 +1,9 @@
 package com.decision_t.ui.archive;
 
+import static com.decision_t.config.TableConfig.TABLE_R;
+import static com.decision_t.config.TableConfig.TABLE_T;
+import static com.decision_t.config.TableConfig.TABLE_V;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -150,18 +154,18 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
             // 依據是否為主持人和桌類型來判斷選擇何種圖片
             if(!dd[8].equals(user_info[0])) {
                 // 不是主持人，會是黃色
-                if(dd[2].equals("R")) {
+                if(dd[2].equals(TABLE_R)) {
                     table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
-                } else if(dd[2].equals("V")) {
+                } else if(dd[2].equals(TABLE_V)) {
                     table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
                 } else {
                     table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
                 }
             } else {
                 // 是主持人，會是藍色
-                if(dd[2].equals("R")) {
+                if(dd[2].equals(TABLE_R)) {
                     table_status.setImageResource(R.drawable.ic_blue_r_215dp);
-                } else if(dd[2].equals("V")) {
+                } else if(dd[2].equals(TABLE_V)) {
                     table_status.setImageResource(R.drawable.ic_blue_v_215dp);
                 } else {
                     table_status.setImageResource(R.drawable.ic_blue_t_215dp);
@@ -177,19 +181,19 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (data.get(position)[2]){
-                case "R":
+                case TABLE_R:
                     Intent rTable = new Intent(ArchiveActivity.this, RandomActivity.class);
                     rTable.putExtra("user_info", user_info);
                     rTable.putExtra("table_data", data.get(position));
                     startActivityForResult(rTable, 1);
                     break;
-                case "V":
+                case TABLE_V:
                     Intent vTable = new Intent(ArchiveActivity.this, VoteActivity.class);
                     vTable.putExtra("user_info", user_info);
                     vTable.putExtra("table_data", data.get(position));
                     startActivityForResult(vTable, 2);
                     break;
-                case "T":
+                case TABLE_T:
                     Intent tTable = new Intent(ArchiveActivity.this, WeightActivity.class);
                     tTable.putExtra("user_info", user_info);
                     tTable.putExtra("table_data", data.get(position));
