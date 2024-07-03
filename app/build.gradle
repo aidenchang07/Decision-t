@@ -10,7 +10,7 @@ Properties props = new Properties()
 props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
 
 android {
-    compileSdkVersion 32
+    compileSdk 32
 
     signingConfigs {
         release {//發布版本的簽名配置
