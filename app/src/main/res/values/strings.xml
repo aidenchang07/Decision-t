@@ -5,6 +5,8 @@
     <string name="title_activity_login">登入</string>
     <string name="title_activity_register">註冊</string>
 
+    <string name="default_web_client_id">869579454078-out6sh61dnndv98vng1tb1f3l8r8qm9v.apps.googleusercontent.com</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
