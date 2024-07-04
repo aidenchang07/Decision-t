@@ -10,6 +10,7 @@ Properties props = new Properties()
 props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
 
 android {
+    namespace = "com.decision_t"
     compileSdk 32
 
     signingConfigs {
