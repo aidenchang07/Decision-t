@@ -5,22 +5,23 @@ plugins {
     id 'kotlin-android'
 }
 
-Properties props = new Properties()
+// 先關閉release的build檔，找到再打開
+//Properties props = new Properties()
 //props.load(new FileInputStream(file("release.properties")))
-props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
+//props.load(new FileInputStream(file("D:\\AndroidReleaseKeyStore\\Decision-t\\release.properties")))
 
 android {
     namespace = "com.decision_t"
     compileSdk 32
 
-    signingConfigs {
-        release {//發布版本的簽名配置
-            storeFile file(props['KEYSTORE_FILE'])
-            keyAlias props['KEY_ALIAS']
-            storePassword props['KEYSTORE_PWD']
-            keyPassword props['KEY_PWD']
-        }
-    }
+//    signingConfigs {
+//        release {//發布版本的簽名配置
+//            storeFile file(props['KEYSTORE_FILE'])
+//            keyAlias props['KEY_ALIAS']
+//            storePassword props['KEYSTORE_PWD']
+//            keyPassword props['KEY_PWD']
+//        }
+//    }
 
     defaultConfig {
         applicationId "com.decision_t"
@@ -83,7 +84,7 @@ android {
              */
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
 
