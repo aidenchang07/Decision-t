@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 
 /**
- * Created by Aiden Chang 2024/07/04
+ * 頁面的基礎類別
  */
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected val binding: VB by lazy { getInflatedBinding() }
