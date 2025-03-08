@@ -12,7 +12,7 @@ plugins {
 
 android {
     namespace = "com.decision_t"
-    compileSdk 32
+    compileSdk 34
 
 //    signingConfigs {
 //        release {//發布版本的簽名配置
