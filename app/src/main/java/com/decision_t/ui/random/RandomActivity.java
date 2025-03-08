@@ -219,12 +219,11 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
     //info 被點到會有所反應
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_info:
-                drawer.openDrawer(GravityCompat.END);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_info) {
+            drawer.openDrawer(GravityCompat.END);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

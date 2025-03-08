@@ -212,13 +212,11 @@ public class WeightActivity extends BaseActivity<TTableActivityMainBinding> {
     //info 被點到會有所反應
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_info:
-                drawer.openDrawer(GravityCompat.END);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_info) {
+            drawer.openDrawer(GravityCompat.END);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     //取得決策桌項目列表

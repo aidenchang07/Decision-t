@@ -137,18 +137,16 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     //info 被點到會有所反應
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                /** 對用戶按home icon的處理，本例只需關閉activity，就可返回上一activity，即主activity。 */
-                finish();
-                return true;
-            case R.id.action_info:
-                drawer.openDrawer(GravityCompat.END);
-                return true;
-            default:
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            /** 對用戶按home icon的處理，本例只需關閉activity，就可返回上一activity，即主activity。 */
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_info) {
+            drawer.openDrawer(GravityCompat.END);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     //取得論點資料

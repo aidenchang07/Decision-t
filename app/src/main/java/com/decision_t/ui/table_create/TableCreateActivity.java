@@ -69,23 +69,19 @@ public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
 
     private class handlerButton implements View.OnClickListener {
         public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.registerButton:
-                    //加入決策桌
-                    registerTable(table_id_or_name.getText().toString(), user_info[0]);
-                    break;
-                case R.id.tButton:
-                    //創建T桌
-                    createTable(table_id_or_name.getText().toString(), TABLE_T, user_info[0]);
-                    break;
-                case R.id.voteButton:
-                    //創建投票桌
-                    createTable(table_id_or_name.getText().toString(), TABLE_V, user_info[0]);
-                    break;
-                case R.id.randomButton:
-                    //創建隨機桌
-                    createTable(table_id_or_name.getText().toString(), TABLE_R, user_info[0]);
-                    break;
+            int id = view.getId();
+            if (id == R.id.registerButton) {
+                // 加入決策桌
+                registerTable(table_id_or_name.getText().toString(), user_info[0]);
+            } else if (id == R.id.tButton) {
+                // 創建 T 桌
+                createTable(table_id_or_name.getText().toString(), TABLE_T, user_info[0]);
+            } else if (id == R.id.voteButton) {
+                // 創建投票桌
+                createTable(table_id_or_name.getText().toString(), TABLE_V, user_info[0]);
+            } else if (id == R.id.randomButton) {
+                // 創建隨機桌
+                createTable(table_id_or_name.getText().toString(), TABLE_R, user_info[0]);
             }
         }
     }
