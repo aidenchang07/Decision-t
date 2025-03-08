@@ -73,6 +73,9 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 
+# MacOS
+.DS_Store
+
 .idea/
 
 app/release/output.json
