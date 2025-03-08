@@ -284,17 +284,14 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
         }
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return data.size();
         }
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return data.get(position)[1];
         }
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
@@ -302,7 +299,6 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             //產生一個table_list_view的view
-            // TODO Auto-generated method stub
             convertView = myInflater.inflate(R.layout.table_list_view, null);
 
             //設定元件內容
