@@ -10,29 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.NonNull;
-
-import com.decision_t.ui.archive.ArchiveActivity;
-import com.decision_t.databinding.TableActivityMainBinding;
-import com.decision_t.manager.DBConnector;
-import com.decision_t.ui.login.LoginActivity;
-import com.decision_t.R;
-import com.decision_t.ui.random.RandomActivity;
-import com.decision_t.ui.table_create.TableCreateActivity;
-import com.decision_t.manager.TableFunction;
-import com.decision_t.manager.UpdateScreenThead;
-import com.decision_t.ui.vote.VoteActivity;
-import com.decision_t.base.BaseActivity;
-import com.decision_t.ui.weight.WeightActivity;
-import com.github.clans.fab.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +21,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.decision_t.R;
+import com.decision_t.base.BaseActivity;
+import com.decision_t.databinding.TableActivityMainBinding;
+import com.decision_t.manager.DBConnector;
+import com.decision_t.manager.TableFunction;
+import com.decision_t.manager.UpdateScreenThead;
+import com.decision_t.ui.archive.ArchiveActivity;
+import com.decision_t.ui.login.LoginActivity;
+import com.decision_t.ui.random.RandomActivity;
+import com.decision_t.ui.table_create.TableCreateActivity;
+import com.decision_t.ui.vote.VoteActivity;
+import com.decision_t.ui.weight.WeightActivity;
+import com.github.clans.fab.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 

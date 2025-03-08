@@ -5,17 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.databinding.ActivityLoginBinding;
-import com.decision_t.manager.DBConnector;
+import androidx.annotation.NonNull;
+
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.databinding.ActivityLoginBinding;
+import com.decision_t.manager.DBConnector;
 import com.decision_t.ui.table.TableActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

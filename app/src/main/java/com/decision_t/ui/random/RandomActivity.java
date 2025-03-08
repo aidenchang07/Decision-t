@@ -6,11 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +18,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.decision_t.ui.member.MemberActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.decision_t.R;
+import com.decision_t.base.BaseActivity;
 import com.decision_t.databinding.RTableActivityMainBinding;
+import com.decision_t.manager.DBConnector;
 import com.decision_t.manager.TableFunction;
 import com.decision_t.manager.UpdateScreenThead;
-import com.decision_t.base.BaseActivity;
-import com.decision_t.manager.DBConnector;
+import com.decision_t.ui.member.MemberActivity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 

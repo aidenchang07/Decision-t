@@ -2,12 +2,7 @@ package com.decision_t.ui.member;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
-
 import android.os.Bundle;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+
 import com.decision_t.R;
-import com.decision_t.databinding.ActivityMemberBinding;
-import com.decision_t.manager.TableFunction;
 import com.decision_t.base.BaseActivity;
+import com.decision_t.databinding.ActivityMemberBinding;
 import com.decision_t.manager.DBConnector;
+import com.decision_t.manager.TableFunction;
 
 import java.util.ArrayList;
 

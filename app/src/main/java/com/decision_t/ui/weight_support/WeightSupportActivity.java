@@ -4,19 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
-import com.decision_t.databinding.TTableTabBinding;
-import com.decision_t.manager.DBConnector;
-import com.decision_t.R;
-import com.decision_t.manager.TableFunction;
-import com.decision_t.manager.UpdateScreenThead;
-import com.decision_t.base.BaseActivity;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +12,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
+import com.decision_t.R;
+import com.decision_t.base.BaseActivity;
+import com.decision_t.databinding.TTableTabBinding;
+import com.decision_t.manager.DBConnector;
+import com.decision_t.manager.TableFunction;
+import com.decision_t.manager.UpdateScreenThead;
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;

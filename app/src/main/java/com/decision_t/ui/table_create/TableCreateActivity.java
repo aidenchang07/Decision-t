@@ -6,12 +6,12 @@ import static com.decision_t.config.TableConfig.TABLE_V;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.decision_t.R;
 import com.decision_t.base.BaseActivity;

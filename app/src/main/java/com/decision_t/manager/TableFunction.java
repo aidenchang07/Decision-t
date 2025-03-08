@@ -1,8 +1,6 @@
 package com.decision_t.manager;
 
 
-import com.decision_t.manager.DBConnector;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
