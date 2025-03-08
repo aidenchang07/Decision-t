@@ -8,19 +8,11 @@ import androidx.viewbinding.ViewBinding
  * Created by Aiden Chang 2024/07/04
  */
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
-
-    private lateinit var binding: VB
+    protected val binding: VB by lazy { getInflatedBinding() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getBinding().root)
-    }
-
-    fun getBinding(): VB {
-        if (!::binding.isInitialized) {
-            binding = getInflatedBinding()
-        }
-        return binding
+        setContentView(binding.root)
     }
 
     abstract fun getInflatedBinding(): VB
