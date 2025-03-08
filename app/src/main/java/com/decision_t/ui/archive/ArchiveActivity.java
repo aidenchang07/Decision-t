@@ -40,146 +40,15 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
 
     private Toolbar toolbar;
     private String[] user_info;
-    private ArrayList<String[]>data;
+    private ArrayList<String[]> data;
     private MyAdapter myAdapter;
     private ListView table_list;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_archive);
-        //取得使用者資料
-        user_info = getIntent().getStringArrayExtra("user_info");
-
-        /** 初始化toolbar */
-        toolbar = (Toolbar) findViewById(R.id.toolbar_archive);
-
-        /** 左上角有返回鍵 */
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //table_list初始化
-        table_list = (ListView) findViewById(R.id.listView_archive);
-        table_list.setOnItemClickListener(click_table_list);
-        table_list.setOnItemLongClickListener(long_click_table_list);
-
-        //顯示決策桌列表(已封存)
-        getTableList(user_info[0]);
-    }
-
-    public void getTableList(String user_id){
-        //先清空資料
-        data = new ArrayList<String[]>();
-        try {
-            //顯示封存的決策桌
-            String sql = "SELECT a.*" +
-                    "  FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
-                    "    ON `a`.`ID` = `b`.`Decision_tables_ID`" +
-                    " WHERE (`a`.`Account_ID` = '" + user_id + "'" +
-                    "                    OR `b`.`Account_ID` = '" + user_id + "')"+
-                    "        AND EXISTS (SELECT *" +
-                    "                                                 FROM `Decision_tables_archive`" +
-                    "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
-                    "                                                    AND `Account_ID`='"+user_id+"')" +
-                    "  GROUP BY `a`.`ID`" +
-                    "  ORDER BY `ID` DESC; ";
-            String result = DBConnector.executeQuery(sql);
-            JSONArray jsonArray = new JSONArray(result);
-            for(int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonData = jsonArray.getJSONObject(i);
-                data.add(new String[] {
-                        jsonData.getString("ID"),
-                        jsonData.getString("Name"),
-                        jsonData.getString("Type"),
-                        jsonData.getString("Info"),
-                        jsonData.getString("Private"),
-                        jsonData.getString("Complete"),
-                        jsonData.getString("Lock"),
-                        jsonData.getString("Final_decision"),
-                        jsonData.getString("Account_ID")});
-            }
-
-            myAdapter = new MyAdapter(this);
-            table_list.setAdapter(myAdapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public ActivityArchiveBinding getInflatedBinding() {
-        return ActivityArchiveBinding.inflate(getLayoutInflater());
-    }
-
-    public class MyAdapter extends BaseAdapter {
-        private LayoutInflater myInflater;
-        public MyAdapter(Context c) {
-            myInflater = LayoutInflater.from(c);
-        }
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return data.size();
-        }
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return data.get(position)[1];
-        }
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        //重點：產生每一列的view
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            //產生一個table_list_view的view
-            // TODO Auto-generated method stub
-            convertView = myInflater.inflate(R.layout.table_list_view, null);
-
-            //設定元件內容
-            TextView name = (TextView) convertView.findViewById(R.id.item_name);
-            TextView id = (TextView) convertView.findViewById(R.id.table_id);
-            ImageView table_status = (ImageView) convertView.findViewById(R.id.img_table_status);
-
-
-            //塞資料
-            String[] dd = data.get(position);
-            name.setText(dd[1]);//決策桌名
-            id.setText("ID:" + dd[0]);
-            // 依據是否為主持人和桌類型來判斷選擇何種圖片
-            if(!dd[8].equals(user_info[0])) {
-                // 不是主持人，會是黃色
-                if(dd[2].equals(TABLE_R)) {
-                    table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
-                } else if(dd[2].equals(TABLE_V)) {
-                    table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
-                } else {
-                    table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
-                }
-            } else {
-                // 是主持人，會是藍色
-                if(dd[2].equals(TABLE_R)) {
-                    table_status.setImageResource(R.drawable.ic_blue_r_215dp);
-                } else if(dd[2].equals(TABLE_V)) {
-                    table_status.setImageResource(R.drawable.ic_blue_v_215dp);
-                } else {
-                    table_status.setImageResource(R.drawable.ic_blue_t_215dp);
-                }
-            }
-            return convertView;
-        }
-    }
-
     //決策桌表按下事件
     private AdapterView.OnItemClickListener click_table_list
-            = new AdapterView.OnItemClickListener(){
+            = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (data.get(position)[2]){
+            switch (data.get(position)[2]) {
                 case TABLE_R:
                     Intent rTable = new Intent(ArchiveActivity.this, RandomActivity.class);
                     rTable.putExtra("user_info", user_info);
@@ -211,7 +80,7 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
             dialog.setItems(function, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
+                    switch (which) {
                         case 0:
                             TableFunction.unarchive(data.get(position)[0], user_info[0]);
                             Toast.makeText(ArchiveActivity.this, "取消封存", Toast.LENGTH_SHORT).show();
@@ -224,9 +93,9 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
                             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(TableFunction.delete(data.get(position)[0], user_info[0])){
+                                    if (TableFunction.delete(data.get(position)[0], user_info[0])) {
                                         Toast.makeText(ArchiveActivity.this, "刪除成功", Toast.LENGTH_SHORT).show();
-                                    }else{
+                                    } else {
                                         Toast.makeText(ArchiveActivity.this, "您不是主持人", Toast.LENGTH_SHORT).show();
                                     }
                                     getTableList(user_info[0]);
@@ -242,6 +111,74 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
         }
     };
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_archive);
+        //取得使用者資料
+        user_info = getIntent().getStringArrayExtra("user_info");
+
+        /** 初始化toolbar */
+        toolbar = (Toolbar) findViewById(R.id.toolbar_archive);
+
+        /** 左上角有返回鍵 */
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //table_list初始化
+        table_list = (ListView) findViewById(R.id.listView_archive);
+        table_list.setOnItemClickListener(click_table_list);
+        table_list.setOnItemLongClickListener(long_click_table_list);
+
+        //顯示決策桌列表(已封存)
+        getTableList(user_info[0]);
+    }
+
+    public void getTableList(String user_id) {
+        //先清空資料
+        data = new ArrayList<String[]>();
+        try {
+            //顯示封存的決策桌
+            String sql = "SELECT a.*" +
+                    "  FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
+                    "    ON `a`.`ID` = `b`.`Decision_tables_ID`" +
+                    " WHERE (`a`.`Account_ID` = '" + user_id + "'" +
+                    "                    OR `b`.`Account_ID` = '" + user_id + "')" +
+                    "        AND EXISTS (SELECT *" +
+                    "                                                 FROM `Decision_tables_archive`" +
+                    "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
+                    "                                                    AND `Account_ID`='" + user_id + "')" +
+                    "  GROUP BY `a`.`ID`" +
+                    "  ORDER BY `ID` DESC; ";
+            String result = DBConnector.executeQuery(sql);
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonData = jsonArray.getJSONObject(i);
+                data.add(new String[]{
+                        jsonData.getString("ID"),
+                        jsonData.getString("Name"),
+                        jsonData.getString("Type"),
+                        jsonData.getString("Info"),
+                        jsonData.getString("Private"),
+                        jsonData.getString("Complete"),
+                        jsonData.getString("Lock"),
+                        jsonData.getString("Final_decision"),
+                        jsonData.getString("Account_ID")});
+            }
+
+            myAdapter = new MyAdapter(this);
+            table_list.setAdapter(myAdapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public ActivityArchiveBinding getInflatedBinding() {
+        return ActivityArchiveBinding.inflate(getLayoutInflater());
+    }
+
     @Override // 覆寫 onActivityResult，按下+後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -256,6 +193,72 @@ public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
                 break;
             case 3://進入T類型決策桌後返回的動作
                 break;
+        }
+    }
+
+    public class MyAdapter extends BaseAdapter {
+        private LayoutInflater myInflater;
+
+        public MyAdapter(Context c) {
+            myInflater = LayoutInflater.from(c);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return data.get(position)[1];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        //重點：產生每一列的view
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //產生一個table_list_view的view
+            // TODO Auto-generated method stub
+            convertView = myInflater.inflate(R.layout.table_list_view, null);
+
+            //設定元件內容
+            TextView name = (TextView) convertView.findViewById(R.id.item_name);
+            TextView id = (TextView) convertView.findViewById(R.id.table_id);
+            ImageView table_status = (ImageView) convertView.findViewById(R.id.img_table_status);
+
+
+            //塞資料
+            String[] dd = data.get(position);
+            name.setText(dd[1]);//決策桌名
+            id.setText("ID:" + dd[0]);
+            // 依據是否為主持人和桌類型來判斷選擇何種圖片
+            if (!dd[8].equals(user_info[0])) {
+                // 不是主持人，會是黃色
+                if (dd[2].equals(TABLE_R)) {
+                    table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
+                } else if (dd[2].equals(TABLE_V)) {
+                    table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
+                }
+            } else {
+                // 是主持人，會是藍色
+                if (dd[2].equals(TABLE_R)) {
+                    table_status.setImageResource(R.drawable.ic_blue_r_215dp);
+                } else if (dd[2].equals(TABLE_V)) {
+                    table_status.setImageResource(R.drawable.ic_blue_v_215dp);
+                } else {
+                    table_status.setImageResource(R.drawable.ic_blue_t_215dp);
+                }
+            }
+            return convertView;
         }
     }
 }

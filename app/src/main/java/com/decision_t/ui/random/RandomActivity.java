@@ -59,6 +59,77 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
     private TextView r_table_status;
     private ArrayList<String[]> member_data;
     private UpdateScreenThead updateScreenThead;
+    //項目列長按
+    private AdapterView.OnItemLongClickListener long_click_item_list = new AdapterView.OnItemLongClickListener() {
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            AlertDialog.Builder check = new AlertDialog.Builder(RandomActivity.this);
+            check.setTitle("確定刪除?");
+            check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        String sql;
+                        //先檢查是否為決策桌主持人
+                        if (!table_data[8].equals(user_info[0])) {
+                            //再檢查是否為該項目創建者
+                            sql = "SELECT * FROM `Tables_item` WHERE `ID`='" + data.get(position)[0] + "' AND `Account_ID`='" + user_info[0] + "';";
+                            String result = DBConnector.executeQuery(sql);
+                            JSONArray jsonArray = new JSONArray(result);
+                            if (jsonArray.length() == 0) {
+                                Toast.makeText(getApplicationContext(), "您不能刪除其他人新增的項目", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        //再檢查目前狀態
+                        tableStatus();
+                        if (table_data[5].equals("Y")) {
+                            Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else if (table_data[6].equals("Y")) {
+                            Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            sql = "DELETE FROM `Tables_item`" +
+                                    "WHERE `ID` = '" + data.get(position)[0] + "';";
+                            DBConnector.executeQuery(sql);
+                            getItemList(table_data[0]);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+            });
+            check.show();
+            return true;
+        }
+    };
+    //決策桌表按下事件
+    private AdapterView.OnItemClickListener click_item_list
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            //如果是主持人並處於未完成+待決策狀態就可以選擇最終決策
+            if (table_data[8].equals(user_info[0]) && table_data[5].equals("N") && table_data[6].equals("Y")) {
+                finalDecision(position);
+            }
+        }
+    };
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            showMemberList(table_data[0]);
+            tableStatus();
+            getSupportActionBar().setTitle(table_data[1]);
+            nav_table_name.setText(table_data[1]);
+            nav_table_description.setText(table_data[3]);
+            getItemList(table_data[0]);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +149,7 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
         nav_table_description = (TextView) findViewById(R.id.textView_description);
         nav_table_member = (ListView) findViewById(R.id.listView_member);
         //若非主持人則隱藏按鈕
-        if(!table_data[8].equals(user_info[0])){
+        if (!table_data[8].equals(user_info[0])) {
             nav_tablename_edit.setVisibility(View.INVISIBLE);
             nav_description_edit.setVisibility(View.INVISIBLE);
             nav_member_edit.setVisibility(View.INVISIBLE);
@@ -136,7 +207,7 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
         /** 點旁邊可收合FloatingButton */
         r_table_fab_menu_left.setClosedOnTouchOutside(true);
         //如果不是主持人則隱藏左側下方功能鍵
-        if(!table_data[8].equals(user_info[0])) {
+        if (!table_data[8].equals(user_info[0])) {
             r_table_fab_menu_left.setVisibility(View.INVISIBLE);
         }
 
@@ -146,14 +217,14 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
             @Override
             public void onClick(View v) {
                 //確定是否是主持人
-                if(table_data[8].equals(user_info[0])){
-                    if(table_data[5].equals("Y")){
+                if (table_data[8].equals(user_info[0])) {
+                    if (table_data[5].equals("Y")) {
                         Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
-                    }else{
-                        if(table_data[6].equals("N")){
-                            if(data.size() == 0){
+                    } else {
+                        if (table_data[6].equals("N")) {
+                            if (data.size() == 0) {
                                 Toast.makeText(getApplicationContext(), "至少需一個項目!", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 AlertDialog.Builder lockcheck = new AlertDialog.Builder(RandomActivity.this);
                                 lockcheck.setTitle("進入下一階段？");
                                 lockcheck.setMessage("進入下一階段  <決策中>？\n注意：此步驟不可逆");
@@ -162,7 +233,7 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String sql = "UPDATE `Decision_tables` " +
                                                 "                   SET `Lock` = 'Y'" +
-                                                "            WHERE `ID` ="+table_data[0]+";";
+                                                "            WHERE `ID` =" + table_data[0] + ";";
                                         DBConnector.executeQuery(sql);
                                         //更新決策桌資訊，因為主持人只有一個所以不用連資料庫取得資料直接改就行
                                         table_data[6] = "Y";
@@ -175,12 +246,12 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
                                 lockcheck.setNegativeButton("否", null);
                                 lockcheck.show();
                             }
-                        }else{
+                        } else {
                             //開始隨機
                             randomStart();
                         }
                     }
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "您不是主持人!", Toast.LENGTH_SHORT).show();
                 }
                 r_table_fab_menu_left.close(true);
@@ -194,12 +265,12 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
         //初始化桌狀態
         r_table_status = (TextView) findViewById(R.id.r_table_status);
         //刷新桌狀態
-        if(table_data[5].equals("Y")){
+        if (table_data[5].equals("Y")) {
             r_table_status.setText("已完結");
-        }else{
-            if(table_data[6].equals("Y")){
+        } else {
+            if (table_data[6].equals("Y")) {
                 r_table_status.setText("待決策");
-            }else{
+            } else {
                 r_table_status.setText("進行中");
             }
         }
@@ -228,7 +299,7 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
     }
 
     //取得決策桌項目列表
-    public void getItemList(String table_id){
+    public void getItemList(String table_id) {
         //先清空資料
         data = new ArrayList<String[]>();
         try {
@@ -236,13 +307,13 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
             String sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
                     "              FROM `Tables_item` `a`, `Account` `b`" +
                     "          WHERE `a`.`Account_ID` = `b`.`ID`" +
-                    "                 AND `a`.`Decision_tables_ID` = '"+ table_id +"'" +
+                    "                 AND `a`.`Decision_tables_ID` = '" + table_id + "'" +
                     "           ORDER BY `ID` ASC";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
-                data.add(new String[] {
+                data.add(new String[]{
                         jsonData.getString("ID"),
                         jsonData.getString("Name"),
                         jsonData.getString("Info"),
@@ -263,11 +334,165 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
         return RTableActivityMainBinding.inflate(getLayoutInflater());
     }
 
+    //桌狀態判斷
+    public void tableStatus() {
+        table_data = TableFunction.table_data(table_data[0]);//更新桌資訊
+        if (table_data[5].equals("Y")) {
+            r_table_status.setText("已完結");
+        } else {
+            if (table_data[6].equals("Y")) {
+                r_table_status.setText("待決策");
+            } else {
+                r_table_status.setText("進行中");
+            }
+        }
+    }
+
+    //創建新項目
+    public void createItem(final String table_id, final String user_id) {
+        //先初步檢查是否可以新增
+        if (table_data[5].equals("Y")) {
+            Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (table_data[6].equals("Y")) {
+            Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            //取得資料庫資訊確定真的可以新增
+            tableStatus();
+            if (table_data[5].equals("Y")) {
+                Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (table_data[6].equals("Y")) {
+                Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                //點擊新增項目
+                final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
+                AlertDialog.Builder newitem = new AlertDialog.Builder(this);
+                newitem.setTitle("請輸入新項目");
+                newitem.setView(dialog_text);
+                newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+                        String sql = "INSERT INTO `Tables_item` ( `Name`, `Decision_tables_ID`, `Account_ID`)" +
+                                "               VALUES('" + text.getText() + "', " + table_id + ", '" + user_id + "');";
+                        DBConnector.executeQuery(sql);
+                        //新增完更新畫面
+                        getItemList(table_data[0]);
+                    }
+                });
+                newitem.show();
+            }
+        }
+    }
+
+    //隨機排序並亮第一欄
+    public void randomStart() {
+        //先刷新一次畫面再隨機
+        getItemList(table_data[0]);
+        //隨機打亂ArrayList
+        ArrayList<String[]> randomList = new ArrayList<String[]>(data.size());
+        do {
+            int randomIndex = Math.abs(new Random().nextInt(data.size()));
+            randomList.add(data.remove(randomIndex));
+        } while (data.size() > 0);
+        data = randomList;
+        finalDecision(0);//最終決策判斷
+        myAdapter = new MyAdapter(RandomActivity.this);
+        r_table_list.setAdapter(myAdapter);
+    }
+
+    //最終決策
+    public void finalDecision(final int position) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(RandomActivity.this);
+        ad.setTitle("最終決策");
+        //暫時先這樣，未來有空再說
+        final String id, name;
+        id = data.get(position)[0];
+        name = data.get(position)[1];
+        ad.setMessage("確定選擇：\n" + name + "\n作為最終選擇嗎？");
+        ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Decision_tables` SET `Final_decision` = " + id + "," +
+                        "                                                                       `Complete`= 'Y'" +
+                        "WHERE `ID` = " + table_data[0] + ";";
+                DBConnector.executeQuery(sql);
+                tableStatus();
+                myAdapter = new MyAdapter(RandomActivity.this);
+                r_table_list.setAdapter(myAdapter);
+            }
+        });
+        ad.setNegativeButton("不要,再等等", null);
+        ad.show();
+    }
+
+    //右側選單修改決策桌名稱
+    public void updateTableName(final String table_id) {
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(table_data[1]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("修改決策桌名稱");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String sql = "UPDATE `Decision_tables` SET `Name` = '" + text.getText() + "'" +
+                        "           WHERE `ID` = " + table_id + ";";
+                DBConnector.executeQuery(sql);
+                table_data[1] = String.valueOf(text.getText());
+                getSupportActionBar().setTitle(text.getText());
+                nav_table_name.setText(text.getText());
+            }
+        });
+        dialog.show();
+    }
+
+    //右側選單修改決策桌INFO
+    public void updateTableInfo(final String table_id) {
+        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text_multi_line, null);
+        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
+        text.setText(table_data[3]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("修改決策桌描述");
+        dialog.setView(dialog_text);
+        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String sql = "UPDATE `Decision_tables` SET `Info` = '" + text.getText() + "'" +
+                        "           WHERE `ID` = " + table_id + ";";
+                DBConnector.executeQuery(sql);
+                table_data[3] = String.valueOf(text.getText());
+                nav_table_description.setText(text.getText());
+            }
+        });
+        dialog.show();
+    }
+
+    public void showMemberList(String table_id) {
+        member_data = TableFunction.getMember(table_id);
+        MemberAdapter memberAdapter = new MemberAdapter(this);
+        nav_table_member.setAdapter(memberAdapter);
+    }
+
+    @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //不管如何先更新member列表再說
+        showMemberList(table_data[0]);
+    }
+
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater myInflater;
+
         public MyAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
         }
+
         @Override
         public int getCount() {
             return data.size();
@@ -287,225 +512,25 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
         public View getView(int position, View convertView, ViewGroup parent) {
             //產生一個table_list_view的view
             convertView = myInflater.inflate(R.layout.item_list_view, null);
-            if(table_data[7].equals(data.get(position)[0])){
+            if (table_data[7].equals(data.get(position)[0])) {
                 convertView.setBackgroundResource(R.drawable.item_yellow_form);
             }
             //設定元件內容
             TextView itemtitle = (TextView) convertView.findViewById(R.id.item_name);
             itemtitle.setText(data.get(position)[1]);
             TextView itemaccount = (TextView) convertView.findViewById(R.id.item_origin);
-            itemaccount.setText("建立者:" + data.get(position)[6]+"("+data.get(position)[5]+")");
+            itemaccount.setText("建立者:" + data.get(position)[6] + "(" + data.get(position)[5] + ")");
             return convertView;
         }
     }
 
-    //項目列長按
-    private AdapterView.OnItemLongClickListener long_click_item_list = new AdapterView.OnItemLongClickListener() {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder check = new AlertDialog.Builder(RandomActivity.this);
-            check.setTitle("確定刪除?");
-            check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    try {
-                        String sql;
-                        //先檢查是否為決策桌主持人
-                        if(!table_data[8].equals(user_info[0])){
-                            //再檢查是否為該項目創建者
-                            sql = "SELECT * FROM `Tables_item` WHERE `ID`='"+data.get(position)[0]+"' AND `Account_ID`='"+user_info[0]+"';";
-                            String result = DBConnector.executeQuery(sql);
-                            JSONArray jsonArray = new JSONArray(result);
-                            if(jsonArray.length() == 0) {
-                                Toast.makeText(getApplicationContext(), "您不能刪除其他人新增的項目", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }
-                        //再檢查目前狀態
-                        tableStatus();
-                        if(table_data[5].equals("Y")){
-                            Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
-                            return;
-                        }else if(table_data[6].equals("Y")){
-                            Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
-                            return;
-                        }else{
-                            sql = "DELETE FROM `Tables_item`" +
-                                    "WHERE `ID` = '"+data.get(position)[0]+"';";
-                            DBConnector.executeQuery(sql);
-                            getItemList(table_data[0]);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                }
-            });
-            check.show();
-            return true;
-        }
-    };
-
-    //桌狀態判斷
-    public void tableStatus(){
-        table_data = TableFunction.table_data(table_data[0]);//更新桌資訊
-        if(table_data[5].equals("Y")){
-            r_table_status.setText("已完結");
-        }else{
-            if(table_data[6].equals("Y")){
-                r_table_status.setText("待決策");
-            }else{
-                r_table_status.setText("進行中");
-            }
-        }
-    }
-    //創建新項目
-    public void createItem(final String table_id, final String user_id){
-        //先初步檢查是否可以新增
-        if(table_data[5].equals("Y")){
-            Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(table_data[6].equals("Y")){
-            Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
-            return;
-        }else{
-            //取得資料庫資訊確定真的可以新增
-            tableStatus();
-            if(table_data[5].equals("Y")){
-                Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
-                return;
-            }else if(table_data[6].equals("Y")){
-                Toast.makeText(getApplicationContext(), "目前為待決策狀態", Toast.LENGTH_SHORT).show();
-                return;
-            }else{
-                //點擊新增項目
-                final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
-                AlertDialog.Builder newitem = new AlertDialog.Builder(this);
-                newitem.setTitle("請輸入新項目");
-                newitem.setView(dialog_text);
-                newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        TextView text = (TextView) dialog_text.findViewById(R.id.editText);
-                        String sql = "INSERT INTO `Tables_item` ( `Name`, `Decision_tables_ID`, `Account_ID`)" +
-                                "               VALUES('"+text.getText()+"', "+table_id+", '"+user_id+"');";
-                        DBConnector.executeQuery(sql);
-                        //新增完更新畫面
-                        getItemList(table_data[0]);
-                    }
-                });
-                newitem.show();
-            }
-        }
-    }
-    //隨機排序並亮第一欄
-    public void randomStart(){
-        //先刷新一次畫面再隨機
-        getItemList(table_data[0]);
-        //隨機打亂ArrayList
-        ArrayList<String[]> randomList = new ArrayList<String[]>( data.size( ) );
-        do{
-            int randomIndex = Math.abs( new Random( ).nextInt( data.size() ) );
-            randomList.add( data.remove( randomIndex ) );
-        }while( data.size( ) > 0 );
-        data =  randomList;
-        finalDecision(0);//最終決策判斷
-        myAdapter = new MyAdapter(RandomActivity.this);
-        r_table_list.setAdapter(myAdapter);
-    }
-    //決策桌表按下事件
-    private AdapterView.OnItemClickListener click_item_list
-            = new AdapterView.OnItemClickListener(){
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            //如果是主持人並處於未完成+待決策狀態就可以選擇最終決策
-            if(table_data[8].equals(user_info[0]) && table_data[5].equals("N") && table_data[6].equals("Y")){
-                finalDecision(position);
-            }
-        }
-    };
-    //最終決策
-    public void finalDecision(final int position){
-        AlertDialog.Builder ad = new AlertDialog.Builder(RandomActivity.this);
-        ad.setTitle("最終決策");
-        //暫時先這樣，未來有空再說
-        final String id, name;
-        id = data.get(position)[0];
-        name = data.get(position)[1];
-        ad.setMessage("確定選擇：\n" + name + "\n作為最終選擇嗎？");
-        ad.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Decision_tables` SET `Final_decision` = "+ id +","+
-                        "                                                                       `Complete`= 'Y'" +
-                        "WHERE `ID` = "+ table_data[0]+";";
-                DBConnector.executeQuery(sql);
-                tableStatus();
-                myAdapter = new MyAdapter(RandomActivity.this);
-                r_table_list.setAdapter(myAdapter);
-            }
-        });
-        ad.setNegativeButton("不要,再等等", null);
-        ad.show();
-    }
-
-    //右側選單修改決策桌名稱
-    public void updateTableName(final String table_id){
-        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
-        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
-        text.setText(table_data[1]);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("修改決策桌名稱");
-        dialog.setView(dialog_text);
-        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                String sql = "UPDATE `Decision_tables` SET `Name` = '"+ text.getText()+"'"+
-                        "           WHERE `ID` = "+ table_id +";";
-                DBConnector.executeQuery(sql);
-                table_data[1] = String.valueOf(text.getText());
-                getSupportActionBar().setTitle(text.getText());
-                nav_table_name.setText(text.getText());
-            }
-        });
-        dialog.show();
-    }
-
-    //右側選單修改決策桌INFO
-    public void updateTableInfo(final String table_id){
-        final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text_multi_line, null);
-        final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
-        text.setText(table_data[3]);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("修改決策桌描述");
-        dialog.setView(dialog_text);
-        dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Decision_tables` SET `Info` = '"+ text.getText()+"'"+
-                        "           WHERE `ID` = "+ table_id +";";
-                DBConnector.executeQuery(sql);
-                table_data[3]=String.valueOf(text.getText());
-                nav_table_description.setText(text.getText());
-            }
-        });
-        dialog.show();
-    }
-
-    public void showMemberList(String table_id){
-        member_data = TableFunction.getMember(table_id);
-        MemberAdapter memberAdapter = new MemberAdapter(this);
-        nav_table_member.setAdapter(memberAdapter);
-    }
-
     public class MemberAdapter extends BaseAdapter {
         private LayoutInflater myInflater;
+
         public MemberAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
         }
+
         @Override
         public int getCount() {
             return member_data.size();
@@ -534,25 +559,4 @@ public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
             return convertView;
         }
     }
-
-    @Override // 覆寫 onActivityResult，member添加完成員後傳值回來時會執行此方法。
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //不管如何先更新member列表再說
-        showMemberList(table_data[0]);
-    }
-
-
-    //給多執行緒更新畫面的介面
-    private Handler handler = new Handler(){
-        public  void  handleMessage(Message msg) {
-            super.handleMessage(msg);
-            showMemberList(table_data[0]);
-            tableStatus();
-            getSupportActionBar().setTitle(table_data[1]);
-            nav_table_name.setText(table_data[1]);
-            nav_table_description.setText(table_data[3]);
-            getItemList(table_data[0]);
-        }
-    };
 }

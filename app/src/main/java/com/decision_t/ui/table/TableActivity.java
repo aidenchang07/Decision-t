@@ -56,7 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TableActivity extends BaseActivity<TableActivityMainBinding>
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -80,7 +80,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 //若無使用者資料則跳回登入畫面
-                if(firebaseAuth.getCurrentUser() == null){
+                if (firebaseAuth.getCurrentUser() == null) {
                     Intent loginIntent = new Intent(TableActivity.this, LoginActivity.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
@@ -120,19 +120,20 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
 
         //取得使用者資料
         user_info = load_user_info();
-        NavigationView nav= (NavigationView) findViewById(R.id.table_nav_view);
+        NavigationView nav = (NavigationView) findViewById(R.id.table_nav_view);
         View nav_view = nav.getHeaderView(0);
-        TextView table_nav_email = (TextView)nav_view.findViewById(R.id.table_nav_email);
+        TextView table_nav_email = (TextView) nav_view.findViewById(R.id.table_nav_email);
         table_nav_email.setText(user_info[0]);
-        TextView table_nav_name = (TextView)nav_view.findViewById(R.id.table_nav_name);
+        TextView table_nav_name = (TextView) nav_view.findViewById(R.id.table_nav_name);
         table_nav_name.setText(user_info[1]);
 
         //取得圖片測試
-        ImageView table_nav_imageView = (ImageView)nav_view.findViewById(R.id.table_nav_imageView);
+        ImageView table_nav_imageView = (ImageView) nav_view.findViewById(R.id.table_nav_imageView);
         //避免初次開啟APP時導致畢卡索載入空値網址失敗，用try catch包覆
-        try{
+        try {
             Picasso.with(this).load(user_info[2]).into(table_nav_imageView);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
 
         tos = Toast.makeText(this, "", Toast.LENGTH_SHORT);
@@ -153,8 +154,8 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
     }
 
     //給多執行緒更新畫面的介面
-    private Handler handler = new Handler(){
-        public  void  handleMessage(Message msg) {
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             getTableList(user_info[0]);
         }
@@ -183,7 +184,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
             archiveIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             archiveIntent.putExtra("user_info", user_info);
             startActivityForResult(archiveIntent, 4);
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             // 執行登出的動作
             mAuth.signOut();
         }
@@ -193,46 +194,47 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     //取得使用者資料
-    public String[] load_user_info()
-    {
+    public String[] load_user_info() {
         try {
             //先取得預存的資料
-            FileInputStream inStream=this.openFileInput("uu.txt");
-            ByteArrayOutputStream stream=new ByteArrayOutputStream();
-            byte[] buffer=new byte[1024];
-            int length=-1;
-            while((length=inStream.read(buffer))!=-1) {
-                stream.write(buffer,0,length);
+            FileInputStream inStream = this.openFileInput("uu.txt");
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int length = -1;
+            while ((length = inStream.read(buffer)) != -1) {
+                stream.write(buffer, 0, length);
             }
             stream.close();
             inStream.close();
             String[] user_data = stream.toString().split(" ");
             String user_email = user_data[0];//取得Email
-            String userPhotoUrl =  user_data[1];
+            String userPhotoUrl = user_data[1];
             String user_name = "";
             String result = DBConnector.executeQuery("SELECT *" +
                     "                                                                    FROM `Account` " +
                     "                                                                 WHERE `ID` = '" + user_email + "'");
             JSONArray jsonArray = new JSONArray(result);
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
                 user_name = jsonData.getString("Name");
             }
-            return new String[] {user_email, user_name, userPhotoUrl};
+            return new String[]{user_email, user_name, userPhotoUrl};
         } catch (FileNotFoundException e) {
             //找不到檔案就重新登入
             mAuth.signOut();
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             return null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return new String[] {"", "", ""};
+        return new String[]{"", "", ""};
     }
+
     //取得決策桌列表
-    public void getTableList(String user_id){
+    public void getTableList(String user_id) {
         //先清空資料
         data = new ArrayList<String[]>();
         try {
@@ -241,18 +243,18 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
                     "  FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
                     "    ON `a`.`ID` = `b`.`Decision_tables_ID`" +
                     " WHERE (`a`.`Account_ID` = '" + user_id + "'" +
-                    "                    OR `b`.`Account_ID` = '" + user_id + "')"+
+                    "                    OR `b`.`Account_ID` = '" + user_id + "')" +
                     "        AND NOT EXISTS (SELECT *" +
                     "                                                 FROM `Decision_tables_archive`" +
                     "                                              WHERE `Decision_tables_ID`=`a`.`ID`" +
-                    "                                                    AND `Account_ID`='"+user_id+"')" +
+                    "                                                    AND `Account_ID`='" + user_id + "')" +
                     "  GROUP BY `a`.`ID`" +
                     "  ORDER BY `ID` DESC; ";
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
-                data.add(new String[] {
+                data.add(new String[]{
                         jsonData.getString("ID"),
                         jsonData.getString("Name"),
                         jsonData.getString("Type"),
@@ -279,17 +281,21 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
 
     public class MyAdapter extends BaseAdapter {
         private LayoutInflater myInflater;
+
         public MyAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
         }
+
         @Override
         public int getCount() {
             return data.size();
         }
+
         @Override
         public Object getItem(int position) {
             return data.get(position)[1];
         }
+
         @Override
         public long getItemId(int position) {
             return position;
@@ -313,20 +319,20 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
             id.setText("ID:" + dd[0]);
 
             // 依據是否為主持人和桌類型來判斷選擇何種圖片
-            if(!dd[8].equals(user_info[0])){
+            if (!dd[8].equals(user_info[0])) {
                 // 不是主持人，會是黃色
-                if(dd[2].equals(TABLE_R)) {
+                if (dd[2].equals(TABLE_R)) {
                     table_status.setImageResource(R.drawable.ic_yellow_r_215dp);
-                } else if(dd[2].equals(TABLE_V)) {
+                } else if (dd[2].equals(TABLE_V)) {
                     table_status.setImageResource(R.drawable.ic_yellow_v_215dp);
                 } else {
                     table_status.setImageResource(R.drawable.ic_yellow_t_215dp);
-            }
+                }
             } else {
                 // 是主持人，會是藍色
-                if(dd[2].equals(TABLE_R)) {
+                if (dd[2].equals(TABLE_R)) {
                     table_status.setImageResource(R.drawable.ic_blue_r_215dp);
-                } else if(dd[2].equals(TABLE_V)) {
+                } else if (dd[2].equals(TABLE_V)) {
                     table_status.setImageResource(R.drawable.ic_blue_v_215dp);
                 } else {
                     table_status.setImageResource(R.drawable.ic_blue_t_215dp);
@@ -338,10 +344,10 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
 
     //決策桌表按下事件
     private AdapterView.OnItemClickListener click_table_list
-            = new AdapterView.OnItemClickListener(){
+            = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (data.get(position)[2]){
+            switch (data.get(position)[2]) {
                 case TABLE_R:
                     Intent rTable = new Intent(TableActivity.this, RandomActivity.class);
                     rTable.putExtra("user_info", user_info);
@@ -373,7 +379,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
             dialog.setItems(function, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
+                    switch (which) {
                         case 0:
                             TableFunction.archive(data.get(position)[0], user_info[0]);
                             Toast.makeText(TableActivity.this, "封存", Toast.LENGTH_SHORT).show();
@@ -386,9 +392,9 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
                             check.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(TableFunction.delete(data.get(position)[0], user_info[0])){
+                                    if (TableFunction.delete(data.get(position)[0], user_info[0])) {
                                         Toast.makeText(TableActivity.this, "刪除成功", Toast.LENGTH_SHORT).show();
-                                    }else{
+                                    } else {
                                         Toast.makeText(TableActivity.this, "您不是主持人", Toast.LENGTH_SHORT).show();
                                     }
                                     getTableList(user_info[0]);
@@ -403,6 +409,7 @@ public class TableActivity extends BaseActivity<TableActivityMainBinding>
             return true;
         }
     };
+
     @Override // 覆寫 onActivityResult，按下+後傳值回來時會執行此方法。
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

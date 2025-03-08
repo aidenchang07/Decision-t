@@ -14,12 +14,12 @@ public class UpdateScreenThead {
     private Handler copyHandler;
     private boolean run;
 
-    private UpdateScreenThead(){
+    private UpdateScreenThead() {
         run = false;
-        thread = new Thread(new Runnable(){
-            public void run(){
+        thread = new Thread(new Runnable() {
+            public void run() {
                 try {
-                    while(run){
+                    while (run) {
                         //避免直接抽換，額外取出
                         copyHandler = handler;
                         Thread.sleep(3000);
@@ -34,14 +34,13 @@ public class UpdateScreenThead {
         thread.start();
     }
 
+    public static UpdateScreenThead getInstance() {
+        return updateScreenThead;
+    }
 
-    public void execute(final Handler handler){
+    public void execute(final Handler handler) {
         run = false;
         this.handler = handler;
         run = true;
-    }
-
-    public static UpdateScreenThead getInstance(){
-        return updateScreenThead;
     }
 }

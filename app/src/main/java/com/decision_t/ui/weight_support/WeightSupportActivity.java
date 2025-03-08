@@ -48,6 +48,14 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     private TextView nav_item_name, nav_item_creator, nav_item_description;
     private ImageButton nav_description_edit, nav_item_name_edit;
     private UpdateScreenThead updateScreenThead;
+    //給多執行緒更新畫面的介面
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            getArgument(item_data[0], user_info[0]);
+            getSupportActionBar().setTitle(item_data[1]);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +74,7 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
         nav_item_creator = (TextView) findViewById(R.id.textView_item_creator);
         nav_item_description = (TextView) findViewById(R.id.textView_item_description);
         //若非主持人則隱藏按鈕
-        if(!table_data[8].equals(user_info[0])){
+        if (!table_data[8].equals(user_info[0])) {
             nav_item_name_edit.setVisibility(View.INVISIBLE);
             nav_description_edit.setVisibility(View.INVISIBLE);
         }
@@ -150,7 +158,7 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     }
 
     //取得論點資料
-    public void getArgument(String item_id, String user_id){
+    public void getArgument(String item_id, String user_id) {
         support_data = new ArrayList<>();
         notSupport_data = new ArrayList<>();
         try {
@@ -161,13 +169,13 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
                              完結了直接看Item_argument的分數
                         */
             String sql;
-            if(table_data[5].equals("Y")){
+            if (table_data[5].equals("Y")) {
                 sql = "SELECT `a`.*, `b`.`Name` as 'Account_Name'" +
                         "FROM `Item_argument` `a`, `Account` `b`" +
                         "WHERE `a`.`Account_ID` = `b`.`ID`" +
-                        "   AND `a`.`Tables_item_ID` = '"+ item_id +"'" +
+                        "   AND `a`.`Tables_item_ID` = '" + item_id + "'" +
                         "ORDER BY `ID` ASC";
-            }else{
+            } else {
                 sql = "SELECT `a`.`ID` , " +
                         "             `a`.`Name` ," +
                         "             `a`.`Type` ," +
@@ -181,14 +189,14 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
                         "                                                                          WHERE `Account_ID` = '" + user_id + "') `b`" +
                         "                                                         ON `a`.`ID` = `b`.`Argument_ID` , `Account` `c` " +
                         "WHERE `a`.`Account_ID` = `c`.`ID`" +
-                        "      AND `a`.`Tables_item_ID` ='"+ item_id +"'";
+                        "      AND `a`.`Tables_item_ID` ='" + item_id + "'";
             }
 
             String result = DBConnector.executeQuery(sql);
             JSONArray jsonArray = new JSONArray(result);
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonData = jsonArray.getJSONObject(i);
-                String[] data = new String[] {
+                String[] data = new String[]{
                         jsonData.getString("ID"),
                         jsonData.getString("Name"),
                         jsonData.getString("Type"),
@@ -198,7 +206,7 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
                         jsonData.getString("Account_ID"),
                         jsonData.getString("Account_Name")};
 
-                switch (jsonData.getString("Type")){
+                switch (jsonData.getString("Type")) {
                     case "支持":
                         support_data.add(data);
                         break;
@@ -214,24 +222,24 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     }
 
     //創建新項目
-    public void createArgument(final String table_id, final String item_id, final String user_id, final int type_id){
+    public void createArgument(final String table_id, final String item_id, final String user_id, final int type_id) {
         //先初步檢查是否可以新增
-        if(table_data[5].equals("Y")){
+        if (table_data[5].equals("Y")) {
             Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
             return;
-        }else if(table_data[6].equals("Y")){
+        } else if (table_data[6].equals("Y")) {
             Toast.makeText(getApplicationContext(), "目前為評分中狀態", Toast.LENGTH_SHORT).show();
             return;
-        }else{
+        } else {
             //取得資料庫資訊確定真的可以新增
             table_data = TableFunction.table_data(table_id);
-            if(table_data[5].equals("Y")){
+            if (table_data[5].equals("Y")) {
                 Toast.makeText(getApplicationContext(), "決策桌已完結", Toast.LENGTH_SHORT).show();
                 return;
-            }else if(table_data[6].equals("Y")){
+            } else if (table_data[6].equals("Y")) {
                 Toast.makeText(getApplicationContext(), "目前為評分中狀態", Toast.LENGTH_SHORT).show();
                 return;
-            }else{
+            } else {
                 //點擊新增項目
                 final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
                 AlertDialog.Builder newitem = new AlertDialog.Builder(this);
@@ -241,14 +249,14 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String type;
-                        if(type_id == 0){
+                        if (type_id == 0) {
                             type = "支持";
-                        }else{
+                        } else {
                             type = "不支持";
                         }
                         TextView text = (TextView) dialog_text.findViewById(R.id.editText);
                         String sql = "INSERT INTO `Item_argument` ( `Name`, `Type`, `Tables_item_ID`, `Account_ID`)" +
-                                "               VALUES('"+text.getText()+"', '"+ type +"', "+item_id+", '"+user_id+"');";
+                                "               VALUES('" + text.getText() + "', '" + type + "', " + item_id + ", '" + user_id + "');";
                         DBConnector.executeQuery(sql);
                         //新增完更新畫面
                         getArgument(item_id, user_id);
@@ -262,7 +270,7 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     }
 
     //右側選單修改項目名稱
-    public void updateItemName(final String item_id){
+    public void updateItemName(final String item_id) {
         final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text, null);
         final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
         text.setText(item_data[1]);
@@ -272,8 +280,8 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Tables_item` SET `Name` = '"+ text.getText()+"'"+
-                        "           WHERE `ID` = "+ item_id +";";
+                String sql = "UPDATE `Tables_item` SET `Name` = '" + text.getText() + "'" +
+                        "           WHERE `ID` = " + item_id + ";";
                 DBConnector.executeQuery(sql);
                 item_data[1] = String.valueOf(text.getText());
                 getSupportActionBar().setTitle(text.getText());
@@ -284,7 +292,7 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
     }
 
     //右側選單修改項目INFO
-    public void updateItemInfo(final String item_id){
+    public void updateItemInfo(final String item_id) {
         final View dialog_text = LayoutInflater.from(this).inflate(R.layout.dialog_text_multi_line, null);
         final TextView text = (TextView) dialog_text.findViewById(R.id.editText);
         text.setText(item_data[2]);
@@ -294,24 +302,15 @@ public class WeightSupportActivity extends BaseActivity<TTableTabBinding> {
         dialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String sql = "UPDATE `Tables_item` SET `Info` = '"+ text.getText()+"'"+
-                        "           WHERE `ID` = "+ item_id +";";
+                String sql = "UPDATE `Tables_item` SET `Info` = '" + text.getText() + "'" +
+                        "           WHERE `ID` = " + item_id + ";";
                 DBConnector.executeQuery(sql);
-                item_data[2]=String.valueOf(text.getText());
+                item_data[2] = String.valueOf(text.getText());
                 nav_item_description.setText(text.getText());
             }
         });
         dialog.show();
     }
-
-    //給多執行緒更新畫面的介面
-    private Handler handler = new Handler(){
-        public  void  handleMessage(Message msg) {
-            super.handleMessage(msg);
-            getArgument(item_data[0], user_info[0]);
-            getSupportActionBar().setTitle(item_data[1]);
-        }
-    };
 
     @Override
     public TTableTabBinding getInflatedBinding() {

@@ -31,9 +31,33 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
     private Toolbar toolbar;
     private SearchView searchView;
     private ListView listView;
-    private ArrayList<String[]>member_data;
+    private ArrayList<String[]> member_data;
     private String[] table_data;
     private MemberAdapter memberAdapter;
+    //決策桌表按下事件
+    private AdapterView.OnItemClickListener click_item_list
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            AlertDialog.Builder newitem = new AlertDialog.Builder(MemberActivity.this);
+            newitem.setTitle("添加決策桌成員");
+            newitem.setMessage("確定將\n" + member_data.get(position)[1] + "(" + member_data.get(position)[0] + ")\n加入此決策桌?");
+            newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String sql = "INSERT INTO `Decision_tables_member` (`Decision_tables_ID` , `Account_ID` )\n" +
+                            "                   VALUES ('" + table_data[0] + "', '" + member_data.get(position)[0] + "');";
+                    DBConnector.executeQuery(sql);
+                    //新增完更新畫面  直接重刷頁面不用再連一次資料庫
+                    member_data.remove(position);
+                    memberAdapter = new MemberAdapter(MemberActivity.this);
+                    listView.setAdapter(memberAdapter);
+                }
+            });
+            newitem.setNegativeButton("否", null);
+            newitem.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +66,7 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
 
         /** 初始化各項元件 */
         toolbar = (Toolbar) findViewById(R.id.toolbar_member);
-        listView = (ListView) findViewById(R.id.listView_member) ;
+        listView = (ListView) findViewById(R.id.listView_member);
 
         /** 左上角有返回鍵 */
         setSupportActionBar(toolbar);
@@ -54,7 +78,7 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 /** 對用戶按home icon的處理，本例只需關閉activity，就可返回上一activity，即主activity。 */
                 finish();
@@ -71,7 +95,7 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.member_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.member_search);
-        searchView = (SearchView)menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -83,9 +107,9 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
             @Override
             public boolean onQueryTextChange(String newText) {
                 /** 文字有變更，會即時搜索
-                                // 過濾文字
-                                arrayAdapter.getFilter().filter(newText);
-                                */
+                 // 過濾文字
+                 arrayAdapter.getFilter().filter(newText);
+                 */
                 return false;
             }
         });
@@ -100,7 +124,7 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
     }
 
     //顯示member資料
-    public void showMemberList(String filter){
+    public void showMemberList(String filter) {
         //取得member資料
         member_data = TableFunction.getNotYetMember(table_data[0], filter);
         //顯示member資料
@@ -117,9 +141,11 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
 
     public class MemberAdapter extends BaseAdapter {
         private LayoutInflater myInflater;
+
         public MemberAdapter(Context c) {
             myInflater = LayoutInflater.from(c);
         }
+
         @Override
         public int getCount() {
             return member_data.size();
@@ -148,28 +174,4 @@ public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
             return convertView;
         }
     }
-    //決策桌表按下事件
-    private AdapterView.OnItemClickListener click_item_list
-            = new AdapterView.OnItemClickListener(){
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder newitem = new AlertDialog.Builder(MemberActivity.this);
-            newitem.setTitle("添加決策桌成員");
-            newitem.setMessage("確定將\n" + member_data.get(position)[1] + "("+member_data.get(position)[0]+")\n加入此決策桌?");
-            newitem.setPositiveButton("新增", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String sql = "INSERT INTO `Decision_tables_member` (`Decision_tables_ID` , `Account_ID` )\n" +
-                            "                   VALUES ('"+table_data[0]+"', '"+member_data.get(position)[0]+"');";
-                    DBConnector.executeQuery(sql);
-                    //新增完更新畫面  直接重刷頁面不用再連一次資料庫
-                    member_data.remove(position);
-                    memberAdapter = new MemberAdapter(MemberActivity.this);
-                    listView.setAdapter(memberAdapter);
-                }
-            });
-            newitem.setNegativeButton("否", null);
-            newitem.show();
-        }
-    };
 }

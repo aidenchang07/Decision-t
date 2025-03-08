@@ -74,7 +74,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
         final String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(RegisterActivity.this, "註冊時，電子信箱或密碼，請勿空白！", Toast.LENGTH_LONG).show();
         } else {
             mProgressDialog.setMessage("Signing up...");
@@ -83,7 +83,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding> {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
                         //這裡取得了使用者的UID，請服用
                         String user_id = mAuth.getCurrentUser().getUid();

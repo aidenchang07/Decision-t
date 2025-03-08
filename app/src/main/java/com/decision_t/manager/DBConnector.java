@@ -26,11 +26,11 @@ public class DBConnector {
                 .build());
         //JSON取得資料前置動作END
         String result = "";
-        HttpURLConnection urlConnection=null;
-        InputStream is =null;
+        HttpURLConnection urlConnection = null;
+        InputStream is = null;
         try {
-            URL url=new URL("http://mysql.mis.knjc.edu.tw/~proj1/test.php");  //php的位置
-            urlConnection=(HttpURLConnection) url.openConnection();//對資料庫打開連結
+            URL url = new URL("http://mysql.mis.knjc.edu.tw/~proj1/test.php");  //php的位置
+            urlConnection = (HttpURLConnection) url.openConnection();//對資料庫打開連結
             urlConnection.setRequestMethod("POST");
             query_string = "sql=" + query_string;
 
@@ -38,17 +38,17 @@ public class DBConnector {
             dos.write(query_string.getBytes());
             dos.flush();
             urlConnection.connect();//接通資料庫
-            is=urlConnection.getInputStream();//從database 開啟 stream
+            is = urlConnection.getInputStream();//從database 開啟 stream
 
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
             StringBuilder builder = new StringBuilder();
             String line = null;
-            while((line = bufReader.readLine()) != null) {
+            while ((line = bufReader.readLine()) != null) {
                 builder.append(line + "\n");
             }
             is.close();
             result = builder.toString();
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }
 

@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
+                if (user != null) {
                     // User is signed in
                     /*Intent太多了！正常登入會出現超過三個Intent！留按鈕的就好    by俊憲
                     String displayName = user.getDisplayName();
@@ -202,7 +202,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     }
 
     private void checkUserExist() {
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             final String user_id = mAuth.getCurrentUser().getUid();
             final String user_name = mAuth.getCurrentUser().getDisplayName();
             final String user_email = mAuth.getCurrentUser().getEmail();
@@ -214,7 +214,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             saveuid(user_id, user_email, userPhoto.toString());
             finish();
             String sql = "INSERT INTO `Account`" +
-                    "       VALUES('"+user_email+"', '"+user_name+"', 'GOOGLE')" +
+                    "       VALUES('" + user_email + "', '" + user_name + "', 'GOOGLE')" +
                     "       ON DUPLICATE KEY UPDATE `Name` = '" + user_name + "';";
             DBConnector.executeQuery(sql);
             //新增資料監聽器
@@ -222,7 +222,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //資料有變化則執行以下動作
-                    if(dataSnapshot.hasChild(user_id)){
+                    if (dataSnapshot.hasChild(user_id)) {
                         Intent mainIntent = new Intent(LoginActivity.this, TableActivity.class);
                         startActivity(mainIntent);
                         saveuid(user_id, user_email, userPhoto.toString());
@@ -240,19 +240,17 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     }
 
     //將使用者資料存起來
-    public void saveuid(String uid, String email, String userPhoto)
-    {
+    public void saveuid(String uid, String email, String userPhoto) {
         try {
-            FileOutputStream outStream=this.openFileOutput("uu.txt", Context.MODE_PRIVATE);
+            FileOutputStream outStream = this.openFileOutput("uu.txt", Context.MODE_PRIVATE);
             outStream.write(email.getBytes());
             outStream.write(" ".getBytes()); // 分隔用
             outStream.write(userPhoto.getBytes());
             outStream.close();
         } catch (FileNotFoundException e) {
             return;
-        }
-        catch (IOException e){
-            return ;
+        } catch (IOException e) {
+            return;
         }
     }
 

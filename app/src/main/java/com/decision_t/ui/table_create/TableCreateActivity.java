@@ -24,12 +24,12 @@ import org.json.JSONObject;
 
 public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
 
+    String[] user_info;
     private Button registerButton;
     private Button tButton;
     private Button voteButton;
     private Button randomButton;
     private TextView table_id_or_name;
-    String[] user_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,76 @@ public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
         return TableCreateBinding.inflate(getLayoutInflater());
     }
 
+    private void createTable(String table_name, String table_type, String user_id) {
+        table_id_or_name.setText(table_id_or_name.getText().toString().trim());
+        if (table_id_or_name.getText().toString().equals("")) {
+            Toast.makeText(this, "請輸入決策桌名稱", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String sql = "INSERT INTO `Decision_tables` (\n" +
+                "`Name` ,\n" +
+                "`Type` ,\n" +
+                "`Private` ,\n" +
+                "`Complete` ,\n" +
+                "`Account_ID`\n" +
+                ")\n" +
+                "VALUES ('" + table_name + "', '" + table_type + "', 'N', 'N', '" + user_id + "'\n); ";
+        DBConnector.executeQuery(sql);
+        finish();//未來不只關閉創建畫面還要直接進去桌畫面
+    }
+
+    private void registerTable(String table_id, String user_id) {
+        String sql;
+        String result;
+        JSONArray jsonArray;
+        try {
+            //檢查是否有輸入
+            table_id_or_name.setText(table_id_or_name.getText().toString().trim());
+            if (table_id_or_name.getText().toString().equals("")) {
+                Toast.makeText(this, "請輸入決策桌ID", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //是否存在table
+            sql = "SELECT * FROM `Decision_tables` WHERE `ID`='" + table_id + "';";
+            result = DBConnector.executeQuery(sql);
+            jsonArray = new JSONArray(result);
+            if (jsonArray.length() == 0) {
+                Toast.makeText(this, "無此決策桌ID", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                JSONObject jsonData = jsonArray.getJSONObject(0);//只有一筆
+                //是否為主持人或成員
+                sql = "SELECT a.*" +
+                        " FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
+                        "   ON `a`.`ID` = `b`.`Decision_tables_ID`" +
+                        "WHERE `ID`='" + table_id + "' " +
+                        "       AND(`a`.`Account_ID` = '" + user_id + "'" +
+                        "                  OR `b`.`Account_ID` = '" + user_id + "')";
+                result = DBConnector.executeQuery(sql);
+                jsonArray = new JSONArray(result);
+                if (jsonArray.length() > 0) {
+                    Toast.makeText(this, "您已在此決策桌中", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //是否為私密
+                if (jsonData.getString("Private").equals("Y")) {
+                    Toast.makeText(this, "此決策桌不公開\n請找主持人加入", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //加入為成員
+                sql = "INSERT INTO `Decision_tables_member` (`Decision_tables_ID` , `Account_ID` )\n" +
+                        "VALUES ('" + table_id + "', '" + user_id + "');";
+                result = DBConnector.executeQuery(sql);
+                finish();//未來不只關閉創建畫面還要直接進去桌畫面
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "炸了", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     private class handlerButton implements View.OnClickListener {
         public void onClick(View view) {
             int id = view.getId();
@@ -84,75 +154,5 @@ public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
                 createTable(table_id_or_name.getText().toString(), TABLE_R, user_info[0]);
             }
         }
-    }
-
-    private void createTable(String table_name, String table_type, String user_id){
-        table_id_or_name.setText(table_id_or_name.getText().toString().trim());
-        if(table_id_or_name.getText().toString().equals("")){
-            Toast.makeText(this, "請輸入決策桌名稱", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String sql = "INSERT INTO `Decision_tables` (\n" +
-                "`Name` ,\n" +
-                "`Type` ,\n" +
-                "`Private` ,\n" +
-                "`Complete` ,\n" +
-                "`Account_ID`\n" +
-                ")\n" +
-                "VALUES ('" + table_name + "', '" +table_type + "', 'N', 'N', '" + user_id + "'\n); ";
-        DBConnector.executeQuery(sql);
-        finish();//未來不只關閉創建畫面還要直接進去桌畫面
-    }
-
-    private void registerTable(String table_id, String user_id){
-        String sql;
-        String result;
-        JSONArray jsonArray;
-        try {
-            //檢查是否有輸入
-            table_id_or_name.setText(table_id_or_name.getText().toString().trim());
-            if(table_id_or_name.getText().toString().equals("")){
-                Toast.makeText(this, "請輸入決策桌ID", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            //是否存在table
-            sql = "SELECT * FROM `Decision_tables` WHERE `ID`='"+table_id+"';";
-            result = DBConnector.executeQuery(sql);
-            jsonArray = new JSONArray(result);
-            if(jsonArray.length() == 0){
-                Toast.makeText(this, "無此決策桌ID", Toast.LENGTH_SHORT).show();
-                return;
-            }else{
-                JSONObject jsonData = jsonArray.getJSONObject(0);//只有一筆
-                //是否為主持人或成員
-                sql = "SELECT a.*" +
-                        " FROM `Decision_tables` `a` left join `Decision_tables_member` `b`" +
-                        "   ON `a`.`ID` = `b`.`Decision_tables_ID`" +
-                        "WHERE `ID`='"+table_id+"' "+
-                        "       AND(`a`.`Account_ID` = '" + user_id +"'"+
-                        "                  OR `b`.`Account_ID` = '" + user_id +"')";
-                result = DBConnector.executeQuery(sql);
-                jsonArray = new JSONArray(result);
-                if(jsonArray.length() > 0){
-                    Toast.makeText(this, "您已在此決策桌中", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                //是否為私密
-                if(jsonData.getString("Private").equals("Y")){
-                    Toast.makeText(this, "此決策桌不公開\n請找主持人加入", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                //加入為成員
-                sql = "INSERT INTO `Decision_tables_member` (`Decision_tables_ID` , `Account_ID` )\n" +
-                        "VALUES ('"+table_id+"', '"+user_id+"');";
-                result = DBConnector.executeQuery(sql);
-                finish();//未來不只關閉創建畫面還要直接進去桌畫面
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "炸了", Toast.LENGTH_SHORT).show();
-        }
-
     }
 }
