@@ -36,7 +36,7 @@ android {
         /**
          * targetSdkVersion：這個版本是可以正確執行的
          */
-        targetSdkVersion 32
+        targetSdkVersion 33
 
         /**
          * v1.0.0 -> 1 00 00 00 -> versionCode: 1000000
