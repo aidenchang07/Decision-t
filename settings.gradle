@@ -1,1 +1,39 @@
+/**
+ * pluginManagement 區塊
+ * 用途：管理 Gradle 插件的下載來源
+ * 說明：當您在 build.gradle 中使用 plugins { } 區塊時，Gradle 會從這裡設定的倉庫下載插件
+ */
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+/**
+ * dependencyResolutionManagement 區塊
+ * 用途：統一管理專案中所有模組的依賴項倉庫來源
+ * 說明：從 Gradle 7.0+ 開始，建議在這裡集中管理倉庫，而不是在各個模組的 build.gradle 中分散宣告
+ */
+dependencyResolutionManagement {
+    /**
+     * repositoriesMode 設定
+     * FAIL_ON_PROJECT_REPOS：嚴格模式，強制所有倉庫必須在此宣告
+     *
+     * 如果在模組層級的 build.gradle 中宣告 repositories { }，建構會失敗並報錯。
+     * 這確保了所有模組使用相同的倉庫來源，避免依賴項版本衝突。
+     *
+     * 其他可選模式：
+     * - PREFER_SETTINGS：優先使用這裡的設定，但允許模組中宣告額外的倉庫
+     * - PREFER_PROJECT：優先使用模組中的設定（舊版 Gradle 的行為，不推薦）
+     */
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Decision-t"
 include ':app'

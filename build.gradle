@@ -1,23 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.9.22'
     repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         google()
         mavenCentral()
-
-        // Firebase Crashlytics SDK
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.0'
+        classpath 'com.android.tools.build:gradle:8.4.0'
 
         /**
          * 引入Firebase必加
@@ -28,18 +18,4 @@ buildscript {
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
