@@ -40,6 +40,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * 投票頁
+ */
 public class VoteActivity extends BaseActivity<VTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;

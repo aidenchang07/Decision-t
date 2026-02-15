@@ -55,6 +55,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * 決策桌頁
+ */
 public class TableActivity extends BaseActivity<TableActivityMainBinding>
         implements NavigationView.OnNavigationItemSelectedListener {
 

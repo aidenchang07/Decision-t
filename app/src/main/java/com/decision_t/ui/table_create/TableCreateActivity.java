@@ -22,6 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * 創建決策桌頁
+ */
 public class TableCreateActivity extends BaseActivity<TableCreateBinding> {
 
     String[] user_info;

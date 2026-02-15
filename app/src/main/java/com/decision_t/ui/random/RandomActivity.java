@@ -40,6 +40,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * 隨機策略頁
+ */
 public class RandomActivity extends BaseActivity<RTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;

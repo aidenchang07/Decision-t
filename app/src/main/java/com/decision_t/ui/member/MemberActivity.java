@@ -26,6 +26,9 @@ import com.decision_t.manager.TableFunction;
 
 import java.util.ArrayList;
 
+/**
+ * 搜尋成員頁
+ */
 public class MemberActivity extends BaseActivity<ActivityMemberBinding> {
 
     private Toolbar toolbar;

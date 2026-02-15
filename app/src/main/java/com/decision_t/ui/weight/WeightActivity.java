@@ -41,6 +41,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * T 字決策權重頁
+ */
 public class WeightActivity extends BaseActivity<TTableActivityMainBinding> {
 
     private ImageButton nav_tablename_edit;

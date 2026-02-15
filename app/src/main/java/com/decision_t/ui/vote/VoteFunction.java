@@ -5,6 +5,9 @@ import com.decision_t.manager.DBConnector;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+/**
+ * 投票工具
+ */
 public class VoteFunction {
     public static boolean canVote(String table_id, String user_id) {
         try {

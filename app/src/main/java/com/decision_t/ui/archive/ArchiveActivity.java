@@ -36,6 +36,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * 封存頁
+ */
 public class ArchiveActivity extends BaseActivity<ActivityArchiveBinding> {
 
     private Toolbar toolbar;
